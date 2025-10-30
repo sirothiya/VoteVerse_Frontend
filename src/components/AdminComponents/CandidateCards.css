@@ -1,0 +1,88 @@
+.candidate-cards {
+  /* background: #0d1b2a;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  color: white;
+  width: 280px;
+  text-align: left;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+/*  */
+  background: #0d1b2a;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
+  color: white;
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;   /* <-- full width of grid cell */
+  max-width: 320px; /* optional: limit max width for consistency */
+}
+
+
+
+
+.candidate-cards:hover {
+  transform: translateY(-5px);
+}
+
+.card-contents {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.party-symbols {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fff;
+  flex-shrink: 0;
+}
+
+.detailss {
+  flex: 1;
+}
+
+.detailss h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #1e90ff;
+}
+
+.detailss p {
+  margin: 4px 0;
+  font-size: 0.95rem;
+}
+
+.card-actionss {
+  margin-top: 12px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.card-actionss button {
+  padding: 6px 12px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.card-actionss .delete {
+  background: #e63946;
+  color: white;
+}
+
+.card-actionss .cancel-btn {
+  background: #f1c40f;
+  color: black;
+}
+
+
+
+
+

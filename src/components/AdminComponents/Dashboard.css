@@ -1,0 +1,126 @@
+.page-title {
+ 
+  font-size: 2rem;
+  font-weight: bold;
+  color: #f0f0f0;
+  margin: 30px 0 20px;
+  text-align: center;
+  text-shadow: 0 3px 6px rgba(0,0,0,0.3);
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.start-election {
+  background-color: rgb(12, 147, 214);
+  color: var(--secondary-bg-color);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: block;
+  margin: 0 auto 20px auto;
+}
+
+.popup-content {
+  background: #fff;
+  padding: 30px;
+  border-radius: 12px;
+  text-align: center;
+  width: 300px;
+  color:green;
+  animation: fadeIn 0.4s ease;
+}
+.popup-content h2 {
+  margin-bottom: 10px;
+}
+.popup-content p {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Close button */
+.close-btn {
+  margin-top: 15px;
+  padding: 8px 14px;
+  background-color: #4b0082;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+   background: linear-gradient(135deg, #004e92, #000428);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup-content {
+   background: linear-gradient(135deg, #004e92, #000428);
+  border-radius: 16px;
+  padding: 30px;
+  width: 90%;
+  max-width: 500px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.popup-content.large {
+  max-width: 600px;
+}
+
+.popup-content h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: rgb(204, 223, 235);
+}
+
+.popup-content label {
+  display: block;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.popup-content input,
+.popup-content textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+}
+
+.popup-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.popup-actions button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #007bff;
+  color: white;
+  cursor: pointer;
+}
+
+.popup-actions .secondary {
+  background: #ebd3d3;
+  color: black;
+}

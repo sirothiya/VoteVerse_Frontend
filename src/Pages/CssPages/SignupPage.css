@@ -1,0 +1,248 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+
+/* ===== Base Wrapper ===== */
+.signup-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 1.2rem;
+  min-height: 93vh;
+  padding: 2rem;
+  background: linear-gradient(135deg, #004e92, #000428);
+  font-family: "Poppins", sans-serif;
+  width: 100%;
+}
+
+/* ===== Card Styling ===== */
+.signup-card {
+  max-width: 600px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(18px);
+  border-radius: 20px;
+  padding: 45px 40px;
+  box-shadow: 0 10px 35px rgba(31, 38, 135, 0.45);
+  color: white;
+  animation: fadeIn 0.7s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Smooth entry animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ===== Toggle Buttons ===== */
+.toggle-section {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.password-container {
+  position: relative;
+  width: 100%;
+}
+
+.password-container .input {
+  width: 100%;
+  padding-right: 40px; /* leave space for the icon */
+}
+
+.password-toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888; /* adjust to your theme */
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.password-toggle-icon:hover {
+  color: #f1f1f5; /* your theme color */
+}
+
+
+.toggle-btn {
+  flex: 1;
+  padding: 12px 0;
+  border: none;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  letter-spacing: 0.3px;
+}
+
+.toggle-btn.active {
+  background: white;
+  color: #2575fc;
+  transform: scale(1.05);
+}
+
+.toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* ===== Form Header ===== */
+.form-title {
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 30px;
+  color: #fff;
+  letter-spacing: 0.4px;
+}
+
+/* ===== Form Layout ===== */
+.form-body {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 18px; /* More consistent vertical spacing between fields */
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-size: 0.92rem;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #dcdcdc;
+}
+select {
+  width: 100%;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+background: rgba(255, 255, 255, 0.2);
+  font-size: 15px;
+  color: #333;
+  outline: none;
+  appearance: none; /* removes default arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+/* optional: add a custom arrow icon */
+select::after {
+  content: "▼";
+  position: absolute;
+  right: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+/* focus and hover effects */
+select:hover {
+  border-color: #007bff;
+}
+
+select:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
+}
+
+/* ===== Input Fields ===== */
+input{
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: #fff;
+  font-size: 0.95rem;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+input::placeholder {
+  color: #d0d0d0;
+}
+
+input:focus {
+  background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.015);
+}
+
+/* ===== Submit Button ===== */
+.submit-btn {
+  background: linear-gradient(135deg, #ffffff, #d9d9ff);
+  color: #2575fc;
+  border: none;
+  padding: 13px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 20px;
+}
+
+.submit-btn:hover {
+  background: white;
+  transform: translateY(-2px);
+}
+
+/* ===== Responsive Adjustments ===== */
+@media (max-width: 480px) {
+  .signup-card {
+    width: 90%;
+    padding: 30px 22px;
+  }
+
+  .form-title {
+    font-size: 1.25rem;
+    margin-bottom: 20px;
+  }
+
+  .toggle-section {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .toggle-btn {
+    padding: 10px;
+  }
+
+  .form-body {
+    gap: 15px;
+  }
+}
+.signup-text {
+  margin-top: 1.5rem;
+  font-size: 0.9rem;
+  color: #555;
+  align-self: center;
+}
+.link {
+  color: #ded5e7;
+  font-weight: 600;
+  text-decoration: none;
+  margin: 5px;
+}
+.link:hover {
+  text-decoration: none;
+}
