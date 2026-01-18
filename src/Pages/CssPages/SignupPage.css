@@ -42,8 +42,8 @@
     transform: translateY(0);
   }
 }
+/* 
 
-/* ===== Toggle Buttons ===== */
 .toggle-section {
   display: flex;
   justify-content: center;
@@ -58,7 +58,7 @@
 
 .password-container .input {
   width: 100%;
-  padding-right: 40px; /* leave space for the icon */
+  padding-right: 40px; 
 }
 
 .password-toggle-icon {
@@ -67,13 +67,14 @@
   right: 12px;
   transform: translateY(-50%);
   cursor: pointer;
-  color: #888; /* adjust to your theme */
+  color: #888; 
   font-size: 18px;
   transition: color 0.3s ease;
 }
 
 .password-toggle-icon:hover {
-  color: #f1f1f5; /* your theme color */
+  color: #f1f1f5; 
+  background: rgba(255, 255, 255, 0.15);
 }
 
 
@@ -98,9 +99,32 @@
 
 .toggle-btn:hover {
   background: rgba(255, 255, 255, 0.25);
+} */
+
+.password-container {
+  position: relative;
+  width: 100%;
 }
 
-/* ===== Form Header ===== */
+.password-container .form-control {
+  padding-right: 42px; /* space for eye icon */
+}
+
+.password-toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #888;
+  font-size: 18px;
+  transition: color 0.3s ease;
+}
+
+.password-toggle-icon:hover {
+  color: #888;
+}
+
 .form-title {
   text-align: center;
   font-size: 1.5rem;
@@ -129,23 +153,24 @@ label {
   margin-bottom: 6px;
   color: #dcdcdc;
 }
+/* 
 select {
   width: 100%;
   padding: 10px 14px;
   border-radius: 8px;
   border: 1px solid #ccc;
-background: rgba(255, 255, 255, 0.2);
+background: white;
   font-size: 15px;
-  color: #333;
+  color: #766666;
   outline: none;
-  appearance: none; /* removes default arrow */
+  appearance: none; 
   -webkit-appearance: none;
   -moz-appearance: none;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
   cursor: pointer;
 }
 
-/* optional: add a custom arrow icon */
+
 select::after {
   content: "▼";
   position: absolute;
@@ -155,7 +180,7 @@ select::after {
   pointer-events: none;
 }
 
-/* focus and hover effects */
+
 select:hover {
   border-color: #007bff;
 }
@@ -165,15 +190,14 @@ select:focus {
   box-shadow: 0 0 4px rgba(0, 123, 255, 0.4);
 }
 
-/* ===== Input Fields ===== */
 input{
   width: 100%;
   padding: 12px 14px;
   border-radius: 10px;
   border: none;
   outline: none;
-  background: rgba(255, 255, 255, 0.2);
-  color: #fff;
+  background: white;
+  color: #766666;
   font-size: 0.95rem;
   transition: background 0.3s ease, transform 0.2s ease;
 }
@@ -185,7 +209,41 @@ input::placeholder {
 input:focus {
   background: rgba(255, 255, 255, 0.3);
   transform: scale(1.015);
+} */
+
+.form-control {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: none;
+  outline: none;
+  background: white;
+  color: #766666;
+  font-size: 0.95rem;
+  transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
+.form-control:focus {
+  background: rgba(255, 255, 255, 0.3);
+  color: white;
+  transform: scale(1.015);
+  box-shadow: 0 0 6px rgba(255, 255, 255, 0.35);
+}
+.form-control::placeholder {
+  color: #141313;
+}
+select.form-control {
+  cursor: pointer;
+  appearance: auto; /* 🔥 keeps native arrow */
+  -webkit-appearance: auto;
+  -moz-appearance: auto;
+}
+
+select.form-control option {
+  background: #ffffff;
+  color: #333;
+  font-size: 14px;
+}
+
 
 /* ===== Submit Button ===== */
 .submit-btn {

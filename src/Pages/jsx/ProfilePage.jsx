@@ -2,10 +2,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import "../CssPages/ProfilePage.css";
 import { useEffect, useState } from "react";
 import ElectionResults from "./Result";
-import Dropdown from "../../components/Dropdown";
 import CountDown from "../../components/CountDown";
+import AllResultsModal from "../../components/AllResultsModal";
 
-// 🎉 Vote success popup
+// ----------------------------------------
+// POPUPS
+// ----------------------------------------
 const VotePopup = ({ name, onClose }) => (
   <div className="popup-overlay">
     <div className="popup-content">
@@ -18,7 +20,6 @@ const VotePopup = ({ name, onClose }) => (
   </div>
 );
 
-// 🏁 Election ended popup
 const ElectionEndedPopup = ({ onClose }) => (
   <div className="popup-overlay">
     <div className="popup-content">
@@ -33,294 +34,339 @@ const ElectionEndedPopup = ({ onClose }) => (
 
 const ProfilePage = () => {
   const navigate = useNavigate();
+  const { rollNumber } = useParams();
+
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
   const [token, setToken] = useState(null);
-  const [candidateData, setCandidateData] = useState([]);
+
+  const [loading, setLoading] = useState(true);
+
+  const [candidates, setCandidates] = useState([]);
+  const [visibleCandidates, setVisibleCandidates] = useState([]);
+
+  const [electionSetup, setElectionSetup] = useState({});
   const [electionActive, setElectionActive] = useState(null);
+
   const [showPopup, setShowPopup] = useState(false);
   const [votedTo, setVotedTo] = useState("");
-  const [showResults, setShowResults] = useState(false);
   const [showElectionEndedPopup, setShowElectionEndedPopup] = useState(false);
-  const [announcements, setAnnouncements] = useState([
-    "Voting closes on Oct 10, 6 PM.",
-    "Results will be declared on Oct 11, 12 PM.",
-  ]);
-  const { rollNumber } = useParams();
-  // 🔹 Load election + candidate data
+
+  const [currentTime, setCurrentTime] = useState(new Date());
+
+  const [showAllResults, setShowAllResults] = useState(false);
+
+  // ----- Helper flags -----
+  const now = currentTime;
+
+  const isRegOpen =
+    electionSetup.candidateRegStart &&
+    electionSetup.candidateRegEnd &&
+    now >= new Date(electionSetup.candidateRegStart) &&
+    now < new Date(electionSetup.candidateRegEnd);
+
+  const isElectionOpen =
+    electionSetup.electionStart &&
+    electionSetup.electionEnd &&
+    now >= new Date(electionSetup.electionStart) &&
+    now < new Date(electionSetup.electionEnd);
+
+  const isElectionEnded = electionActive?.status === "COMPLETED";
+
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (!storedToken) return;
+    const t = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
 
-    setToken(storedToken);
+    return () => clearInterval(t);
+  }, []);
 
-    const getUser = async () => {
-      try {
-        const res = await fetch(
-          `https://voteverse-backend.onrender.com/user/profile/${rollNumber}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${storedToken}`,
-              "Cache-Control": "no-cache",
-            },
-          }
-        );
-         console.log("check1")
-        const data = await res.json();
-         console.log("check2 :", data.user)
-         if (!res.ok) throw new Error("Failed to fetch user profile");
-         console.log("check3")
-        setUser(data.user);
-        console.log("userData:",data.user)
-      } catch (err) {
-        console.error(err);
-        alert("Error in getting voter profile");
-      }
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    setToken(token);
+
+    const fetchUser = async () => {
+      const res = await fetch(
+        `https://voteverse-backend-deploy.onrender.com/user/profile/${rollNumber}`,
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      const data = await res.json();
+      setUser(data.user);
     };
 
-    const getData = async () => {
-      try {
-        const electionRes = await fetch(
-          "https://voteverse-backend.onrender.com/election/status"
-        );
-        const electionData = await electionRes.json();
-        setElectionActive(electionData);
+    const fetchStatus = async () => {
+      const res = await fetch(
+        "https://voteverse-backend-deploy.onrender.com/election/status",
+      );
+      const data = await res.json();
+      console.log("Election Status Data:", data);
+      setElectionActive(data);
+    };
 
-        if (!electionData.isActive) {
-          setCandidateData([]);
-          setShowResults(true);
-          if (!localStorage.getItem("electionEndedShown")) {
-            setShowElectionEndedPopup(true);
-            localStorage.setItem("electionEndedShown", "true");
-          }
-          return;
+    const fetchCandidates = async () => {
+      const res = await fetch(
+        "https://voteverse-backend-deploy.onrender.com/candidate/",
+      );
+      const data = await res.json();
+      setCandidates(data);
+    };
+
+    const fetchSetup = async () => {
+      const res = await fetch(
+        "https://voteverse-backend-deploy.onrender.com/admin/electionSetup",
+      );
+      const data = await res.json();
+      console.log("Election Setup Data:", data);
+      setElectionSetup(data);
+    };
+
+    const refreshData = async () => {
+      await Promise.all([
+        fetchUser(),
+        fetchStatus(),
+        fetchCandidates(),
+        fetchSetup(),
+      ]);
+    };
+
+    refreshData().then(() => setLoading(false));
+
+    let interval = null;
+
+    if (!showPopup && !showElectionEndedPopup) {
+      // if (isRegOpen || isElectionOpen) {
+      //   interval = setInterval(refreshData, 5000);
+      // }
+      // if (!isElectionEnded && (isRegOpen || isElectionOpen)) {
+      //   interval = setInterval(refreshData, 5000);
+      // }
+      interval = setInterval(async () => {
+        await refreshData();
+
+        // stop polling ONLY when results are ready
+        if (
+          electionActive?.status === "COMPLETED" &&
+          electionActive?.resultsCalculated
+        ) {
+          clearInterval(interval);
         }
+      }, 5000);
+    }
 
-        const candidateRes = await fetch(
-          "https://voteverse-backend.onrender.com/admin/",
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${storedToken}`,
-              "Cache-Control": "no-cache",
-            },
-          }
-        );
-        const candidateData = await candidateRes.json();
-        setCandidateData(candidateData);
-      } catch (err) {
-        console.error("Error fetching data:", err);
-      }
+    return () => {
+      if (interval) clearInterval(interval);
     };
+  }, [rollNumber, isRegOpen, isElectionOpen, isElectionEnded]);
 
-    const fetchAll = async () => {
-      setLoading(true);
-      await getUser();
-      // await getData();
-      setLoading(false);
-    };
+  const showCandidates =
+    electionSetup.candidateRegStart &&
+    electionSetup.electionEnd &&
+    now >= new Date(electionSetup.candidateRegStart) &&
+    now < new Date(electionSetup.electionEnd);
 
-    fetchAll();
-  }, [rollNumber]);
+  useEffect(() => {
+    if (!candidates.length) return;
 
-  // 🗳️ Cast Vote
+    if (isElectionEnded) {
+      setVisibleCandidates([]);
+      return;
+    }
+    const approved = candidates.filter((c) => c.status === "Approved");
+
+    if (showCandidates) {
+      setVisibleCandidates(approved);
+    } else {
+      setVisibleCandidates([]);
+    }
+  }, [candidates, electionSetup, isElectionEnded]);
+
+  const hasVoted =
+    user?.isVoted || localStorage.getItem("userVoted") === "true";
+  // console.log("User voting status:", user?.isVoted);
+
   const handleVote = async (id, name) => {
-    setShowPopup(true);
-    setVotedTo(name);
     try {
       const res = await fetch(
-        `https://voteverse-backend.onrender.com/election/vote/${id}`,
+        `https://voteverse-backend-deploy.onrender.com/election/vote/${id}`,
         {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
-        }
+        },
       );
 
-      if (!res.ok) return alert("Error casting vote");
+      const data = await res.json();
+      if (!data.success) {
+        alert(data.message);
+        return;
+      }
 
-      const updatedUser = { ...user, isVoted: true };
-      setUser(updatedUser);
-      localStorage.setItem("user", JSON.stringify(updatedUser));
+      setVotedTo(name);
+      setShowPopup(true);
+      localStorage.setItem("userVoted", "true");
+
+      const userRes = await fetch(
+        `https://voteverse-backend-deploy.onrender.com/user/profile/${rollNumber}`,
+        { headers: { Authorization: `Bearer ${token}` } },
+      );
+      const updatedUser = await userRes.json();
+      setUser(updatedUser.user);
     } catch (err) {
       console.error("Voting error:", err);
     }
   };
 
-  // ❌ Delete Account
-  const handleDeleteAccount = async () => {
-    try {
-      const res = await fetch(
-        "https://voteverse-backend.onrender.com/user/deleteOne",
-        {
-          method: "DELETE",
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      if (!res.ok) return alert("Error deleting account");
+  // const handleExpire = () => {
 
-      alert("Account Deleted Successfully");
-      localStorage.clear();
-      navigate("/");
-    } catch (err) {
-      console.error("Error deleting account:", err);
-    }
-  };
+  //   setShowElectionEndedPopup(true);
 
-  // 🕒 End Election
+  // };
+
   const handleExpire = async () => {
-    try {
-      if (!electionActive) return;
-
-      await fetch(
-        `https://voteverse-backend.onrender.com/election/stop/${electionActive._id}`
-      );
-      const deleteRes = await fetch(
-        "https://voteverse-backend.onrender.com/admin/delete/all",
-        {
-          method: "DELETE",
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-
-      if (deleteRes.ok) setCandidateData([]);
-
-      const statusRes = await fetch(
-        "https://voteverse-backend.onrender.com/election/status"
-      );
-      const statusData = await statusRes.json();
-      setElectionActive(statusData);
-
-      setShowResults(true);
-      localStorage.removeItem("electionEndedShown");
-      setShowElectionEndedPopup(true);
-    } catch (err) {
-      console.error("Error ending election:", err);
-    }
+    setShowElectionEndedPopup(true);
   };
 
-  // 🚀 Render
+  // 1️⃣ Filter only approved candidates
+  const approvedCandidates = visibleCandidates.filter(
+    (c) => c.status === "Approved",
+  );
 
-  if (loading) {
+  // 2️⃣ Group by position (category)
+  const groupedCandidates = approvedCandidates.reduce((acc, candidate) => {
+    const key = candidate.position;
+    if (!acc[key]) acc[key] = [];
+    acc[key].push(candidate);
+    return acc;
+  }, {});
+
+  if (loading)
     return (
-      <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            marginTop: "50px",
-          }}
-        >
-          <div className="spinner"></div>
-          <p style={{ marginTop: "10px", fontSize: "18px", color: "#555" }}>
-          Loading candidate details...
-          </p>
-        </div>
+      <div className="loading-container">
+        <div className="spinner"></div>
+        <p>Loading...</p>
+      </div>
     );
-  }
+
   return (
     <div className="profile-container">
-      <section>
-      <h1 className="title">Welcome!! {user? user.name :"Voter"}</h1>
-      <div className="side-by-side">
-        <p>🗳️ Voting Status </p>
-        <p>
-          : {" "}
-          <span className={user?.isVoted ? "voted" : "not-voted"}>
-            {user?.isVoted ? "You have voted!" : "Not voted yet"}
-          </span>
-        </p>
-      </div>
-        
-      </section>
-      <div className="temp">
-      <section className="card">
-        <h2>📅 Election Timeline</h2>
-        <div className="timeline">
-          <div className="timeline-step completed">Voting Starts</div>
-          <div
-            className={`timeline-step ${
-              electionActive?.isActive ? "active" : ""
-            }`}
-          >
-            Voting Open
-          </div>
-          <div className={`timeline-step ${showResults ? "completed" : ""}`}>
-            Voting Closed
-          </div>
-          <div className={`timeline-step ${showResults ? "active" : ""}`}>
-            Results Declared
-          </div>
-        </div>
-      </section>
-      <section className="card">
-        <h2>📜 Announcements</h2>
-        <ul>
-          {announcements.map((note, i) => (
-            <li key={i}>{note}</li>
-          ))}
-        </ul>
-      </section>
-      </div>
-     {/* 🕒 Countdown Timer */}
-      {!showResults && electionActive?.isActive && (
-        <CountDown
-          startTime={electionActive.startTime}
-          endTime={electionActive.endTime}
-          onExpire={handleExpire}
-        />
-      )}
-      <section className="card">
-        <h2>🕒 Active Elections</h2>
-        {!showResults ? (
-          <div className="elections-grid">
-            {candidateData?.length > 0 ? (
-              candidateData.map((c) => (
-                <div key={c.id} className="election-card">
-                  <h3>{c.name}</h3>
-                  <p>{c.party}</p>
-                  {c.partySymbol && (
-                    <img
-                      src={`https://voteverse-backend.onrender.com/${c.partySymbol.replace(
-                        /\\/g,
-                        "/"
-                      )}`}
-                      alt={`${c.party} Symbol`}
-                      className="party-symbol"
-                    />
-                  )}
-                  {!user?.isVoted && electionActive?.isActive && (
-                    <button
-                      className="vote-btn"
-                      onClick={() => handleVote(c.id, c.name)}
-                    >
-                      Vote Now
-                    </button>
-                  )}
-                </div>
-              ))
-            ) : (
-              <p>No active candidates found.</p>
-            )}
-          </div>
-        ) : (
-          <ElectionResults />
-        )}
-      </section>
+      <div className="div-header">
+        <h1 className="div-title">Welcome!! {user?.name}</h1>
 
-      {/* 🏆 Results */}
-      {showResults && (
-        <section className="card">
-          <h2>🏆 Results Summary</h2>
-          <ElectionResults />
+        <button
+          className="show-results-btn"
+          onClick={() => {
+            setShowAllResults(true);
+          }}
+        >
+          🏆 Show All Results
+        </button>
+      </div>
+      <div className="side-by-side">
+        <p>🗳️ Voting Status: </p>
+        <span className={user?.isVoted ? "voted" : "not-voted"}>
+          {user?.isVoted ? "You have voted!" : "Not voted yet"}
+        </span>
+      </div>
+
+      {!isElectionEnded && (
+        <section className="card announcement-wrapper">
+          <div className="announcement-content">
+            <h2>📜 Announcements</h2>
+            <ul>
+              {electionSetup.announcementMessage?.map((msg, i) => (
+                <li key={i}>{msg}</li>
+              ))}
+            </ul>
+          </div>
+
+          {isElectionOpen && (
+            <div className="announcement-countdown">
+              <CountDown
+                startTime={electionSetup.electionStart}
+                endTime={electionSetup.electionEnd}
+                onExpire={handleExpire}
+                compact
+              />
+            </div>
+          )}
         </section>
       )}
-      {/* Popups */}
+
+      {isElectionEnded && !electionActive?.resultsCalculated && (
+        <div className="loading-container">
+          <div className="spinner"></div>
+          <p>Calculating results, please wait...</p>
+        </div>
+      )}
+
+      {isElectionEnded && electionActive?.resultsCalculated && (
+        <ElectionResults />
+      )}
+      {showAllResults && (
+        <AllResultsModal onClose={() => setShowAllResults(false)} />
+      )}
+
+      {showCandidates && (
+        <section className="card">
+          <h2>Approved Candidates</h2>
+
+          {Object.keys(groupedCandidates).length ? (
+            Object.entries(groupedCandidates).map(([position, candidates]) => (
+              <div key={position} className="candidate-category">
+                {/* CATEGORY TITLE */}
+                <h3 className="candidate-category-title">{position}</h3>
+
+                {/* CANDIDATES GRID */}
+                <div className="candidate-grid">
+                  {candidates.map((c) => (
+                    <div
+                      key={c._id}
+                      className="candidate-card"
+                      onClick={() =>
+                        navigate(`/candidateDetails/${c.rollNumber}`)
+                      }
+                    >
+                      <img
+                        src={`https://voteverse-backend-deploy.onrender.com${c.profilePhoto}`}
+                        className="candidate-avatar"
+                        alt={c.name}
+                      />
+
+                      <p className="candidate-name">{c.name}</p>
+
+                      {/* Vote Button only during election */}
+                      {isElectionOpen && !user?.isVoted && (
+                        <button
+                          className="vote-btn"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            handleVote(c._id, c.name);
+                          }}
+                        >
+                          Vote Now
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>No approved candidates available right now.</p>
+          )}
+        </section>
+      )}
+
+      {/* POPUPS */}
       {showPopup && (
         <VotePopup name={votedTo} onClose={() => setShowPopup(false)} />
       )}
       {showElectionEndedPopup && (
-        <ElectionEndedPopup onClose={() => setShowElectionEndedPopup(false)} />
+        <ElectionEndedPopup
+          onClose={() => {
+            setShowElectionEndedPopup(false);
+            setElectionActive(false); // stop any refresh tied to live election
+          }}
+        />
       )}
     </div>
   );

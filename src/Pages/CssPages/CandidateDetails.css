@@ -1,154 +1,249 @@
 .candidate-details-container {
-  background:linear-gradient(135deg, #004e92, #000428);
+  max-width: 1300px;
+  margin: auto;
+  padding: 30px;
+  background: linear-gradient(135deg, #004e92, #000428);
   min-height: 100vh;
-  padding: 40px 60px;
+  color: #111;
 }
 
-.profile-header-card {
+/* ================= HERO ================= */
+.candidate-hero {
+  background: linear-gradient(135deg, #ab83d5, #6f9be7);
+  border-radius: 20px;
+  padding: 36px 40px;
   display: flex;
   align-items: center;
-  gap: 20px;
-  background: linear-gradient(135deg, #2563eb, #60a5fa);
-  padding: 20px 30px;
-  border-radius: 15px;
-  color: white;
+  justify-content: space-between;
+  gap: 40px;
   margin-bottom: 30px;
-  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
 }
 
-.profile-photo-large {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  border: 4px solid #fff;
-  object-fit: cover;
-}
-
-.candidate-name {
-  font-size: 1.8rem;
-  font-weight: 600;
-}
-
-.candidate-meta {
-  margin-top: 5px;
-  font-size: 1rem;
-  opacity: 0.9;
-}
-
-.candidate-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
-  gap: 25px;
-}
-
-.column {
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-}
-
-/* Card Base */
-.card-custom {
-  border-radius: 16px;
-  color: #1f2937;
-  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-  transition: all 0.3s ease;
-}
-
-.card-custom:hover {
-  transform: translateY(-3px);
-}
-
-/* Gradients for visual variety */
-.gradient-blue {
-  background: linear-gradient(135deg, #e0f2fe, #dbeafe);
-}
-
-.gradient-green {
-  background: linear-gradient(135deg, #dcfce7, #bbf7d0);
-}
-
-.gradient-purple {
-  background: linear-gradient(135deg, #ede9fe, #ddd6fe);
-}
-
-.gradient-orange {
-  background: linear-gradient(135deg, #fff7ed, #ffedd5);
-}
-
-.gradient-gray {
-  background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
-}
-
-.section-title {
-  font-size: 1.3rem;
-  color: #1e3a8a;
-  margin-bottom: 8px;
-  font-weight: 600;
-}
-
-.custom-list {
-  list-style: disc;
-  margin-left: 20px;
-  line-height: 1.6;
-}
-
-.video-player {
-  width: 100%;
-  border-radius: 10px;
-  margin-top: 10px;
-}
-
-.download-link {
-  color: #2563eb;
-  text-decoration: none;
-  font-weight: 500;
-}
-
-.download-link:hover {
-  text-decoration: underline;
-}
-
-.compare-btn-container {
-  text-align: center;
-  margin-top: 30px;
-}
-
-.compare-btn {
-  background-color: #16a34a;
-  color: white;
-  padding: 12px 24px;
-  border: none;
-  border-radius: 8px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.compare-btn:hover {
-  background-color: #15803d;
-}
-
-/* Loading */
-.loading-container {
+.hero-column {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 80vh;
+  min-width: 220px;
 }
 
-.spinner {
-  border: 4px solid #e5e7eb;
-  border-top: 4px solid #2563eb;
+.hero-column1 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  max-width: 50%;
+}
+
+.hero-column-buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+/* ================= ADMIN BUTTONS (FIXED) ================= */
+.hero-column-buttons .approve {
+  background: #16a34a;
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.hero-column-buttons .approve:hover {
+  background: #15803d;
+  transform: translateY(-1px);
+}
+
+.hero-column-buttons .reject {
+  background: #dc2626;
+  color: #ffffff;
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.hero-column-buttons .reject:hover {
+  background: #b91c1c;
+  transform: translateY(-1px);
+}
+
+.status1 {
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.status1.approved {
+  color: #15803d;
+}
+
+.status1.rejected {
+  color: #b91c1c;
+}
+
+/* ================= HERO CONTENT ================= */
+.hero-label {
+  font-size: 1.2rem;
+  color: #21272f;
+  margin-top: 6px;
+}
+
+.hero-avatar {
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  animation: spin 1s linear infinite;
+  object-fit: cover;
+  border: 4px solid #ffffff;
+  margin-bottom: 16px;
 }
 
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+.hero-avatar-column {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hero-tempo {
+  display: flex;
+  gap: 25px;
+  margin-top: 12px;
+}
+
+.hero-info h1 {
+  font-size: 3rem;
+  color: #0c0c0c;
+  margin-bottom: 8px;
+  font-weight: 800;
+}
+
+.hero-info p {
+  font-size: 1.1rem;
+  color: #374151;
+}
+
+.position-pill {
+  margin-top: 14px;
+  font-size: 1.2rem;
+  color: blue;
+}
+
+.party-symbol {
+  width: 180px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 18px;
+  border: 3px solid #ffffff;
+  background: #f8fafc;
+  padding: 6px;
+}
+
+/* ================= GRID ================= */
+.content-grid1 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.card1 {
+  background: #ffffff;
+  padding: 22px;
+  border-radius: 16px;
+}
+
+.card1 h3 {
+  margin-bottom: 10px;
+  color: #1e3a8a;
+}
+
+/* ================= VIDEO ================= */
+.video-placeholder {
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+}
+
+.video-placeholder p {
+  font-size: 0.95rem;
+  color: #f0f2f5;
+  margin-bottom: 12px;
+}
+
+.video-placeholder button {
+  padding: 10px 20px;
+  border-radius: 10px;
+  background: #1e40af;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+/* ================= VIDEO MODAL ================= */
+.video-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.video-modal {
+  background: linear-gradient(135deg, #ab83d5, #6f9be7);
+  border-radius: 18px;
+  padding: 20px;
+  width: 90%;
+  max-width: 720px;
+}
+
+.video-modal video {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.close-modal {
+  text-align: right;
+  margin-bottom: 10px;
+}
+
+.close-modal button {
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+
+/* ================= SPLIT ================= */
+.split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 900px) {
+  .candidate-hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .content-grid1,
+  .split {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-column1 {
+    max-width: 100%;
+    align-items: center;
   }
 }

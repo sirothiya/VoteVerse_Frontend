@@ -1,88 +1,142 @@
-.candidate-cards {
-  /* background: #0d1b2a;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-  color: white;
-  width: 280px;
-  text-align: left;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-/*  */
-  background: #0d1b2a;
-  padding: 25px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.35);
-  color: white;
-  text-align: left;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  width: 100%;   /* <-- full width of grid cell */
-  max-width: 320px; /* optional: limit max width for consistency */
+/* ===== Candidate Card Wrapper ===== */
+.candidate-card1 {
+  background: linear-gradient(135deg, #ab83d5, #6f9be7);
+  border-radius: 18px;
+  border: 1px solid #9ebbf6;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  position: relative;
+  margin: 10px 30px;
 }
 
 
-
-
-.candidate-cards:hover {
-  transform: translateY(-5px);
-}
-
-.card-contents {
+.candidate-card-content1 {
+  background: transparent;   /* ✅ remove second gradient */
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 15px;
+  padding: 26px 22px;
+  text-align: center;
 }
 
-.party-symbols {
-  width: 70px;
-  height: 70px;
+
+/* ===== Profile Image ===== */
+.candidate-avatar1 {
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #fff;
-  flex-shrink: 0;
+  border: 3px solid #2563eb;
+  background: #f1f5f9;
+  margin-bottom: 12px;
 }
 
-.detailss {
-  flex: 1;
+/* ===== Name & Class ===== */
+.candidate-name1 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #0f141a;
 }
 
-.detailss h3 {
-  margin: 0;
-  font-size: 1.2rem;
-  color: #1e90ff;
-}
-
-.detailss p {
-  margin: 4px 0;
-  font-size: 0.95rem;
-}
-
-.card-actionss {
-  margin-top: 12px;
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-}
-
-.card-actionss button {
-  padding: 6px 12px;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+.candidate-class1 {
   font-size: 0.9rem;
+  color: #fafbfc;
+  margin-bottom: 10px;
 }
 
-.card-actionss .delete {
-  background: #e63946;
-  color: white;
+/* ===== Info Section ===== */
+.candidate-info1 {
+  display: flex;
+  flex-direction: column;
+  /* gap: 4px; */
+  font-size: 0.9rem;
+  color: #bccfec;
+  margin-bottom: 12px;
+}
+.candidate-info1p{
+  font-size: 0.9rem;
+  color: #fafbfc;
+  
+}
+.candidate-info1strong {
+  font-size: medium;
+  color: #111827;
 }
 
-.card-actionss .cancel-btn {
-  background: #f1c40f;
-  color: black;
+.party-symbol-box1 {
+  margin-top: 8px;
+  width: 70px;
+  height: 70px;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #f9fafb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
+.party-symbol-box1 img {
+  max-width: 55px;
+  max-height: 55px;
+  object-fit: contain;
+}
 
+/* ===== Button ===== */
+.candidate-btn1 {
+  margin-top: 20px;
+  width: 70%;
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: #ffffff;
+  border: none;
+  padding: 10px 0;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
 
+.candidate-btn1:hover {
+  background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+  transform: scale(1.02);
+}
+.candidate-btn1:active {
+  transform: scale(0.98);
+}
+/* ===== Candidate Status Badge ===== */
+.candidate-status {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  z-index: 2;
+}
 
+/* Approved */
+.candidate-status.approved {
+  background: rgba(16, 185, 129, 0.15);
+  color: #025f40;
+  border: 1px solid #036e4b;
+  font-size: medium;
+}
 
+/* Pending */
+.candidate-status.pending {
+  background: rgba(234, 179, 8, 0.15);
+  color: #eab308;
+  border: 1px solid #eab308;
+  font-size: medium;
+}
+
+/* Rejected */
+.candidate-status.rejected {
+  background: rgba(239, 68, 68, 0.15);
+  color: #ef4444;
+  border: 1px solid #ef4444;
+  font-size: medium;
+}

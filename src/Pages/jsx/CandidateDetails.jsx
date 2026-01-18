@@ -1,193 +1,240 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardContent } from "../../components/UI/Cards";
-import { Button } from "../../components/UI/Button";
+import { useParams } from "react-router-dom";
 import { PieChart, Pie, Tooltip, Cell } from "recharts";
 import "../CssPages/CandidateDetails.css";
-import { useParams } from "react-router-dom";
+
+const COLORS = ["#22c55e", "#ef4444", "#9ca3af"];
 
 const CandidateDetails = () => {
-  const [candidate, setCandidate] = useState(null);
-  const [sentimentData, setSentimentData] = useState([]);
-  const [compareList, setCompareList] = useState([]);
   const { rollNumber } = useParams();
+  const role = localStorage.getItem("role");
+
+  const [showVideo, setShowVideo] = useState(false);
+  const [candidate, setCandidate] = useState(null);
+  const [profileStatus, setProfileStatus] = useState("Pending");
 
   useEffect(() => {
-    const storedToken = localStorage.getItem("token");
-    if (!storedToken) return;
+    const token = localStorage.getItem("token");
+    if (!token) return;
 
-    const fetchCandidate = async () => {
-      try {
-        const res = await fetch(
-          `https://voteverse-backend.onrender.com/candidate/${rollNumber}`,
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${storedToken}`,
-              "Cache-Control": "no-cache",
-            },
-          }
-        );
-        const data = await res.json();
-        console.log("data: ",data.candidate)
-        setCandidate(data.candidate);
-
-        setSentimentData([
-          { name: "Positive", value: 65 },
-          { name: "Negative", value: 20 },
-          { name: "Neutral", value: 15 },
-        ]);
-      } catch (err) {
-        console.error(err);
+    fetch(
+      `https://voteverse-backend-deploy.onrender.com/candidate/${rollNumber}`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
       }
-    };
-
-    fetchCandidate();
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        setCandidate(data.candidate);
+        setProfileStatus(data.candidate?.status || "Pending");
+      });
   }, [rollNumber]);
 
-  const COLORS = ["#4caf50", "#f44336", "#9e9e9e"];
+  const updateStatus = async (status) => {
+    const token = localStorage.getItem("token");
+
+    await fetch(
+      `https://voteverse-backend-deploy.onrender.com/admin/updateStatus/${rollNumber}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ status }),
+      }
+    );
+
+    setProfileStatus(status);
+  };
 
   if (!candidate) {
-    return (
-      <div className="loading-container">
-        <div className="spinner"></div>
-        <p>Loading candidate details...</p>
-      </div>
-    );
+    return <p className="loading">Loading...</p>;
   }
+
+  const sentimentData = [
+    { name: "Positive", value: 65 },
+    { name: "Negative", value: 20 },
+    { name: "Neutral", value: 15 },
+  ];
 
   return (
     <div className="candidate-details-container">
-      {/* Profile Header */}
-      <div className="profile-header-card">
-        <img
-          src={candidate.profilePhoto || "/default-avatar.png"}
-          alt="Candidate"
-          className="profile-photo-large"
-        />
-        <div>
-          <h1 className="candidate-name">{candidate.name}</h1>
-          <p className="candidate-meta">
-            <strong>Class:</strong> {candidate.class || "N/A"} &nbsp; || &nbsp;
-            <strong>Gender:</strong> {candidate.gender || "N/A"} &nbsp; || &nbsp;
-            <strong>Position:</strong> {candidate.position || "N/A"}
-          </p>
-        </div>
-      </div>
-
-      {/* Two-column layout */}
-      <div className="candidate-grid">
+      {/* ================= HERO ================= */}
+      <section className="candidate-hero">
         {/* LEFT SIDE */}
-        <div className="column">
-          <Card className="card-custom gradient-blue">
-            <CardContent>
-              <h2 className="section-title">Election Information</h2>
-              <p>
-                <strong>Manifesto:</strong>{" "}
-                {candidate.manifesto || "Not provided"}
-              </p>
-              {candidate.manifestoFile && (
-                <a
-                  href={`https://voteverse-backend.onrender.com${candidate.manifesto}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="download-link"
-                >
-                  📄 View Manifesto
-                </a>
-              )}
+        <div className="hero-column1">
+          <div className="hero-tempo">
+            <div className="hero-avatar-column">
+              <img
+                src={`https://voteverse-backend-deploy.onrender.com${candidate.profilePhoto}`}
+                className="hero-avatar"
+                alt="Candidate"
+              />
+              <p className="hero-label">Profile Photo</p>
+            </div>
 
-              <h3 className="card-subtitle">Campaign Video</h3>
-              {candidate.video ? (
-                <video controls className="video-player" src={`https://voteverse-backend.onrender.com${candidate.campaignVideo}`} />
-              ) : (
-                <p>No video uploaded</p>
-              )}
-            </CardContent>
-          </Card>
-
-          {candidate.achievements?.length > 0 && (
-            <Card className="card-custom gradient-green">
-              <CardContent>
-                <h2 className="section-title">
-                  Achievements & Extracurriculars
-                </h2>
-                <ul className="custom-list">
-                  {candidate.achievements.map((a, i) => (
-                    <li key={i}>{a}</li>
-                  ))}
-                </ul>
-              </CardContent>
-              <CardContent>
-                <h2 className="section-title">Initiatives Taken</h2>
-                <ul className="custom-list">
-                  {candidate.initiatives.map((p, i) => (
-                    <li key={i}>{p}</li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          )}
+            <div className="hero-info">
+              <h1>{candidate.name}</h1>
+              <p>Class {candidate.class}</p>
+              <span className="position-pill">{candidate.position}</span>
+            </div>
+          </div>
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="column">
-          {candidate.initiatives?.length > 0 && (
-            <Card className="card-custom gradient-purple">
-              <CardContent>
-                <h2 className="section-title">Proposed Initiatives</h2>
-                <ul className="custom-list">
-                  {candidate.initiatives.map((p, i) => (
-                    <li key={i}>{p}</li>
-                  ))}
-                </ul>
-              </CardContent>
-            </Card>
-          )}
-          <Card className="card-custom gradient-blue">
-            <CardContent>
-              <h2 className="section-title">Public Sentiment</h2>
-              <PieChart width={280} height={220}>
-                <Pie
-                  data={sentimentData}
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={80}
-                  dataKey="value"
-                >
-                  {sentimentData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index]} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </CardContent>
-          </Card>
+        {candidate.partysymbol && (
+          <div className="hero-column">
+            <img
+              src={`https://voteverse-backend-deploy.onrender.com${candidate.partysymbol}`}
+              className="party-symbol"
+              alt="Party Symbol"
+            />
+            <p className="hero-label">Party Symbol</p>
 
-          <Card className="card-custom gradient-gray">
-            <CardContent>
-              <h2 className="section-title">Eligibility & Consent</h2>
-              <p>
-                <strong>Declaration:</strong>{" "}
-                {candidate.declarationSigned
-                  ? "✅ Confirmed eligibility"
-                  : "❌ Not confirmed"}
-              </p>
-            </CardContent>
-          </Card>
+            {role === "admin" && (
+              <div className="hero-column-buttons">
+                {profileStatus === "Pending" ? (
+                  <>
+                    <button
+                      className="approve"
+                      onClick={() => updateStatus("Approved")}
+                    >
+                      Approve
+                    </button>
+
+                    <button
+                      className="reject"
+                      onClick={() => updateStatus("Rejected")}
+                    >
+                      Reject
+                    </button>
+                  </>
+                ) : (
+                  <span
+                    className={`status1 ${profileStatus.toLowerCase()}`}
+                  >
+                    {profileStatus}
+                  </span>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+      </section>
+
+      {/* ================= ACHIEVEMENTS & INITIATIVES ================= */}
+      <section className="split">
+        {candidate.achievements?.length > 0 && (
+          <div className="card1">
+            <h3>Achievements</h3>
+            <ul>
+              {candidate.achievements.slice(0, 3).map((a, i) => (
+                <li key={i}>{a}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {candidate.initiatives?.length > 0 && (
+          <div className="card1">
+            <h3>Initiatives</h3>
+            <ul>
+              {candidate.initiatives.slice(0, 3).map((i, idx) => (
+                <li key={idx}>{i}</li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </section>
+
+      {/* ================= VIDEO ================= */}
+      {candidate.campaignVideo && (
+        <section className="card1">
+          <h3>Video Message</h3>
+          <div className="video-placeholder">
+            <p>
+              🎥 Campaign video is available. Summary will be generated using AI.
+            </p>
+            <button onClick={() => setShowVideo(true)}>
+              ▶ Watch Campaign Message
+            </button>
+          </div>
+        </section>
+      )}
+
+      {/* ================= GRID ================= */}
+      <section className="content-grid1">
+        <div className="card1">
+          <h3>Campaign Summary</h3>
+          <p>{candidate.campaignSummary || "No summary provided."}</p>
         </div>
-      </div>
 
-      <div className="compare-btn-container">
-        <Button
-          onClick={() => setCompareList([...compareList, candidate])}
-          className="compare-btn"
+        <div className="card1">
+          <h3>Documents</h3>
+          <a
+            href={`https://voteverse-backend-deploy.onrender.com${candidate.manifesto}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            📄 Manifesto
+          </a>
+          <br />
+          <a
+            href={`https://voteverse-backend-deploy.onrender.com${candidate.parentalConsent}`}
+            target="_blank"
+            rel="noreferrer"
+          >
+            📄 Parental Consent
+          </a>
+          <div>
+            ✔ Eligibility:{" "}
+            {candidate.declarationSigned ? "Confirmed" : "Not Confirmed"}
+          </div>
+        </div>
+
+        <div className="card1">
+          <h3>Public Sentiment</h3>
+          <PieChart width={220} height={200}>
+            <Pie
+              data={sentimentData}
+              cx="50%"
+              cy="50%"
+              outerRadius={70}
+              dataKey="value"
+            >
+              {sentimentData.map((_, i) => (
+                <Cell key={i} fill={COLORS[i]} />
+              ))}
+            </Pie>
+            <Tooltip />
+          </PieChart>
+        </div>
+      </section>
+
+      {/* ================= VIDEO MODAL ================= */}
+      {showVideo && (
+        <div
+          className="video-modal-backdrop"
+          onClick={() => setShowVideo(false)}
         >
-          ➕ Add to Compare
-        </Button>
-      </div>
+          <div
+            className="video-modal"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="close-modal">
+              <button onClick={() => setShowVideo(false)}>✕</button>
+            </div>
+
+            <video
+              controls
+              src={`https://voteverse-backend-deploy.onrender.com${candidate.campaignVideo}`}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
 export default CandidateDetails;
-

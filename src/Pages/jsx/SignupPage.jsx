@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "../CssPages/SignupPage.css";
@@ -19,86 +18,103 @@ const SignupPage = () => {
     schoolName: "",
     password: "",
   });
-const navigate=useNavigate();
-
+  const navigate = useNavigate();
 
   const handleToggle = async (type) => {
-  if (type === "Admin") {
-    try {
-      const response = await fetch("https://voteverse-backend.onrender.com/admin/");
-      if (!response.ok) {
-        console.error("Error fetching admin status:", response.status);
+    if (type === "Admin") {
+      try {
+        const response = await fetch(
+          "https://voteverse-backend-deploy.onrender.com/admin/"
+        );
+        if (!response.ok) {
+          console.error("Error fetching admin status:", response.status);
+        }
+        const admin = await response.json();
+        console.log("Admin data:", admin);
+      } catch (err) {
+        console.log("Error in admin fetch:", err);
       }
-      const admin = await response.json();
-      console.log("Admin data:", admin);
-    } catch (err) {
-      console.log("Error in admin fetch:", err);
     }
-  }
 
-  setRoleType(type);
-  setFormData({
-    name: "",
-    rollNumber: "",
-    class: "",
-    dob: "",
-    gender: "",
-    position: "",
-    email: "",
-    schoolName: "",
-    password: "",
-  });
-};
-
+    setRoleType(type);
+    setFormData({
+      name: "",
+      rollNumber: "",
+      class: "",
+      dob: "",
+      gender: "",
+      position: "",
+      email: "",
+      schoolName: "",
+      password: "",
+    });
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    // Auto-fill position based on gender
+    if (name === "gender") {
+      let autoPosition = "";
+
+      if (value === "Male") autoPosition = "Head Boy";
+      else if (value === "Female") autoPosition = "Head Girl";
+
+      setFormData((prev) => ({
+        ...prev,
+        gender: value,
+        position: autoPosition,
+      }));
+      return;
+    }
+
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
- const handleSubmit = async (e) => {
-  e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const endpoints = {
-    Voter: "https://voteverse-backend.onrender.com/user/userSignup",
-    Candidate: "https://voteverse-backend.onrender.com/candidate/candidateSignup",
-    Admin: "https://voteverse-backend.onrender.com/admin/adminSignup",
-  };
+    const endpoints = {
+      Voter: "https://voteverse-backend-deploy.onrender.com/user/userSignup",
+      Candidate:
+        "https://voteverse-backend-deploy.onrender.com/candidate/candidateSignup",
+      Admin: "https://voteverse-backend-deploy.onrender.com/admin/adminSignup",
+    };
 
-  const endpoint = endpoints[roleType];
+    const endpoint = endpoints[roleType];
 
-  try {
-    const res = await fetch(endpoint, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-    });
-
-    const data = await res.json();
-
-    if (res.ok) {
-      alert(data.message || `${roleType} signup successful!`);
-      setFormData({
-        name: "",
-        rollNumber: "",
-        class: "",
-        dob: "",
-        gender: "",
-        position: "",
-        email: "",
-        schoolName: "",
-        password: "",
+    try {
+      const res = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
       });
-      navigate(`/login`);
-    } else {
-      alert(data.error || "Signup failed!");
-      console.log("Error:", data.error);
+
+      const data = await res.json();
+
+      if (res.ok) {
+        alert(data.message || `${roleType} signup successful!`);
+        setFormData({
+          name: "",
+          rollNumber: "",
+          class: "",
+          dob: "",
+          gender: "",
+          position: "",
+          email: "",
+          schoolName: "",
+          password: "",
+        });
+        navigate(`/login`);
+      } else {
+        alert(data.error || "Signup failed!");
+        console.log("Error:", data.error);
+      }
+    } catch (error) {
+      console.error("Error in signup:", error);
+      alert("Something went wrong!");
     }
-  } catch (error) {
-    console.error("Error in signup:", error);
-    alert("Something went wrong!");
-  }
-};
+  };
 
   return (
     <div className="signup-wrapper">
@@ -121,6 +137,7 @@ const navigate=useNavigate();
           <div className="form-group">
             <label>Name</label>
             <input
+            className="form-control"
               type="text"
               name="name"
               value={formData.name}
@@ -136,6 +153,7 @@ const navigate=useNavigate();
               <div className="form-group">
                 <label>Email</label>
                 <input
+                className="form-control"
                   type="email"
                   name="email"
                   value={formData.email}
@@ -148,6 +166,7 @@ const navigate=useNavigate();
               <div className="form-group">
                 <label>School Name</label>
                 <input
+                className="form-control"
                   type="text"
                   name="schoolName"
                   value={formData.schoolName}
@@ -165,6 +184,7 @@ const navigate=useNavigate();
               <div className="form-group">
                 <label>Roll Number</label>
                 <input
+                className="form-control"
                   type="text"
                   name="rollNumber"
                   value={formData.rollNumber}
@@ -177,6 +197,7 @@ const navigate=useNavigate();
               <div className="form-group">
                 <label>Class</label>
                 <input
+                  className="form-control"
                   type="text"
                   name="class"
                   value={formData.class}
@@ -189,6 +210,7 @@ const navigate=useNavigate();
               <div className="form-group">
                 <label>Date of Birth</label>
                 <input
+                className="form-control"
                   type="date"
                   name="dob"
                   value={formData.dob}
@@ -205,6 +227,7 @@ const navigate=useNavigate();
               <div className="form-group">
                 <label>Gender</label>
                 <select
+                className="form-control"
                   name="gender"
                   value={formData.gender}
                   onChange={handleChange}
@@ -220,9 +243,10 @@ const navigate=useNavigate();
               <div className="form-group">
                 <label>Position</label>
                 <select
+                className="form-control"
                   name="position"
                   value={formData.position}
-                  onChange={handleChange}
+                  disabled={!!formData.gender} // 🔒 locked after gender selection
                   required
                 >
                   <option value="">Select Position</option>
@@ -237,6 +261,7 @@ const navigate=useNavigate();
             <label>Password</label>
             <div className="password-container">
               <input
+              className="form-control"
                 type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Enter password"

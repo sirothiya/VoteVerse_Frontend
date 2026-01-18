@@ -16,20 +16,6 @@
   width: 100%;
 }
 
-.start-election {
-  background-color: rgb(12, 147, 214);
-  color: var(--secondary-bg-color);
-  border: none;
-  padding: 10px 20px;
-  border-radius: 50px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  display: block;
-  margin: 0 auto 20px auto;
-}
-
 .popup-content {
   background: #fff;
   padding: 30px;
@@ -123,4 +109,84 @@
 .popup-actions .secondary {
   background: #ebd3d3;
   color: black;
+}
+
+.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+  margin-top: 20px;
+}
+
+.start-election {
+  background-color: rgb(12, 147, 214);
+  color: var(--secondary-bg-color);
+  border: none;
+  padding: 12px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  display: block;
+  align-items: center; 
+  box-shadow: 0 6px 14px rgba(211, 47, 47, 0.35);
+  transition: all 0.25s ease;
+  /* margin: 0 auto 20px auto; */
+}
+
+/* 🔴 Danger Button – Reset / Drop Election */
+.danger-btn {
+  background: linear-gradient(135deg, #d32f2f, #b71c1c);
+  color: #ffffff;
+  border: none;
+  padding: 12px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  display: block;
+  box-shadow: 0 6px 14px rgba(211, 47, 47, 0.35);
+  transition: all 0.25s ease;
+}
+
+/* Hover – stronger warning */
+.danger-btn:hover {
+  background: linear-gradient(135deg, #c62828, #8e0000);
+  box-shadow: 0 8px 18px rgba(198, 40, 40, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Active – pressed state */
+.danger-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 4px 10px rgba(183, 28, 28, 0.6);
+}
+
+/* Focus – keyboard accessibility */
+.danger-btn:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.5);
+}
+
+/* Disabled state */
+.danger-btn:disabled {
+  background: #bdbdbd;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+.danger-btn.full-width {
+  width: 100%;
+  justify-content: center;
+}
+.danger-btn:hover {
+  animation: shake 0.2s ease-in-out 2;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
 }

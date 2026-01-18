@@ -12,7 +12,7 @@ const Navbar = ({ setPage}) => {
   };
   const handleDeleteAccount=async()=>{
     try{
-        const response= await fetch("https://voteverse-backend.onrender.com/user/deleteOne",{
+        const response= await fetch("https://voteverse-backend-deploy.onrender.com/user/deleteOne",{
           method:"DELETE",
           headers:{
             Authorization:`Bearer ${token}`
@@ -35,7 +35,6 @@ const Navbar = ({ setPage}) => {
       <ul className="nav-links">
         <Dropdown items={[
           { label: "Dashboard", onClick: () => setPage("dashboard") },
-          { label: "Manage", onClick: () => setPage("manage") },
           { label: "View Results", onClick: () => setPage("result") },
           { label: "Logout", onClick: handleLogout },
           { label: "Delete Account", onClick: handleDeleteAccount}

@@ -1,16 +1,15 @@
+
 .card {
-  background-color: #ffffff; /* light card background */
-  border-radius: 16px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 18px;
+  box-shadow: none;        
+  transition: none;        
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  max-width: 80%;
+  margin: 0 auto;          
 }
+
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
-}
-
-.card-content {
-  padding: 16px;
+  transform: none;
+  box-shadow: none;
 }

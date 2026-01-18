@@ -37,13 +37,11 @@
 .temp{
   display: flex;
   justify-content: space-between;
-  align-items: stretch;
+  /* align-items: stretch; */
   gap: 1.5rem;
   width: 100%;
-  min-height: 250px; /* adjust based on design */
-  padding: 1.5rem;
-  background: transparent;
-
+  /* min-height: 250px; */
+  background-color:transparent;
 }
 .profile-info {
   display: flex;
@@ -108,13 +106,95 @@
   animation: spin 1s linear infinite;
 }
 
+
+.card.announcement-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 20px;
+  align-items: stretch;
+}
+
+/* ===== COUNTDOWN (30%) ===== */
+.announcement-countdown {
+  flex: 0 0 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+}
+
+/* ===== ANNOUNCEMENT (70%) ===== */
+.announcement-content {
+  flex: 0 0 70%;
+  padding: 10px;
+  /* box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1); */
+  border:transparent
+}
+
+.announcement-content h2 {
+  font-size: 1.4rem;
+  margin-bottom: 6px;
+  color: #1f2937;
+}
+
+.announcement-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.announcement-content li {
+  padding: 12px 14px;
+  font-size: 0.95rem;
+  color: #e5eaf3;
+  line-height: 1;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .announcement-wrapper {
+    flex-direction: column;
+  }
+
+  .announcement-countdown,
+  .announcement-content {
+    flex: 1 1 100%;
+  }
+}
+
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.show-results-btn {
+  background: #4caf50;
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.show-results-btn:hover {
+  background: #43a047;
+}
+
+
+
 /* ======= Info Card ======= */
 .card {
-   background: linear-gradient(135deg, #ab83d5, #6f9be7);
+  background: linear-gradient(135deg, #ab83d5, #6f9be7);
   padding: 25px;
   border-radius: 16px;
   margin-bottom: 25px;
-  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  /* box-shadow: 0 5px 20px rgba(0,0,0,0.2); */
   transition: all 0.3s ease-in-out;
   flex: 1;
 }
@@ -160,7 +240,7 @@
   left: 5%;
   width: 90%;
   height: 3px;
-  background: #444;
+  background: #0d0d0d;
   z-index: 0;
   border-radius: 3px;
 }
@@ -168,7 +248,7 @@
 .timeline-step {
   flex: 1;
   text-align: center;
-  color: #888;
+  color: #131212;
   font-weight: 500;
   z-index: 1;
   position: relative;
@@ -220,6 +300,96 @@
   background-color: #0b1c2c; /* Matches card background */
   border-radius: 50%;
 }
+
+/* ---------------- Candidate Cards ---------------- */
+
+.candidate-card {
+  background: #dcd5d5;
+  width: 100%;
+  max-width: 330px;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+}
+
+.candidate-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+}
+
+.candidate-card img {
+  width: 105px;
+  height: 105px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #6c63ff;
+  margin-bottom: 12px;
+}
+
+.candidate-position {
+  background: #6c63ff;
+  color: white;
+  padding: 3px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.candidate-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+}
+
+.candidate-class {
+  font-size: 14px;
+  color: #777;
+}
+
+.party-symbol {
+  width: 50px;
+  margin-top: 10px;
+}
+
+.card-footer {
+  margin-top: 12px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.vote-btn {
+  padding: 8px 20px;
+  background: #00bfa6;
+  color: white;
+  border: none;
+  font-size: 14px;
+  border-radius: 14px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.vote-btn:hover {
+  background: #009f8a;
+}
+
+/* Grid */
+.candidate-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}
+
+
 
 @keyframes rotate {
   0% { transform: rotate(0deg); }
@@ -331,8 +501,66 @@
 .popup-content p {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #222;
+  color: #edeff1;
 }
+
+
+/* ===== Header Layout ===== */
+.div-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 12px;
+}
+
+/* ===== Page Title ===== */
+.div-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+/* ===== Show Results Button ===== */
+.show-results-btn {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: #ffffff;
+  border: none;
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.show-results-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px rgba(37, 99, 235, 0.45);
+}
+
+.show-results-btn:active {
+  transform: scale(0.96);
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 600px) {
+  .profile-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .show-results-btn {
+    align-self: flex-end;
+  }
+}
+
+
 
 /* ======= Close Button ======= */
 .close-btn {
@@ -367,4 +595,24 @@
   .profile-actions {
     flex-wrap: wrap;
   }
+}
+
+.candidate-category {
+  margin-bottom: 32px;
+}
+
+.candidate-category-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 20px 0 12px;
+  color: #111827;
+  border-left: 4px solid #2563eb;
+  padding-left: 10px;
+}
+.candidate-category-scroll {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scroll-behavior: smooth;
 }

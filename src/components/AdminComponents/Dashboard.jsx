@@ -1,97 +1,7 @@
-// import React, { useState } from "react";
-// import CandidateCard from "./CandidateCard";
-// import "./Dashboard.css";
-// import { useNavigate } from "react-router-dom";
-
-// const formatISO8601 = (date) => {
-//   const pad = (num) => String(num).padStart(2, "0");
-//   const year = date.getUTCFullYear();
-//   const month = pad(date.getUTCMonth() + 1);
-//   const day = pad(date.getUTCDate());
-//   const hours = pad(date.getUTCHours());
-//   const minutes = pad(date.getUTCMinutes());
-//   const seconds = pad(date.getUTCSeconds());
-//   const ms = String(date.getUTCMilliseconds()).padStart(3, "0");
-//   return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}.${ms}+00:00`;
-// };
-// const EndTimePopup = ({ endTime, setEndTime, onClose, handleStart }) => {
-//   return (
-//     <div className="popup-overlay">
-//       <div className="popup-content">
-//         <h2> Enter Election End Time</h2>
-//         <input
-//           type="datetime-local"
-//           value={endTime}
-//           onChange={(e) => setEndTime(e.target.value)}
-//         />
-//         <button
-//           className="close-btn"
-//           onClick={() => {
-//             onClose();
-//             handleStart();
-//           }}
-//         >
-//           Close
-//         </button>
-//       </div>
-//     </div>
-//   );
-// };
-
-// function Dashboard({ candidates }) {
-//   const safeCandidates = Array.isArray(candidates) ? candidates : [];
-//   const [endTime, setEndTime] = useState("");
-//   const[status,setStatus]=useState(false);
-//   const [showPopup, setShowPopup] = useState(false);
-
-//   const handleStart = async () => {
-//     if(endTime==="")return
-//     const end = new Date(endTime); // endTime from <input>
-//     formatISO8601(end);
-//     await fetch("https://voteverse-backend.onrender.com/election/start", {
-//       method: "POST",
-//       headers: { "Content-Type": "application/json" },
-//       body: JSON.stringify({
-//         endTime: end,
-//         startTime: formatISO8601(new Date()),
-//       }),
-//     });
-//     alert("Election started");
-//     setStatus(true);
-
-//   };
-//   return (
-//     <div className="dashboard">
-//       <h2 className="page-title">
-//         {safeCandidates.length === 0 ? "No Candidates" : "Candidates"}
-//       </h2>
-
-//        {!status && <button className="start-election" onClick={() => setShowPopup(true)}>
-//           Announcement
-//         </button>}
-
-//       {showPopup && (
-//         <EndTimePopup
-//           endTime={endTime}
-//           setEndTime={setEndTime}
-//           onClose={() => setShowPopup(false)}
-//           handleStart={handleStart}
-//         />
-//       )}
-//       <div className="card-grid">
-//         {safeCandidates.map((c) => (
-//           <CandidateCard key={c.id} candidate={c} />
-//         ))}
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Dashboard;
-
 import React, { useState, useEffect } from "react";
 import CandidateCard from "./CandidateCard";
 import "./Dashboard.css";
+import CandidatesByCategory from "./CandidatesByCategory";
 
 const formatISO8601 = (date) => {
   const pad = (num) => String(num).padStart(2, "0");
@@ -173,39 +83,90 @@ const AnnouncementPopup = ({ onClose, handleSubmit }) => {
     </div>
   );
 };
-
-function Dashboard({ candidates, showPopupInitially, closeInitialPopup }) {
-  const safeCandidates = Array.isArray(candidates) ? candidates : [];
-  const [showPopup, setShowPopup] = useState(showPopupInitially || false);
+function Dashboard() {
+  const [candidates, setCandidates] = useState([]);
+  const [showPopup, setShowPopup] = useState(false);
   const [status, setStatus] = useState(false);
+  const [showAnnouncementPopup, setShowAnnouncementPopup] = useState(false);
+
+  const safeCandidates = Array.isArray(candidates) ? candidates : [];
 
   useEffect(() => {
-    if (showPopupInitially) setShowPopup(true);
-  }, [showPopupInitially]);
+    const token = localStorage.getItem("token");
+
+    const fetchCandidates = async () => {
+      try {
+        const response = await fetch(
+          "https://voteverse-backend-deploy.onrender.com/candidate/",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        const data = await response.json();
+        setCandidates(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+
+    fetchCandidates();
+
+    if (!localStorage.getItem("announcementSetupDone")) {
+      setShowAnnouncementPopup(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    setShowPopup(showAnnouncementPopup);
+  }, [showAnnouncementPopup]);
+
 
   const handleSubmit = async (formData) => {
     try {
-      const response =await fetch("https://voteverse-backend.onrender.com/election/setup", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          announcement: formData.announcement,
-          regStart: formatISO8601(new Date(formData.regStart)),
-          regEnd: formatISO8601(new Date(formData.regEnd)),
-          startTime: formatISO8601(new Date(formData.electionStart)),
-          electionDuration: parseFloat(formData.electionDuration),
-        }),
-      });
+      console.log("Submitting election setup:", formData);
+
+      const response = await fetch(
+        "https://voteverse-backend-deploy.onrender.com/admin/electionsetup",
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            announcementMessage: [
+              formData.announcement,
+              `Election's candidate registration starts on ${formData.regStart} and will last till ${formData.regEnd}`,
+              `Votting will start on ${formData.electionStart} and last for ${formData.electionDuration} hours.`,
+            ],
+            candidateRegStart:
+              formData.regStart && formatISO8601(new Date(formData.regStart)),
+            candidateRegEnd:
+              formData.regEnd && formatISO8601(new Date(formData.regEnd)),
+            electionStart:
+              formData.electionStart &&
+              formatISO8601(new Date(formData.electionStart)),
+            electionDurationHours: Number(formData.electionDuration),
+          }),
+        }
+      );
+
+      const data = await response.json(); // ✔ read only once
+
       if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || "Failed to save setup");
+        throw new Error(data.message || "Failed to save setup");
       }
-      const data=await response.json();
-      console.log("Election setup response:", data.election);
+
+      console.log("Election setup response:", data); // ✔ Now valid
+      console.log("Election Setup:", data.electionSetup);
+      console.log("Message:", data.message);
+
       localStorage.setItem("announcementSetupDone", "true");
       alert("Election setup saved successfully!");
       setShowPopup(false);
-      closeInitialPopup?.();
+      setShowAnnouncementPopup(false);
       setStatus(true);
     } catch (error) {
       console.error("Error saving setup:", error);
@@ -213,31 +174,54 @@ function Dashboard({ candidates, showPopupInitially, closeInitialPopup }) {
     }
   };
 
+  const handleResetElection = async () => {
+    if (!window.confirm("This will end & reset the election. Continue?"))
+      return;
+
+    const res = await fetch(
+      "https://voteverse-backend-deploy.onrender.com/admin/election/reset",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    );
+
+    const data = await res.json();
+    console.log("Reset Election Response:", data);
+    alert(data.message);
+    window.location.reload();
+  };
+
   return (
     <div className="dashboard">
       <h2 className="page-title">
         {safeCandidates.length === 0 ? "No Candidates" : "Candidates"}
       </h2>
-
-      <button className="start-election" onClick={() => setShowPopup(true)}>
-        Announcement
-      </button>
+      <div className="btn-group">
+        <button className="start-election" onClick={() => setShowPopup(true)}>
+          Make Announcement
+        </button>
+        <button className="danger-btn" onClick={handleResetElection}>
+          🔴 Reset / Drop Election
+        </button>
+      </div>
 
       {showPopup && (
         <AnnouncementPopup
           onClose={() => {
             setShowPopup(false);
-            closeInitialPopup?.();
+            setShowAnnouncementPopup(false);
           }}
           handleSubmit={handleSubmit}
         />
       )}
 
-      <div className="card-grid">
-        {safeCandidates.map((c) => (
-          <CandidateCard key={c.id || c._id} candidate={c} />
-        ))}
-      </div>
+      
+        <CandidatesByCategory candidates={safeCandidates} />
+
+      
     </div>
   );
 }

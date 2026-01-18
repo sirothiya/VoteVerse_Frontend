@@ -1,85 +1,91 @@
+
 import React, { useEffect, useState } from "react";
 import "../CssPages/Result.css";
-import { useNavigate } from "react-router-dom";
-import BarBox from "../../components/BarBox";
+import ResultCharts from "../../components/ResultCharts";
 
-const ElectionResults = ({ setPage }) => {
-  const [result, setResult] = useState([]);
-  const [resultAvailable, setResultAvailable] = useState(false);
-  const navigate = useNavigate();
-
+const ElectionResults = () => {
+  const [results, setResults] = useState({
+    headBoyResults: [],
+    headGirlResults: [],
+  });
+  const [loading, setLoading] = useState(true);
+ const [activeCategory, setActiveCategory] = useState("Head Boy");
   useEffect(() => {
-    const handleCount = async () => {
+    const loadResults = async () => {
       try {
         const response = await fetch(
-          "https://voteverse-backend.onrender.com/admin/vote/count",
-          {
-            method: "GET",
-            headers: { "Content-Type": "application/json" },
-          }
+          "https://voteverse-backend-deploy.onrender.com/election/history"
         );
         const data = await response.json();
-        setResult(data.voteRecord?.sort((a, b) => b.votes - a.votes));
-        setResultAvailable(
-          data.voteRecord?.some((candidate) => candidate.votes > 0)
-        );
+        if(data.length === 0){
+          setLoading(false);
+          return;
+        }
+        console.log("Results data:", data[0]);
+        setResults({
+          headBoyResults: data[0].finalResults.headBoyResults || [],
+          headGirlResults: data[0].finalResults.headGirlResults || [],
+        });
       } catch (err) {
-        console.log(err);
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
     };
-    handleCount();
+
+    loadResults();
   }, []);
 
-  const handleback = () => {
-    setPage("dashboard");
-  };
-
-  const handleStop = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      const response_candidate = await fetch(
-        "https://voteverse-backend.onrender.com/admin/delete/all",
-        {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      console.log("All data deleted", await response_candidate.json());
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      alert("Election stopped successfully");
-    } catch (err) {
-      console.log("Error in stopping election", err);
-      alert("Error in stopping election");
-    }
-  };
-
+  if (loading) return <p className="result-loading">Loading results...</p>;
   return (
-    <div className="results-container">
-      {/* Header */}
-      <div className="results-header">
-        <h2>Election Result</h2>
+      <div className="modal">
+         <div className="chart-tabs">
+          {["Head Girl", "Head Boy"].map((cat) => (
+            <button
+              key={cat}
+              className={activeCategory === cat ? "active" : ""}
+              onClick={() => setActiveCategory(cat)}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
+        <ResultCharts
+          results={
+            activeCategory === "Head Boy"
+              ? results.headBoyResults
+              : results.headGirlResults
+          }
+          title={`${activeCategory} Vote Distribution`}
+          category={activeCategory}
+        />
+        <ResultSection title="Final Results" results={ activeCategory === "Head Boy"
+              ? results.headBoyResults
+              : results.headGirlResults
+          }/>
+        
       </div>
+   
+  );
+};
 
-      {/* Dynamic Bar Graph */}
-      <BarBox result={resultAvailable ? result : []} />
+const ResultSection = ({ title, results = [] }) => {
+  if (!results.length) return null;
+  return (
+    <section className="result-section">
+      <h3>{title}</h3>
 
-      {/* Candidate List */}
-      <div className="candidate-list">
-        {resultAvailable
-          ? result?.map((r, index) => (
-              <div key={index} className="candidate-row">
-                <span>{r.party}</span>
-                <span>{r.votes} votes</span>
-              </div>
-            ))
-          : null}
-      </div>
-    </div>
+      {results.map((r, i) => (
+        <div
+          key={r.candidateId}
+          className={`result-card ${i === 0 ? "winner" : "runner"}`}
+        >
+          <span className="rank">{i === 0 ? "🥇 Winner" : "🥈 Runner-up"}</span>
+          <span className="name">{r.name}</span>
+          <span className="votes">{r.votes} votes</span>
+        </div>
+      ))}
+    </section>
   );
 };
 

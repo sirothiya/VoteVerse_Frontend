@@ -1,91 +1,71 @@
-import { useEffect, useState } from 'react';
 
-const StatusPopup = ({ message, onClose }) => (
-  <div className="popup-overlay">
-    <div className="popup-content">
-      <h2> {message} </h2>
-      <button className="close-btn" onClick={onClose}>
-        Close
-      </button>
-    </div>
-  </div>
-);
+import React, { useEffect, useState } from "react";
+import "./Countdown.css";
 
-function CountDown({ startTime, endTime ,onExpire}) {
-  const [timeLeft, setTimeLeft] = useState("");
-  const [status, setStatus] = useState(""); // "notStarted" | "running" | "ended"
-  const [showPopup, setShowPopup] = useState(false);
+export default function CountDown({ startTime, endTime, onExpire, compact}) {
+  const [status, setStatus] = useState("loading"); // before | running | ended
+  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
   useEffect(() => {
-    if (!endTime || !startTime) return;
+    if (!startTime || !endTime) return;
 
-    const start = new Date(startTime);
-    const end = new Date(endTime);
-    let expiredAlready = false; // to ensure onExpire is called only once
-    const updateTime = () => {
+    let expired = false;
+    const tick = () => {
       const now = new Date();
+      const start = new Date(startTime);
+      const end = new Date(endTime);
 
       if (now < start) {
-        // Election has not started yet
-        setStatus("notStarted");
-        setTimeLeft("Election Not Started Yet");
+        setStatus("before");
+        setTimeLeft(toObj(start - now));
         return;
       }
 
       if (now >= start && now < end) {
-        // Running
-        const diff = end - now;
-        const Days = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const hours = Math.floor(diff / (1000 * 60 * 60));
-        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-        const seconds = Math.floor((diff % (1000 * 60)) / 1000);
         setStatus("running");
-        setTimeLeft(`${Days}d ${hours}hr ${minutes}min ${seconds}sec`);
+        setTimeLeft(toObj(end - now));
         return;
       }
 
-      if (now >= end) {
-        // Ended
-        setStatus("ended");
-        setTimeLeft("Election Ended");
-         if (!expiredAlready && onExpire) {
-          expiredAlready = true;
-          onExpire(); // call backend to mark ended
-        }
-        return;
+      // ended
+      setStatus("ended");
+      setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+
+      if (!expired) {
+        expired = true;
+        onExpire && onExpire();
       }
     };
 
-    // run once immediately
-    updateTime();
-
-    // update every second
-    const interval = setInterval(updateTime, 1000);
-    return () => clearInterval(interval);
-  }, [startTime, endTime]);
-
-  // Popups logic
-  useEffect(() => {
-    if (status === "notStarted") {
-      setShowPopup(true);
-    } else if (status === "ended") {
-      setShowPopup(true);
-    } else {
-      setShowPopup(false);
-    }
-  }, [status]);
+    tick();
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [startTime, endTime, onExpire]);
 
   return (
-    <div>
-      <p className="countdown-timer">{timeLeft}</p>
-      {showPopup && status === "notStarted" && (
-        <StatusPopup message="Election Not Started Yet" onClose={() => setShowPopup(false)} />
-      )}
-      {showPopup && status === "ended" && (
-        <StatusPopup message="🎉 Election Ended" onClose={() => setShowPopup(false)} />
+    <div className={`countdown-container ${compact ? "compact" : ""}`}>
+      {status === "before" && <h2 className="status before">Election Starts In</h2>}
+      {status === "running" && <h2 className="status running">Election Ends In</h2>}
+      {status === "ended" && <h2 className="status ended">Election Has Ended</h2>}
+
+      {status !== "ended" && (
+        <div className="timer">
+          <div><span>{timeLeft.days}</span><p>Days</p></div>
+          <div><span>{timeLeft.hours}</span><p>Hrs</p></div>
+          <div><span>{timeLeft.minutes}</span><p>Min</p></div>
+          <div><span>{timeLeft.seconds}</span><p>Sec</p></div>
+        </div>
       )}
     </div>
   );
 }
 
-export default CountDown;
+function toObj(ms) {
+  const total = Math.floor(ms / 1000);
+  return {
+    days: Math.floor(total / (3600 * 24)),
+    hours: Math.floor((total % (3600 * 24)) / 3600),
+    minutes: Math.floor((total % 3600) / 60),
+    seconds: total % 60,
+  };
+}

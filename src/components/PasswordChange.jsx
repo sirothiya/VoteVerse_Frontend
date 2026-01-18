@@ -23,7 +23,7 @@ const PasswordChange = () => {
 
     try {
       const response = await fetch(
-        "https://voteverse-backend.onrender.com/user/profile/password",
+        "https://voteverse-backend-deploy.onrender.com/user/profile/password",
         {
           method: "PUT",
           headers: {

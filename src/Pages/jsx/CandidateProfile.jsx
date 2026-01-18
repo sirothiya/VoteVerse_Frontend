@@ -1,11 +1,9 @@
-
 import React, { useEffect, useState } from "react";
 import "../CssPages/CandidateProfile.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
 
-
-const CandidateProfilePage = ({ candidateId }) => {
+const CandidateProfilePage = ({}) => {
   const [candidateData, setCandidateData] = useState();
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState();
@@ -23,7 +21,7 @@ const CandidateProfilePage = ({ candidateId }) => {
     partysymbol: null,
   });
 
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const { rollNumber } = useParams();
   useEffect(() => {
     const storedToken = localStorage.getItem("token");
@@ -33,7 +31,7 @@ const CandidateProfilePage = ({ candidateId }) => {
     const getCandidate = async () => {
       try {
         const getData = await fetch(
-          `https://voteverse-backend.onrender.com/candidate/${rollNumber}`,
+          `https://voteverse-backend-deploy.onrender.com/candidate/${rollNumber}`,
           {
             method: "GET",
             headers: {
@@ -55,7 +53,7 @@ const CandidateProfilePage = ({ candidateId }) => {
     const getStatus = async () => {
       try {
         const response = await fetch(
-          `https://voteverse-backend.onrender.com/candidate/checkprofilestatus/${rollNumber}`,
+          `https://voteverse-backend-deploy.onrender.com/candidate/checkprofilestatus/${rollNumber}`,
           {
             method: "GET",
             headers: {
@@ -66,11 +64,8 @@ const CandidateProfilePage = ({ candidateId }) => {
         );
         console.log("statusCheck1");
         const data = await response.json();
-        console.log("statusCheck2");
-        console.log("status data ", data);
-        console.log("statusCheck3");
-        // if(data.profilecompleted)navigate(`/candidateDetails/${rollNumber}`)
         setCandidateStatus(data);
+       
       } catch (err) {
         console.log("error in fetching candidate status");
         alert("error in fetching candidate status:", err);
@@ -117,7 +112,7 @@ const CandidateProfilePage = ({ candidateId }) => {
       data.append("declarationSigned", formData.declarationSigned);
       setLoading(true);
       const res = await fetch(
-        `https://voteverse-backend.onrender.com/candidate/complete-profile/${candidateData.rollNumber}`,
+        `https://voteverse-backend-deploy.onrender.com/candidate/complete-profile/${rollNumber}`,
         {
           method: "POST",
           headers: {
@@ -133,6 +128,7 @@ const CandidateProfilePage = ({ candidateId }) => {
       setLoading(false);
       setCandidateData(data.updatedCandidate);
       alert(result.message || "Profile Updated!");
+        window.location.reload();
     } catch (err) {
       alert("error in the uploading documents : ", err);
     } finally {
@@ -140,14 +136,28 @@ const CandidateProfilePage = ({ candidateId }) => {
     }
   };
 
-const handleDelete= async()=>{
-  try{
-
-
-  }catch(err){
-
-  }
-}
+  const handleDelete = async () => {
+    try {
+      const res = await fetch(
+        `https://voteverse-backend-deploy.onrender.com/candidate/delete/${candidateData.rollNumber}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Cache-Control": "no-cache",
+          },
+        }
+      );
+      const data = await res.json();
+      console.log("delete response :", data);
+      if(data.success){
+        navigate("/")
+      }
+    } catch (err) {
+      console.error("Error deleting candidate:", err);
+      alert("Error deleting candidate:", err.message);
+    }
+  };
 
   if (loading) {
     return <Loader content="Loading ...." />;
@@ -157,26 +167,25 @@ const handleDelete= async()=>{
     <div className="candidate-profile-container">
       <div className="heading-container">
         <div className="header">
-         <div className="heading">
-          <h1>Hi, {candidateData?.name || "Candidate"} 👋</h1>
-          <p className="subtext">
-            Here’s your current profile and approval status
-          </p>
+          <div className="heading">
+            <h1>Hi, {candidateData?.name || "Candidate"} 👋</h1>
+            <p className="subtext">
+              Here’s your current profile and approval status
+            </p>
+          </div>
+          <button
+            className="del-btnss"
+            onClick={handleDelete}
+            style={{ marginTop: "15px" }}
+          >
+            Delete
+          </button>
         </div>
-         <button
-          className="del-btnss"
-          onClick={handleDelete}
-          style={{ marginTop: "15px" }}
-        >
-          Delete
-        </button>
-        </div>
-        
 
         <div className="status-section">
           {/* Candidate End */}
           <div className="status-box candidate-status">
-            <p className="status-label">🧾 From Candidate End</p>
+            <p className="status-label">🧾Candidate Status</p>
             <span
               className={
                 candidateData?.profilecompleted
@@ -192,7 +201,7 @@ const handleDelete= async()=>{
 
           {/* Admin End */}
           <div className="status-box admin-status">
-            <p className="status-label">🏛️ From Admin End</p>
+            <p className="status-label">🏛️ Admin Approval</p>
             <span
               className={`status ${
                 candidateData?.status === "Approved"
@@ -216,9 +225,10 @@ const handleDelete= async()=>{
           <div className="profile-complete-card">
             <h2>🎉 Profile Completed!</h2>
             <p>You’ve successfully filled out your candidate profile.</p>
-
             <button
-              onClick={() => navigate(`/candidateDetails/${candidateData.rollNumber}`)}
+              onClick={() =>
+                navigate(`/candidateDetails/${candidateData.rollNumber}`)
+              }
               className="view-profile-btn"
             >
               View Complete Profile

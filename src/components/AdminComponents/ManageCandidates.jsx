@@ -68,7 +68,7 @@ function ManageCandidates({ candidates, setCandidates }) {
       console.log(form.partySymbol);
       console.log("manage Candidate token", storedToken);
       const response = await fetch(
-        `https://voteverse-backend.onrender.com/admin/addcandidate`,
+        `https://voteverse-backend-deploy.onrender.com/admin/addcandidate`,
         {
           method: "POST",
           headers: {
@@ -112,7 +112,7 @@ const handleEditSubmit=async(e)=>{
       if (form.partySymbol instanceof File) {
         formData.append("partySymbol", form.partySymbol);
       }
-      const response=await fetch(`https://voteverse-backend.onrender.com/admin/${editId}`,{
+      const response=await fetch(`https://voteverse-backend-deploy.onrender.com/admin/${editId}`,{
         method:"PUT",
         headers:{
           Authorization: `Bearer ${storedToken}`,
@@ -145,7 +145,7 @@ const handleEditSubmit=async(e)=>{
   const handleDelete = async (id) => {
     try {
       const response = await fetch(
-        `https://voteverse-backend.onrender.com/admin/${id}`,
+        `https://voteverse-backend-deploy.onrender.com/admin/${id}`,
         {
           method: "DELETE",
           headers: {

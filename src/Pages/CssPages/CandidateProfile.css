@@ -4,7 +4,8 @@
   border-radius: 20px;
   box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
   color: #fff;
-  max-width: 1200px;
+  min-width: 200px;
+  max-width: 1600px;
   margin: 2rem auto;
 }
 
@@ -73,9 +74,10 @@
   cursor: pointer;
 }
 
-.card button:hover {
+/* .card button:hover {
   background-color: #00796b;
-}
+  color: white;
+} */
 
 .declaration {
   margin-top: 1rem;
@@ -106,8 +108,6 @@
   }
 }
 
-
-
 .side-by-side{
   display: flex;
   flex-direction: row;
@@ -123,7 +123,6 @@
   padding: 1.5rem;
   border-radius: 16px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-
 }
 
 .heading-container {
@@ -168,8 +167,7 @@
 }
 
 .del-btnss {
- 
- background: linear-gradient(135deg, #004e92, #000428);
+  background: linear-gradient(135deg, #004e92, #000428);
   border: 2px solid var(--accent-color);
   color: var(--accent-color);
   padding: 10px 20px;
@@ -235,8 +233,8 @@
 /* Color Variants */
 .status.success {
   background: #00c85333;
-  color: #00e676;
-  border: 1px solid #00e676;
+  color: #173124;
+  border: 1px solid #64f0ad;
 }
 
 .status.warning {
@@ -247,13 +245,13 @@
 
 .status.pending {
   background: #03a9f433;
-  color: #a7cee0;
-  border: 1px solid #29b6f6;
+  color: #043f77;
+  border: 1px solid #6cb2d3;
 }
 
 .status.danger {
   background: #ff525233;
-  color: #ff5252;
+  color: #950808;
   border: 1px solid #ff5252;
 }
 
@@ -279,7 +277,7 @@
 }
 
 .profile-complete-card {
-  background: #fff;
+ background: linear-gradient(135deg, #ab83d5, #6f9be7);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   border-radius: 16px;
   padding: 40px 30px;
@@ -297,13 +295,13 @@
 
 .profile-complete-card h2 {
   font-size: 1.8rem;
-  color: #047857; /* green tone */
+  color: #08503c; /* green tone */
   font-weight: 600;
   margin-bottom: 12px;
 }
 
 .profile-complete-card p {
-  color: #4b5563;
+  color: #244474;
   font-size: 1rem;
   margin-bottom: 24px;
 }
