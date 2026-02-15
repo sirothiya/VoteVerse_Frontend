@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import ElectionResults from "./Result";
 import CountDown from "../../components/CountDown";
 import AllResultsModal from "../../components/AllResultsModal";
+import Loader from "../../components/Loader";
 
 // ----------------------------------------
 // POPUPS
@@ -55,6 +56,8 @@ const ProfilePage = () => {
 
   const [showAllResults, setShowAllResults] = useState(false);
 
+  const [selectedCategory, setSelectedCategory] = useState("Head Girl");
+
   // ----- Helper flags -----
   const now = currentTime;
 
@@ -87,7 +90,7 @@ const ProfilePage = () => {
 
     const fetchUser = async () => {
       const res = await fetch(
-        `https://voteverse-backend-deploy.onrender.com/user/profile/${rollNumber}`,
+        `https://voteverse-backend-new.onrender.com/user/profile/${rollNumber}`,
         { headers: { Authorization: `Bearer ${token}` } },
       );
       const data = await res.json();
@@ -96,7 +99,7 @@ const ProfilePage = () => {
 
     const fetchStatus = async () => {
       const res = await fetch(
-        "https://voteverse-backend-deploy.onrender.com/election/status",
+        "https://voteverse-backend-new.onrender.com/election/status",
       );
       const data = await res.json();
       console.log("Election Status Data:", data);
@@ -105,7 +108,7 @@ const ProfilePage = () => {
 
     const fetchCandidates = async () => {
       const res = await fetch(
-        "https://voteverse-backend-deploy.onrender.com/candidate/",
+        "https://voteverse-backend-new.onrender.com/candidate/",
       );
       const data = await res.json();
       setCandidates(data);
@@ -113,7 +116,7 @@ const ProfilePage = () => {
 
     const fetchSetup = async () => {
       const res = await fetch(
-        "https://voteverse-backend-deploy.onrender.com/admin/electionSetup",
+        "https://voteverse-backend-new.onrender.com/admin/electionSetup",
       );
       const data = await res.json();
       console.log("Election Setup Data:", data);
@@ -134,12 +137,6 @@ const ProfilePage = () => {
     let interval = null;
 
     if (!showPopup && !showElectionEndedPopup) {
-      // if (isRegOpen || isElectionOpen) {
-      //   interval = setInterval(refreshData, 5000);
-      // }
-      // if (!isElectionEnded && (isRegOpen || isElectionOpen)) {
-      //   interval = setInterval(refreshData, 5000);
-      // }
       interval = setInterval(async () => {
         await refreshData();
 
@@ -187,7 +184,7 @@ const ProfilePage = () => {
   const handleVote = async (id, name) => {
     try {
       const res = await fetch(
-        `https://voteverse-backend-deploy.onrender.com/election/vote/${id}`,
+        `https://voteverse-backend-new.onrender.com/election/vote/${id}`,
         {
           method: "POST",
           headers: { Authorization: `Bearer ${token}` },
@@ -205,7 +202,7 @@ const ProfilePage = () => {
       localStorage.setItem("userVoted", "true");
 
       const userRes = await fetch(
-        `https://voteverse-backend-deploy.onrender.com/user/profile/${rollNumber}`,
+        `https://voteverse-backend-new.onrender.com/user/profile/${rollNumber}`,
         { headers: { Authorization: `Bearer ${token}` } },
       );
       const updatedUser = await userRes.json();
@@ -215,22 +212,14 @@ const ProfilePage = () => {
     }
   };
 
-  // const handleExpire = () => {
-
-  //   setShowElectionEndedPopup(true);
-
-  // };
-
   const handleExpire = async () => {
     setShowElectionEndedPopup(true);
   };
 
-  // 1️⃣ Filter only approved candidates
   const approvedCandidates = visibleCandidates.filter(
     (c) => c.status === "Approved",
   );
 
-  // 2️⃣ Group by position (category)
   const groupedCandidates = approvedCandidates.reduce((acc, candidate) => {
     const key = candidate.position;
     if (!acc[key]) acc[key] = [];
@@ -238,13 +227,7 @@ const ProfilePage = () => {
     return acc;
   }, {});
 
-  if (loading)
-    return (
-      <div className="loading-container">
-        <div className="spinner"></div>
-        <p>Loading...</p>
-      </div>
-    );
+  if (loading) return <Loader />;
 
   return (
     <div className="profile-container">
@@ -260,11 +243,22 @@ const ProfilePage = () => {
           🏆 Show All Results
         </button>
       </div>
-      <div className="side-by-side">
-        <p>🗳️ Voting Status: </p>
-        <span className={user?.isVoted ? "voted" : "not-voted"}>
-          {user?.isVoted ? "You have voted!" : "Not voted yet"}
-        </span>
+      <div className="voting-status">
+        <p className="voting-title">🗳️ Voting Status</p>
+
+        <div className="vote-row">
+          <span className="position">Head Girl</span>
+          <span className={user?.votesCast.headGirl ? "voted" : "not-voted"}>
+            {user?.votesCast.headGirl ? "You have voted!" : "Not voted yet"}
+          </span>
+        </div>
+
+        <div className="vote-row">
+          <span className="position">Head Boy</span>
+          <span className={user?.votesCast.headBoy ? "voted" : "not-voted"}>
+            {user?.votesCast.headBoy ? "You have voted!" : "Not voted yet"}
+          </span>
+        </div>
       </div>
 
       {!isElectionEnded && (
@@ -308,51 +302,67 @@ const ProfilePage = () => {
       {showCandidates && (
         <section className="card">
           <h2>Approved Candidates</h2>
+          <div className="candidate-toggle">
+            <button
+              className={selectedCategory === "Head Boy" ? "active" : ""}
+              onClick={() => setSelectedCategory("Head Boy")}
+            >
+              Head Boy
+            </button>
 
-          {Object.keys(groupedCandidates).length ? (
-            Object.entries(groupedCandidates).map(([position, candidates]) => (
-              <div key={position} className="candidate-category">
-                {/* CATEGORY TITLE */}
-                <h3 className="candidate-category-title">{position}</h3>
+            <button
+              className={selectedCategory === "Head Girl" ? "active" : ""}
+              onClick={() => setSelectedCategory("Head Girl")}
+            >
+              Head Girl
+            </button>
+          </div>
+          {groupedCandidates[selectedCategory]?.length ? (
+  <div className="candidate-category">
+    <h3 className="candidate-category-title">
+      {selectedCategory}
+    </h3>
 
-                {/* CANDIDATES GRID */}
-                <div className="candidate-grid">
-                  {candidates.map((c) => (
-                    <div
-                      key={c._id}
-                      className="candidate-card"
-                      onClick={() =>
-                        navigate(`/candidateDetails/${c.rollNumber}`)
-                      }
-                    >
-                      <img
-                        src={`https://voteverse-backend-deploy.onrender.com${c.profilePhoto}`}
-                        className="candidate-avatar"
-                        alt={c.name}
-                      />
+    <div className="candidate-grid">
+      {groupedCandidates[selectedCategory].map((c) => (
+        <div
+          key={c._id}
+          className="candidate-card"
+          onClick={() =>
+            navigate(`/candidateDetails/${c.rollNumber}`)
+          }
+        >
+          <img
+            src={`https://voteverse-backend-new.onrender.com${c.profilePhoto}`}
+            className="candidate-avatar"
+            alt={c.name}
+          />
 
-                      <p className="candidate-name">{c.name}</p>
+          <p className="candidate-name">{c.name}</p>
 
-                      {/* Vote Button only during election */}
-                      {isElectionOpen && !user?.isVoted && (
-                        <button
-                          className="vote-btn"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleVote(c._id, c.name);
-                          }}
-                        >
-                          Vote Now
-                        </button>
-                      )}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))
-          ) : (
-            <p>No approved candidates available right now.</p>
-          )}
+          {/* Vote Button */}
+          {isElectionOpen &&
+            !user?.votesCast[
+              selectedCategory === "Head Girl" ? "headGirl" : "headBoy"
+            ] && (
+              <button
+                className="vote-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleVote(c._id, c.name);
+                }}
+              >
+                Vote Now
+              </button>
+            )}
+        </div>
+      ))}
+    </div>
+  </div>
+) : (
+  <p>No approved candidates for {selectedCategory}.</p>
+)}
+
         </section>
       )}
 

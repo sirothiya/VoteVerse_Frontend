@@ -15,12 +15,13 @@ const CandidatesByCategory = ({ candidates }) => {
   return (
     <div className="category-container">
       {Object.entries(grouped).map(([position, list]) => (
-        <section key={position} className="category-section horizontal">
+        <section key={position} className="category-section">
           <div className="category-header">
             <h2 className="category-title">{position}:</h2>
             <span className="category-count">{list.length}</span>
           </div>
 
+          {/* ✅ SCROLL PER CATEGORY */}
           <div className="category-scroll">
             {list.map((candidate) => (
               <CandidateCard key={candidate._id} candidate={candidate} />

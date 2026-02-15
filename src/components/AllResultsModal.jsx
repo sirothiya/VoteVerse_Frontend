@@ -13,7 +13,7 @@ const AllResultsModal = ({  onClose }) => {
     try {
       setLoadingHistory(true);
       const res = await fetch(
-        "https://voteverse-backend-deploy.onrender.com/election/history"
+        "https://voteverse-backend-new.onrender.com/election/history"
       );
       const data = await res.json();
       if (!Array.isArray(data) || data.length === 0) {

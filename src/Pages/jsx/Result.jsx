@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import "../CssPages/Result.css";
 import ResultCharts from "../../components/ResultCharts";
+import { useNavigate } from "react-router-dom";
 
 const ElectionResults = () => {
   const [results, setResults] = useState({
@@ -14,7 +15,7 @@ const ElectionResults = () => {
     const loadResults = async () => {
       try {
         const response = await fetch(
-          "https://voteverse-backend-deploy.onrender.com/election/history"
+          "https://voteverse-backend-new.onrender.com/election/history"
         );
         const data = await response.json();
         if(data.length === 0){
@@ -70,6 +71,7 @@ const ElectionResults = () => {
 };
 
 const ResultSection = ({ title, results = [] }) => {
+  const navigate= useNavigate()
   if (!results.length) return null;
   return (
     <section className="result-section">
@@ -83,6 +85,7 @@ const ResultSection = ({ title, results = [] }) => {
           <span className="rank">{i === 0 ? "🥇 Winner" : "🥈 Runner-up"}</span>
           <span className="name">{r.name}</span>
           <span className="votes">{r.votes} votes</span>
+          <button className="profile" onClick={() =>( navigate(`/candidateDetails/${r.rollNumber}`))}>View Profile</button>
         </div>
       ))}
     </section>

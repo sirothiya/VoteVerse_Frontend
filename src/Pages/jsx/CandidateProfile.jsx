@@ -31,14 +31,14 @@ const CandidateProfilePage = ({}) => {
     const getCandidate = async () => {
       try {
         const getData = await fetch(
-          `https://voteverse-backend-deploy.onrender.com/candidate/${rollNumber}`,
+          `https://voteverse-backend-new.onrender.com/candidate/${rollNumber}`,
           {
             method: "GET",
             headers: {
               Authorization: `Bearer ${storedToken}`,
               "Cache-Control": "no-cache",
             },
-          }
+          },
         );
         console.log("check1");
         const data = await getData.json();
@@ -53,19 +53,18 @@ const CandidateProfilePage = ({}) => {
     const getStatus = async () => {
       try {
         const response = await fetch(
-          `https://voteverse-backend-deploy.onrender.com/candidate/checkprofilestatus/${rollNumber}`,
+          `https://voteverse-backend-new.onrender.com/candidate/checkprofilestatus/${rollNumber}`,
           {
             method: "GET",
             headers: {
               Authorization: `Bearer ${storedToken}`,
               "Cache-Control": "no-cache",
             },
-          }
+          },
         );
         console.log("statusCheck1");
         const data = await response.json();
         setCandidateStatus(data);
-       
       } catch (err) {
         console.log("error in fetching candidate status");
         alert("error in fetching candidate status:", err);
@@ -112,7 +111,7 @@ const CandidateProfilePage = ({}) => {
       data.append("declarationSigned", formData.declarationSigned);
       setLoading(true);
       const res = await fetch(
-        `https://voteverse-backend-deploy.onrender.com/candidate/complete-profile/${rollNumber}`,
+        `https://voteverse-backend-new.onrender.com/candidate/complete-profile/${rollNumber}`,
         {
           method: "POST",
           headers: {
@@ -120,7 +119,7 @@ const CandidateProfilePage = ({}) => {
             "Cache-Control": "no-cache",
           },
           body: data,
-        }
+        },
       );
       console.log("check11");
       const result = await res.json();
@@ -128,7 +127,7 @@ const CandidateProfilePage = ({}) => {
       setLoading(false);
       setCandidateData(data.updatedCandidate);
       alert(result.message || "Profile Updated!");
-        window.location.reload();
+      window.location.reload();
     } catch (err) {
       alert("error in the uploading documents : ", err);
     } finally {
@@ -139,19 +138,19 @@ const CandidateProfilePage = ({}) => {
   const handleDelete = async () => {
     try {
       const res = await fetch(
-        `https://voteverse-backend-deploy.onrender.com/candidate/delete/${candidateData.rollNumber}`,
+        `https://voteverse-backend-new.onrender.com/candidate/delete/${candidateData.rollNumber}`,
         {
           method: "DELETE",
           headers: {
             Authorization: `Bearer ${token}`,
             "Cache-Control": "no-cache",
           },
-        }
+        },
       );
       const data = await res.json();
       console.log("delete response :", data);
-      if(data.success){
-        navigate("/")
+      if (data.success) {
+        navigate("/");
       }
     } catch (err) {
       console.error("Error deleting candidate:", err);
@@ -207,15 +206,15 @@ const CandidateProfilePage = ({}) => {
                 candidateData?.status === "Approved"
                   ? "success"
                   : candidateData?.status === "Rejected"
-                  ? "danger"
-                  : "pending"
+                    ? "danger"
+                    : "pending"
               }`}
             >
               {candidateData?.status === "Approved"
                 ? "Approved ✅"
                 : candidateData?.status === "Rejected"
-                ? "Rejected ❌"
-                : "Pending 🕓"}
+                  ? "Rejected ❌"
+                  : "Pending 🕓"}
             </span>
           </div>
         </div>
@@ -238,7 +237,7 @@ const CandidateProfilePage = ({}) => {
       ) : (
         <form onSubmit={handleSubmit}>
           <div className="form-grid">
-            <div className="card">
+            <div className="card-grid">
               <label>Upload Manifesto (PDF)</label>
               <input type="file" name="manifesto" onChange={handleFileChange} />
               <span className="file-name">
@@ -290,32 +289,80 @@ const CandidateProfilePage = ({}) => {
               </span>
             </div>
 
-            <div className="card">
+            <div className="card-grid">
               <h3>Achievements</h3>
-              {formData.achievements.map((a, i) => (
-                <input
-                  key={i}
-                  type="text"
-                  placeholder={`Achievement ${i + 1}`}
-                  value={a}
-                  onChange={(e) => handleChange(e, "achievements", i)}
-                />
+
+              {formData.achievements.map((value, i) => (
+                <div className="cp-input-row" key={i}>
+                  <input
+                    type="text"
+                    placeholder={`Achievement ${i + 1}`}
+                    value={value}
+                    onChange={(e) => handleChange(e, "achievements", i)}
+                  />
+
+                  {formData.achievements.length > 1 && (
+                    <button
+                      type="button"
+                      className="cp-delete-btn"
+                      onClick={() =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          achievements: prev.achievements.filter(
+                            (_, idx) => idx !== i,
+                          ),
+                        }))
+                      }
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
               ))}
-              <button type="button" onClick={() => addField("achievements")}>
+
+              <button
+                type="button"
+                className="cp-add-btn"
+                onClick={() => addField("achievements")}
+              >
                 + Add More
               </button>
 
               <h3>Initiatives</h3>
-              {formData.initiatives.map((a, i) => (
-                <input
-                  key={i}
-                  type="text"
-                  placeholder={`Initiative ${i + 1}`}
-                  value={a}
-                  onChange={(e) => handleChange(e, "initiatives", i)}
-                />
+
+              {formData.initiatives.map((value, i) => (
+                <div className="cp-input-row" key={i}>
+                  <input
+                    type="text"
+                    placeholder={`Initiative ${i + 1}`}
+                    value={value}
+                    onChange={(e) => handleChange(e, "initiatives", i)}
+                  />
+
+                  {formData.initiatives.length > 1 && (
+                    <button
+                      type="button"
+                      className="cp-delete-btn"
+                      onClick={() =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          initiatives: prev.initiatives.filter(
+                            (_, idx) => idx !== i,
+                          ),
+                        }))
+                      }
+                    >
+                      ✕
+                    </button>
+                  )}
+                </div>
               ))}
-              <button type="button" onClick={() => addField("initiatives")}>
+
+              <button
+                type="button"
+                className="cp-add-btn"
+                onClick={() => addField("initiatives")}
+              >
                 + Add More
               </button>
 

@@ -2,7 +2,6 @@ import HomePage from './Pages/jsx/HomePage'
 import Login from './Pages/jsx/LoginPage';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Signup from './Pages/jsx/SignupPage';
-import ChatBot from './components/ChatBot';
 import ProfilePage from './Pages/jsx/ProfilePage';
 import Admin from './Pages/jsx/AdminPanel';
 import Dashboard from './components/AdminComponents/Dashboard';
@@ -11,6 +10,7 @@ import PasswordChange from './components/PasswordChange';
 import ElectionResults from './Pages/jsx/Result';
 import CandidateDetails from './Pages/jsx/CandidateDetails';
 import CandidateProfile from './Pages/jsx/CandidateProfile';
+import HelpPanel from './components/HelpPanel';
 
 const App=()=>{
 
@@ -20,7 +20,7 @@ const App=()=>{
       <Route path='/' element={<HomePage/>}/>
       <Route path="/login" element={<Login/>}/>
       <Route path="/signup" element={<Signup />} />
-      <Route path="/chatbot" element={<ChatBot/>} />
+      <Route path="/HelpPanel" element={<HelpPanel />} />
       <Route path='/profile/:rollNumber' element={<ProfilePage/>}/>
       <Route path='/admin' element={<Admin/>}/>
       <Route path="/dashboard"element={<Dashboard/>}/>

@@ -12,7 +12,7 @@ const Navbar = ({ setPage}) => {
   };
   const handleDeleteAccount=async()=>{
     try{
-        const response= await fetch("https://voteverse-backend-deploy.onrender.com/user/deleteOne",{
+        const response= await fetch("https://voteverse-backend-new.onrender.com/user/deleteOne",{
           method:"DELETE",
           headers:{
             Authorization:`Bearer ${token}`

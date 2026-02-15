@@ -24,7 +24,7 @@ const SignupPage = () => {
     if (type === "Admin") {
       try {
         const response = await fetch(
-          "https://voteverse-backend-deploy.onrender.com/admin/"
+          "https://voteverse-backend-new.onrender.com/admin/"
         );
         if (!response.ok) {
           console.error("Error fetching admin status:", response.status);
@@ -75,10 +75,10 @@ const SignupPage = () => {
     e.preventDefault();
 
     const endpoints = {
-      Voter: "https://voteverse-backend-deploy.onrender.com/user/userSignup",
+      Voter: "https://voteverse-backend-new.onrender.com/user/userSignup",
       Candidate:
-        "https://voteverse-backend-deploy.onrender.com/candidate/candidateSignup",
-      Admin: "https://voteverse-backend-deploy.onrender.com/admin/adminSignup",
+        "https://voteverse-backend-new.onrender.com/candidate/candidateSignup",
+      Admin: "https://voteverse-backend-new.onrender.com/admin/adminSignup",
     };
 
     const endpoint = endpoints[roleType];

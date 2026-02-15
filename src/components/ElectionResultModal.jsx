@@ -3,9 +3,11 @@
 import React, { useState } from "react";
 import ResultCharts from "./ResultCharts";
 import "./ElectionResultModal.css";
+import { useNavigate } from "react-router-dom";
 
 const ElectionResultModal = ({ election, year, onClose }) => {
   const [activeCategory, setActiveCategory] = useState("Head Boy");
+  
   const { finalResults } = election;
 
   return (
@@ -45,6 +47,7 @@ const ElectionResultModal = ({ election, year, onClose }) => {
 };
 
 const ResultSection = ({ title, results = [] }) => {
+  const navigate = useNavigate();
   if (!results.length) return null;
 
   return (
@@ -59,6 +62,7 @@ const ResultSection = ({ title, results = [] }) => {
           <span className="rank">{i === 0 ? "🥇 Winner" : "🥈 Runner-up"}</span>
           <span className="name">{r.name}</span>
           <span className="votes">{r.votes} votes</span>
+          <button className="profile" onClick={() => navigate(`/candidateDetails/${r.rollNumber}`)}>View Profile</button>
         </div>
       ))}
     </section>

@@ -1,30 +1,48 @@
 /* =========================
    OUTER CONTAINER
    ========================= */
-.category-container {
-  width: 100%;
+/* .category-container {
+  max-width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;        /* center when few categories */
+  justify-content: center;       
   gap: 40px;
-  padding: 20px 16px;
   overflow-x: auto;  
-  margin-top: 20px;             /* scroll if many categories */
+  margin-top: 20px;
+  margin: 50px 90px ;             
+} */
+
+.category-container {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin: 50px 90px;
+  overflow-x: hidden;   /* ✅ IMPORTANT */
 }
+
 
 /* =========================
    CATEGORY SECTION
    ========================= */
-.category-section {
+/* .category-section {
   background: #9aaee6;
   border-radius: 22px;
   padding: 20px 18px 24px;
   min-width: 90%;
-  /* max-width: 360px; */
-  flex: 0 0 auto;                 /* prevents stretch */
+  flex: 0 0 auto;                 
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
   position: relative;
+} */
+
+.category-section {
+  background: #9aaee6;
+  border-radius: 22px;
+  padding: 20px 18px 24px;
+  width: 100%;          /* ✅ instead of min-width: 90% */
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
 }
+
 
 /* =========================
    HEADER (Title + Count)
@@ -63,22 +81,31 @@
   box-shadow: 0 6px 16px rgba(37, 99, 235, 0.5);
 }
 
-/* =========================
-   CANDIDATE SCROLL AREA
-   ========================= */
-.category-scroll {
+.candidates-row {
   display: flex;
-  gap: 20px;
-  overflow-x: auto;      /* ✅ scroll here */
-  overflow-y: hidden;
-  padding-bottom: 8px;
-  scroll-behavior: smooth;
+  justify-content: center;   /* ⬅️ centers cards */
+  align-items: stretch;
+  gap: 32px;                 /* ⬅️ equal gap between cards */
+  flex-wrap: wrap;           /* ⬅️ responsive */
+  width: 100%;
+  margin: 0 20px;
 }
 
+
+.category-scroll {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 32px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 12px;
+}
+
+
+/* Optional scrollbar polish */
 .category-scroll::-webkit-scrollbar {
   height: 8px;
 }
-
 .category-scroll::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.4);
   border-radius: 4px;
@@ -87,7 +114,3 @@
   background: rgba(0, 0, 0, 0.1);
   border-radius: 4px;
 }
-/* =========================
-   OPTIONAL POLISH
-   ========================= */
-

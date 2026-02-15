@@ -1,194 +1,335 @@
+/* ================= ROOT SCOPE ================= */
+:root {
+  --primary: #2563eb;
+  --secondary: #004e92;
+  --dark: #000428;
+  --success: #22c55e;
+  --warning: #facc15;
+  --danger: #ef4444;
+}
+
 .candidate-details-container {
   max-width: 1300px;
   margin: auto;
-  padding: 30px;
-  background: linear-gradient(135deg, #004e92, #000428);
+  padding: 32px;
   min-height: 100vh;
-  color: #111;
+  /* background: linear-gradient(135deg, #004e92, #000428); */
+  background: linear-gradient(135deg, var(--secondary), var(--dark));
+  color: #0f172a;
+}
+
+/* ================= LOADING ================= */
+.candidate-details-container .loading {
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #e5e7eb;
+  margin-top: 80px;
 }
 
 /* ================= HERO ================= */
-.candidate-hero {
-  background: linear-gradient(135deg, #ab83d5, #6f9be7);
-  border-radius: 20px;
-  padding: 36px 40px;
+.candidate-details-container .candidate-hero {
   display: flex;
-  align-items: center;
   justify-content: space-between;
+  align-items: center;
   gap: 40px;
-  margin-bottom: 30px;
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  padding: 36px 40px;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #ab83d5, #6f9be7);
+  margin-bottom: 32px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
 }
 
-.hero-column {
+/* ================= HERO LEFT ================= */
+.candidate-details-container .hero-column1 {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  /* background-color: rgb(227, 236, 236); */
+}
+
+.candidate-details-container .hero-tempo {
+  display: flex;
+  gap: 28px;
+  align-items: center;
+  /* background-color: #035d24; */
+  
+}
+
+/* ================= PROFILE IMAGE ================= */
+.candidate-details-container .hero-avatar-column {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  min-width: 220px;
 }
 
-.hero-column1 {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  max-width: 50%;
-}
-
-.hero-column-buttons {
-  display: flex;
-  gap: 12px;
-  margin-top: 12px;
-}
-
-/* ================= ADMIN BUTTONS (FIXED) ================= */
-.hero-column-buttons .approve {
-  background: #16a34a;
-  color: #ffffff;
-  padding: 10px 18px;
-  border-radius: 10px;
-  border: none;
-  font-weight: 700;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.hero-column-buttons .approve:hover {
-  background: #15803d;
-  transform: translateY(-1px);
-}
-
-.hero-column-buttons .reject {
-  background: #dc2626;
-  color: #ffffff;
-  padding: 10px 18px;
-  border-radius: 10px;
-  border: none;
-  font-weight: 700;
-  font-size: 0.95rem;
-  cursor: pointer;
-  transition: all 0.25s ease;
-}
-
-.hero-column-buttons .reject:hover {
-  background: #b91c1c;
-  transform: translateY(-1px);
-}
-
-.status1 {
-  font-weight: 800;
-  font-size: 1rem;
-}
-
-.status1.approved {
-  color: #15803d;
-}
-
-.status1.rejected {
-  color: #b91c1c;
-}
-
-/* ================= HERO CONTENT ================= */
-.hero-label {
-  font-size: 1.2rem;
-  color: #21272f;
-  margin-top: 6px;
-}
-
-.hero-avatar {
+.candidate-details-container .hero-avatar {
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  object-fit: cover;
+  
   border: 4px solid #ffffff;
-  margin-bottom: 16px;
+ 
 }
 
-.hero-avatar-column {
+.candidate-details-container .hero-label {
+  margin-top: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #1f2937;
+}
+
+/* ================= HERO INFO ================= */
+.candidate-details-container .hero-info {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.candidate-details-container .details{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  gap: 12px;
+}
+.candidate-details-container .hero-info h1 {
+  font-size: 2.6rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.candidate-details-container .hero-info p {
+  font-size: 1.1rem;
+  color: #334155;
+}
+
+.candidate-details-container .position-pill {
+  display: inline-block;
+  padding: 6px 16px;
+  background: #1e40af;
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* ================= HERO RIGHT ================= */
+.candidate-details-container .hero-column {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-width: 220px;
 }
 
-.hero-tempo {
+/* ================= PARTY SYMBOL ================= */
+.candidate-details-container .party-symbol {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+  border-radius: 18px;
+  background: #ffffff;
+  padding: 10px;
+  border: 3px solid #e5e7eb;
+}
+
+/* ================= ADMIN BUTTONS ================= */
+.candidate-details-container .hero-column-buttons {
   display: flex;
-  gap: 25px;
-  margin-top: 12px;
+  gap: 12px;
+  margin-top: 14px;
 }
 
-.hero-info h1 {
-  font-size: 3rem;
-  color: #0c0c0c;
-  margin-bottom: 8px;
+.candidate-details-container .approve,
+.candidate-details-container .reject {
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.candidate-details-container .approve {
+  background:  #013715;
+  color: #fff;
+}
+
+.candidate-details-container .reject {
+  background: #dc2626;
+  color: #fff;
+}
+
+.candidate-details-container .approve:hover,
+.candidate-details-container .reject:hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+/* ================= STATUS ================= */
+.candidate-details-container .status1 {
+  margin-top: 10px;
+  font-size: 1.1rem;
   font-weight: 800;
 }
 
-.hero-info p {
-  font-size: 1.1rem;
-  color: #374151;
+.candidate-details-container .status1.approved {
+  color: #013715;
 }
 
-.position-pill {
-  margin-top: 14px;
-  font-size: 1.2rem;
-  color: blue;
+.candidate-details-container .status1.rejected {
+  color: #b91c1c;
 }
 
-.party-symbol {
-  width: 180px;
-  height: 180px;
-  object-fit: cover;
-  border-radius: 18px;
-  border: 3px solid #ffffff;
-  background: #f8fafc;
-  padding: 6px;
+.candidate-details-container .status1.pending {
+  color: #ca8a04;
 }
 
-/* ================= GRID ================= */
-.content-grid1 {
+/* ================= SPLIT SECTION ================= */
+.candidate-details-container .split {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr 1fr;
   gap: 20px;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
 }
 
-.card1 {
-  background: #ffffff;
-  padding: 22px;
+/* ================= CARDS ================= */
+.candidate-details-container .card1 {
+  background: linear-gradient(135deg, #ab83d5, #6f9be7);
+  padding: 26px 28px;
   border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
 }
 
-.card1 h3 {
-  margin-bottom: 10px;
+.candidate-details-container .card1:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 44px rgba(0, 0, 0, 0.12);
+}
+
+.candidate-details-container .card1 h3 {
   color: #1e3a8a;
+  margin-bottom: 10px;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+.candidate-details-container .card1 a , .candidate-details-container .card1 p {
+  color: #0f0f10;
+  margin-bottom:  40px;
+  padding: 10px 10Px;
+  font-size: medium;
+}
+
+/* ================= LISTS ================= */
+.candidate-details-container .card1 ul {
+  padding-left: 18px;
+}
+
+.candidate-details-container .card1 li {
+  margin-bottom: 6px;
+  color: #334155;
+  font-size: 0.95rem;
 }
 
 /* ================= VIDEO ================= */
-.video-placeholder {
-  border-radius: 16px;
-  padding: 24px;
+.candidate-details-container .video-placeholder {
   text-align: center;
+  padding: 24px;
 }
 
-.video-placeholder p {
-  font-size: 0.95rem;
-  color: #f0f2f5;
-  margin-bottom: 12px;
+.candidate-details-container .video-placeholder p {
+  margin-bottom: 14px;
+  color: #0d1014;
 }
 
-.video-placeholder button {
-  padding: 10px 20px;
+.candidate-details-container .video-placeholder button {
+  padding: 10px 22px;
   border-radius: 10px;
   background: #1e40af;
   color: white;
   border: none;
   cursor: pointer;
+  font-weight: 700;
+}
+
+.explain-btn {
+  margin: 12px 0;
+  padding: 8px 12px;
+  background: #1e40af;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+   transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.explain-btn:hover {
+  transform: translateY(-1px);
+  opacity: 0.95;
+}
+
+.explain-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+.manifesto-explanation {
+  margin: 12px 0;
+  background: linear-gradient(135deg, #ab83d5, #6f9be7);
+  padding: 12px;
+  /* border-left: 2px solid #111212; */
+  font-size: 0.9rem;
+  white-space: pre-wrap;
+animation: fadeSlide 0.35s ease-out;
+}
+.manifesto-explanation pre{
+   margin-top: 12px;
+  font-size: 0.95rem;
+  /* line-height: 1.65; */
+  color: #0f172a;
+  white-space: pre-wrap;
+}
+
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.candidate-details-container .video-placeholder button:hover {
+  opacity: 0.9;
+}
+
+/* ================= GRID ================= */
+.candidate-details-container .content-grid1 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  margin: 32px 0;
+}
+
+/* ================= LINKS ================= */
+.candidate-details-container a {
+  color: #1e40af;
   font-weight: 600;
+  text-decoration: none;
+}
+
+.candidate-details-container a:hover {
+  text-decoration: underline;
 }
 
 /* ================= VIDEO MODAL ================= */
-.video-modal-backdrop {
+.candidate-details-container .video-modal-backdrop {
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.65);
@@ -198,7 +339,7 @@
   z-index: 1000;
 }
 
-.video-modal {
+.candidate-details-container .video-modal {
   background: linear-gradient(135deg, #ab83d5, #6f9be7);
   border-radius: 18px;
   padding: 20px;
@@ -206,43 +347,169 @@
   max-width: 720px;
 }
 
-.video-modal video {
+.candidate-details-container .close-modal {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.candidate-details-container .close-modal button {
+  background: transparent;
+  border: none;
+  font-size: 1.4rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #1f2937;
+}
+
+.candidate-details-container video {
   width: 100%;
   border-radius: 12px;
 }
-
-.close-modal {
-  text-align: right;
-  margin-bottom: 10px;
+.sentiment-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.sentiment-legend {
+  margin-top: 12px;
 }
 
-.close-modal button {
-  background: transparent;
+.sentiment-legend p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  margin: 4px 0;
+}
+
+.sentiment-legend .dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.back-button {
+  background: #ffffff;
+  color: #1f2937;
+  border: 1px solid #d1d5db;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.back-button:hover {
+  background: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.back-button:active {
+  transform: scale(0.97);
+}
+
+
+.skip-format {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.skip-format h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.skip {
+  background: none;
   border: none;
-  font-size: 1.1rem;
+  color: #40454d;
+  font-size: 0.85rem;
   cursor: pointer;
 }
 
-/* ================= SPLIT ================= */
-.split {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+.skip:hover {
+  color: #0ecdef;
 }
+
+/* ================= CANDIDATE STATUS SECTION ================= */
+
+.candidate-status-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+/* STATUS CARD */
+.candidate-status-box {
+  background: linear-gradient(135deg, #ab83d5, #6f9be7);
+  border-radius: 16px;
+  padding: 18px 22px;
+  width: 100%;
+  border: 1px solid #1e293b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* LABEL */
+.candidate-status-label {
+  font-size: medium;
+  color: #0d0d0e;
+  margin-bottom: 8px;
+}
+
+/* STATUS TEXT */
+.candidate-status-text {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+
+
+.candidate-status-text.success {
+  color: #01772c;
+}
+
+.candidate-status-text.warning {
+  color: #facc15;
+}
+
+.candidate-status-text.pending {
+  color: #1e7aeb;
+}
+
+.candidate-status-text.danger {
+  color: #ef4444;
+}
+
+
 
 /* ================= RESPONSIVE ================= */
 @media (max-width: 900px) {
-  .candidate-hero {
+  .candidate-details-container .candidate-hero {
     flex-direction: column;
     text-align: center;
   }
 
-  .content-grid1,
-  .split {
+  .candidate-details-container .hero-tempo {
+    flex-direction: column;
+  }
+
+  .candidate-details-container .content-grid1,
+  .candidate-details-container .split {
     grid-template-columns: 1fr;
   }
 
-  .hero-column1 {
+  .candidate-details-container .hero-column1 {
     max-width: 100%;
     align-items: center;
   }

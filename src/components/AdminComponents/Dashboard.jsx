@@ -97,12 +97,12 @@ function Dashboard() {
     const fetchCandidates = async () => {
       try {
         const response = await fetch(
-          "https://voteverse-backend-deploy.onrender.com/candidate/",
+          "https://voteverse-backend-new.onrender.com/candidate/",
           {
             headers: {
               Authorization: `Bearer ${token}`,
             },
-          }
+          },
         );
         const data = await response.json();
         setCandidates(Array.isArray(data) ? data : []);
@@ -122,13 +122,22 @@ function Dashboard() {
     setShowPopup(showAnnouncementPopup);
   }, [showAnnouncementPopup]);
 
+  const formatReadable = (date) =>
+  new Date(date).toLocaleString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  });
 
   const handleSubmit = async (formData) => {
     try {
       console.log("Submitting election setup:", formData);
 
       const response = await fetch(
-        "https://voteverse-backend-deploy.onrender.com/admin/electionsetup",
+        "https://voteverse-backend-new.onrender.com/admin/electionsetup",
         {
           method: "PUT",
           headers: {
@@ -138,8 +147,8 @@ function Dashboard() {
           body: JSON.stringify({
             announcementMessage: [
               formData.announcement,
-              `Election's candidate registration starts on ${formData.regStart} and will last till ${formData.regEnd}`,
-              `Votting will start on ${formData.electionStart} and last for ${formData.electionDuration} hours.`,
+              `Election's candidate registration starts on ${formatReadable(formData.regStart)} and will last till ${formatReadable(formData.regEnd)}`,
+              `Votting will start on ${formatReadable(formData.electionStart)} and last for ${formData.electionDuration} hours.`,
             ],
             candidateRegStart:
               formData.regStart && formatISO8601(new Date(formData.regStart)),
@@ -150,7 +159,7 @@ function Dashboard() {
               formatISO8601(new Date(formData.electionStart)),
             electionDurationHours: Number(formData.electionDuration),
           }),
-        }
+        },
       );
 
       const data = await response.json(); // ✔ read only once
@@ -179,13 +188,13 @@ function Dashboard() {
       return;
 
     const res = await fetch(
-      "https://voteverse-backend-deploy.onrender.com/admin/election/reset",
+      "https://voteverse-backend-new.onrender.com/admin/election/reset",
       {
         method: "POST",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-      }
+      },
     );
 
     const data = await res.json();
@@ -220,7 +229,6 @@ function Dashboard() {
 
       
         <CandidatesByCategory candidates={safeCandidates} />
-
       
     </div>
   );

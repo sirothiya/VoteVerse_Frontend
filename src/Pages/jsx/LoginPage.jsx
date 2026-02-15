@@ -26,10 +26,10 @@ const LoginPage = () => {
 
     let endpoint = "";
     if (roleType === "Voter")
-      endpoint = "https://voteverse-backend-deploy.onrender.com/user/userLogin";
+      endpoint = "https://voteverse-backend-new.onrender.com/user/userLogin";
     else if (roleType === "Candidate")
-      endpoint = "https://voteverse-backend-deploy.onrender.com/candidate/candidateLogin";
-    else endpoint = "https://voteverse-backend-deploy.onrender.com/admin/adminLogin";
+      endpoint = "https://voteverse-backend-new.onrender.com/candidate/candidateLogin";
+    else endpoint = "https://voteverse-backend-new.onrender.com/admin/adminLogin";
 
     try {
       const res = await fetch(endpoint, {
@@ -50,6 +50,7 @@ const LoginPage = () => {
         else if (roleType === "Candidate") {
           console.log("CandidateData: ",data.candidate)
            localStorage.setItem("role","candidate")
+           localStorage.setItem("candidate", JSON.stringify(data.candidate))
           navigate(`/candidateProfile/${data.candidate.rollNumber}`);
         }
         else {
@@ -85,7 +86,6 @@ const LoginPage = () => {
         <h2 className="form-title">{roleType} Login</h2>
 
         <form onSubmit={handleSubmit} className="form-body">
-          {/* Admin uses Email, Voter/Candidate use Aadhar */}
           {roleType === "Admin" ? (
             <div className="form-group">
               <label>Email</label>
@@ -136,7 +136,7 @@ const LoginPage = () => {
             Login as {roleType}
           </button>
 
-          {/* Bottom Links */}
+
           
             <p className="switch-link">
               Don’t have an account?{" "}
