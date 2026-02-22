@@ -8,7 +8,11 @@ Engineered the system end-to-end: data ingestion, feature processing, AI inferen
 
 Focused on real-world AI concerns such as uncertainty, bias signals, and reliability, bridging traditional software engineering with applied machine learning.
 
-
+## Tech Highlights
+- Secure JWT-based authentication with role enforcement
+- Election lifecycle handled via cron jobs
+- AI-powered manifesto & campaign analysis
+- Backend-enforced voting integrity
 
 
 # React + Vite
