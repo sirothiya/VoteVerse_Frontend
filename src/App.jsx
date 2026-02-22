@@ -56,7 +56,6 @@ import "./App.css";
 
 const App = () => {
   return (
-    <BrowserRouter>
       <Routes>
         {/* Public routes */}
         <Route path="/" element={<HomePage />} />
@@ -141,7 +140,7 @@ const App = () => {
           }
         />
       </Routes>
-    </BrowserRouter>
+   
   );
 };
 
