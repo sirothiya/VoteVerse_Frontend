@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { PieChart, Pie, Tooltip, Cell } from "recharts";
 import "../CssPages/CandidateDetails.css";
 import Loader from "../../components/Loader";
+import { FaInfoCircle } from "react-icons/fa";
 
 const sentimentColorMap = {
   Positive: "#22c55e",
@@ -29,6 +30,7 @@ const CandidateDetails = () => {
   const [overallSentimentData, setOverallSentimentData] = useState([]);
 
   const [manifestoExplanation, setManifestoExplanation] = useState("");
+  const [showInfo, setShowInfo] = useState(false);
   const normalizeSentiment = (raw) => {
     if (!raw) return "Neutral";
 
@@ -71,7 +73,7 @@ const CandidateDetails = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    const candidateInfo = JSON.parse(localStorage.getItem("candidate")); 
+    const candidateInfo = JSON.parse(localStorage.getItem("candidate"));
     if (!token) return;
     let url;
     if (candidateInfo && candidateInfo.isELectionCompleted) {
@@ -86,7 +88,6 @@ const CandidateDetails = () => {
         setCandidate(data.candidate);
         setProfileStatus(data.candidate?.status || "Pending");
       });
-    
   }, [rollNumber]);
 
   useEffect(() => {
@@ -197,8 +198,7 @@ const CandidateDetails = () => {
 
   return (
     <div className="candidate-details-container">
-     <section className="candidate-hero">
-        
+      <section className="candidate-hero">
         <div className="hero-column1">
           <div className="hero-tempo">
             <div className="hero-avatar-column">
@@ -222,7 +222,6 @@ const CandidateDetails = () => {
               </div>
 
               <div className="candidate-status-section">
-                
                 <div className="candidate-status-box">
                   <p className="candidate-status-label">
                     🧾 Candidate Status :{" "}
@@ -333,7 +332,6 @@ const CandidateDetails = () => {
         )}
       </section>
 
-   
       {candidate.campaignVideo && (
         <section className="split">
           <div className="card1">
@@ -436,7 +434,31 @@ const CandidateDetails = () => {
 
         <div className="card1">
           <h3>Public Sentiment</h3>
+           <div className="sentiment-header">
+          <span
+            className="info-icon"
+            onMouseEnter={() => setShowInfo(true)}
+            onMouseLeave={() => setShowInfo(false)}
+            onClick={() => setShowInfo(!showInfo)}
+          >
+            ⓘ
+          </span>
 
+          {showInfo && (
+            <div className="info-tooltip">
+              <p>
+                • Sentiment is derived from a combined analysis of campaign
+                video tone, manifesto content, and profile completeness using
+                AI-driven text analysis and rule-based weighting.
+              </p>
+              <p>
+                • This insight reflects probabilistic analysis, not factual
+                verification, and should be used as a decision aid—not as a
+                definitive judgment.
+              </p>
+            </div>
+          )}
+          </div>
           {overallSentimentData.length > 0 ? (
             <div className="sentiment-wrapper">
               <PieChart width={220} height={200}>
@@ -455,7 +477,6 @@ const CandidateDetails = () => {
                 <Tooltip />
               </PieChart>
 
-            
               <div className="sentiment-legend">
                 {overallSentimentData.map((s) => (
                   <p key={s.name}>
@@ -473,10 +494,10 @@ const CandidateDetails = () => {
               Click “Explain Video Message” to analyze sentiment
             </p>
           )}
+          
         </div>
       </section>
 
-      
       {showVideo && (
         <div
           className="video-modal-backdrop"

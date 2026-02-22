@@ -389,6 +389,54 @@ animation: fadeSlide 0.35s ease-out;
   border-radius: 50%;
 }
 
+.sentiment-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+}
+
+.info-icon {
+  cursor: pointer;
+  font-size: 14px;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+  border-radius: 50%;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.info-icon:hover {
+  background-color: #f3f4f6;
+}
+
+.info-tooltip {
+  position: absolute;
+  top: 30px;
+  left: 0;
+  width: 280px;
+  background: linear-gradient(135deg, #ab83d5, #6f9be7);
+  /* color: #f9fafb; */
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.4;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+.info-tooltip p {
+  margin: 0 0 6px;
+  color: #f9fafb;
+}
+
+.info-tooltip p:last-child {
+  margin-bottom: 0;
+}
+
 .back-button {
   background: #ffffff;
   color: #1f2937;

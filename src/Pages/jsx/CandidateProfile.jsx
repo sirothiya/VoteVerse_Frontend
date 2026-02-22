@@ -175,7 +175,7 @@ const CandidateProfilePage = ({}) => {
 
           <div className="header-actions">
             <button className="del-btnss" onClick={handleDelete}>
-              Delete
+              Delete Profile
             </button>
           </div>
         </div>

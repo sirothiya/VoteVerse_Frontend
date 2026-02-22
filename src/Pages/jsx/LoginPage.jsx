@@ -49,16 +49,20 @@ const LoginPage = () => {
           Admin:{
             role:"admin",
             navigateTo:"/admin",
+            user:data.Admin,
             log:()=>console.log("AdminData: ",data.Admin)
           },
           Candidate :{
             role:"candidate",
+            user:data.candidate,
             extra :()=>localStorage.setItem("candidate", JSON.stringify(data.candidate)),
             log:()=>console.log("CandidateData: ",data.candidate),
             navigateTo:`/candidateProfile/${data.candidate?.rollNumber}`,
           },
           Voter :{
             role:"voter",
+            user:data.User,
+              extra :()=>localStorage.setItem("voter", JSON.stringify(data.User)),
             log:()=>console.log("UserData: ",data.User),
             navigateTo:`/profile/${data.User?.rollNumber}`,
           }
@@ -69,6 +73,7 @@ const LoginPage = () => {
           config.log();
           config.extra?.();
           navigate(config.navigateTo);
+          localStorage.setItem("authUser", JSON.stringify(config.user));
         }
 
       } else {
