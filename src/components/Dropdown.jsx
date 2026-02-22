@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { FaBars } from "react-icons/fa";
-import "./Dropdown.css";
+import "./dropdown.css";
 
 const Dropdown = ({ items }) => {
   const [open, setOpen] = useState(false);
