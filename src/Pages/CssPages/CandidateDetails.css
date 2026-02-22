@@ -514,3 +514,122 @@ animation: fadeSlide 0.35s ease-out;
     align-items: center;
   }
 }
+
+/* ================= HERO WRAPPER FIX ================= */
+.hero-left,
+.hero-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.hero-right {
+  align-items: center;
+}
+
+/* ================= RESPONSIVE ================= */
+
+/* -------- TABLET -------- */
+@media (max-width: 1024px) {
+  .candidate-details-container {
+    padding: 20px;
+  }
+
+  .candidate-details-container .candidate-hero {
+    padding: 28px;
+    gap: 28px;
+  }
+
+  .candidate-details-container .hero-avatar {
+    width: 160px;
+    height: 160px;
+  }
+
+  .candidate-details-container .party-symbol {
+    width: 150px;
+    height: 150px;
+  }
+
+  .candidate-details-container .hero-info h1 {
+    font-size: 2.2rem;
+  }
+
+  .candidate-details-container .split {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* -------- MOBILE -------- */
+@media (max-width: 768px) {
+  .candidate-details-container .candidate-hero {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .candidate-details-container .hero-tempo {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .candidate-details-container .hero-info {
+    width: 100%;
+  }
+
+  .candidate-details-container .details {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .candidate-details-container .hero-avatar {
+    width: 140px;
+    height: 140px;
+  }
+
+  .candidate-details-container .party-symbol {
+    width: 130px;
+    height: 130px;
+  }
+
+  .candidate-details-container .hero-column-buttons {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .candidate-details-container .approve,
+  .candidate-details-container .reject {
+    width: 100%;
+  }
+
+  .candidate-details-container .card1 {
+    padding: 20px;
+  }
+
+  .sentiment-wrapper {
+    width: 100%;
+  }
+}
+
+/* -------- SMALL MOBILE -------- */
+@media (max-width: 480px) {
+  .candidate-details-container {
+    padding: 14px;
+  }
+
+  .candidate-details-container .hero-info h1 {
+    font-size: 1.9rem;
+  }
+
+  .candidate-details-container .position-pill {
+    font-size: 0.8rem;
+    padding: 5px 14px;
+  }
+
+  .candidate-details-container .back-button {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+
+  .candidate-details-container .card1 h3 {
+    font-size: 1.1rem;
+  }
+}

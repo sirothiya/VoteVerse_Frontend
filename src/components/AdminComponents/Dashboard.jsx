@@ -162,7 +162,7 @@ function Dashboard() {
         },
       );
 
-      const data = await response.json(); // ✔ read only once
+      const data = await response.json(); 
 
       if (!response.ok) {
         throw new Error(data.message || "Failed to save setup");

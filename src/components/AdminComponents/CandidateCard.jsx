@@ -20,37 +20,6 @@ const CandidateCard = ({ candidate }) => {
      else setError("Candidate profile is not completed yet.")
       setLoading(false);
   
-
-    // try {
-    //   setLoading(true);
-    //   setError("");
-
-    //   const res = await fetch(
-    //     `https://voteverse-backend-deploy.onrender.com/candidate/checkprofilestatus/${candidate.rollNumber}`,
-    //     {
-    //       headers: {
-    //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-    //       },
-    //     },
-    //   );
-
-    //   const data = await res.json();
-    //   console.log("Profile status response:", data);
-
-    //   if (!res.ok) {
-    //     throw new Error(data.message || "Failed to check profile status");
-    //   }
-
-    //   if (!data.status || data.status !== "Completed") {
-    //     setError("Candidate profile is not completed yet.");
-    //     return;
-    //   }
-    //   navigate(`/candidateDetails/${candidate.rollNumber}`);
-    // } catch (err) {
-    //   setError(err.message || "Something went wrong");
-    // } finally {
-    //   setLoading(false);
-    // }
   };
  
 

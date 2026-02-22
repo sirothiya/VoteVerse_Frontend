@@ -1,11 +1,85 @@
-*{
-  margin:0;
-  padding:0;
+* {
+  margin: 0;
+  padding: 0;
   box-sizing: border-box;
 }
 
-body{
-  background-color: #c3bbb4;
+:root {
+  --bg-main: #c3bbb4;
+  --text-main: #1f2937;
+
+  --container-max-width: 1200px;
+
+  --padding-desktop: 20px;
+  --padding-tablet: 16px;
+  --padding-mobile: 12px;
+}
+
+
+html {
+  font-size: 16px; /* Desktop base */
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
   min-height: 100vh;
-  padding: 20px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+
+  padding: var(--padding-desktop);
+  overflow-x: hidden; 
+}
+
+
+.container {
+  max-width: var(--container-max-width);
+  margin: 0 auto;
+  width: 100%;
+}
+
+img,
+video,
+iframe {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+
+@media (max-width: 1024px) {
+  body {
+    padding: var(--padding-tablet);
+  }
+}
+
+
+@media (max-width: 768px) {
+  html {
+    font-size: 15px;
+  }
+
+  body {
+    padding: var(--padding-mobile);
+  }
+}
+
+
+@media (max-width: 480px) {
+  html {
+    font-size: 14px;
+  }
 }

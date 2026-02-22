@@ -11,6 +11,7 @@ import ElectionResults from './Pages/jsx/Result';
 import CandidateDetails from './Pages/jsx/CandidateDetails';
 import CandidateProfile from './Pages/jsx/CandidateProfile';
 import HelpPanel from './components/HelpPanel';
+import './App.css'
 
 const App=()=>{
 
@@ -30,7 +31,8 @@ const App=()=>{
       <Route path='/candidateDetails/:rollNumber' element={<CandidateDetails/>}/>
       <Route path='/candidateProfile/:rollNumber'element={<CandidateProfile/>}/>
     </Routes>
-   </BrowserRouter>
+    </BrowserRouter>
+   
   )
 }
 

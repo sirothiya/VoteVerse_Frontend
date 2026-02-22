@@ -21,26 +21,18 @@ const Dropdown = ({ items }) => {
 
   return (
     <div className="menu-container" ref={menuRef}>
-      {/* Hamburger */}
+    
       <button className="hamburger" onClick={() => setOpen(!open)}>
         <FaBars size={22} />
       </button>
 
-      {/* Dropdown */}
+     
       {open && (
         <div className="dropdown">
             {items.map((item,index)=>{
                 return <div key={index} onClick={() => {setOpen(false); item.onClick();}}>{item.label}</div>
             })}
-          {/* <div onClick={() => {setOpen(false); onChangePassword();}}>
-            Change Password
-          </div>
-          <div onClick={() => {setOpen(false); onLogout();}}>
-            Logout
-          </div>
-          <div onClick={() => {setOpen(false); onDeleteAccount();}}>
-            Delete Account
-          </div> */}
+         
         </div>
       )}
     </div>

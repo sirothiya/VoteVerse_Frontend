@@ -13,34 +13,39 @@ const HomePage = () => {
   }
   return (
     <div className="hero-page">
-      <div className="navbar">
-        <LogoComponent />
-        <div className="auth-buttons">
-          <span className="login" onClick={() => navigate("/login")}>
-            Login
-          </span>
-          <button className="register" onClick={() => navigate("/signup")}>
-            Signup
-          </button>
-        </div>
-      </div>
-      <div className="hero-main">
-        <div className="hero-content">
-          <h1>
-            Vote Smart, <br />
-            Vote Fast, <br />
-            Vote Securely!
-          </h1>
-          <button className="chatbot-btn" onClick={handleChatBot}>
-        ℹ️
-      </button>
-      {showChat && <HelpPanel onClose={()=>setShowChat(false)} />}
-        </div>
-        <div className="box">
-          <img src="../assets/voteImage.png" alt="Vote Illustration"></img>
-        </div>
+  <div className="hero-container">
+    <div className="navbar">
+      <LogoComponent />
+      <div className="auth-buttons">
+        <span className="login" onClick={() => navigate("/login")}>
+          Login
+        </span>
+        <button className="register" onClick={() => navigate("/signup")}>
+          Signup
+        </button>
       </div>
     </div>
+
+    <div className="hero-main">
+      <div className="hero-content">
+        <h1>
+          Vote Smart,<br />
+          Vote Fast,<br />
+          Vote Securely!
+        </h1>
+
+        <button className="chatbot-btn" onClick={handleChatBot}>ℹ️</button>
+        {showChat && <HelpPanel onClose={() => setShowChat(false)} />}
+      </div>
+
+      <div className="box">
+        <img src="../assets/voteImage.png" alt="Vote Illustration" />
+      </div>
+    </div>
+  </div>
+</div>
+
+
   );
 };
 

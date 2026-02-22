@@ -84,12 +84,12 @@ const CandidateProfilePage = ({}) => {
   const handleChange = (e, field, index) => {
     const updated = [...formData[field]];
     updated[index] = e.target.value;
-    // console.log("updates::",updated)
+    
     setFormData((prev) => ({ ...prev, [field]: updated }));
   };
 
   const handleFileChange = (e) => {
-    // console.log("File selected for", e.target.name, ":", e.target.files[0]);
+   
     setFiles({ ...files, [e.target.name]: e.target.files[0] });
   };
 
@@ -172,19 +172,18 @@ const CandidateProfilePage = ({}) => {
               Here’s your current profile and approval status
             </p>
           </div>
-          <button
-            className="del-btnss"
-            onClick={handleDelete}
-            style={{ marginTop: "15px" }}
-          >
-            Delete
-          </button>
+
+          <div className="header-actions">
+            <button className="del-btnss" onClick={handleDelete}>
+              Delete
+            </button>
+          </div>
         </div>
 
         <div className="status-section">
-          {/* Candidate End */}
-          <div className="status-box candidate-status">
-            <p className="status-label">🧾Candidate Status</p>
+       
+          <div className="status-box admin-status">
+            <p className="status-label">🧾 Candidate Status</p>
             <span
               className={
                 candidateData?.profilecompleted
@@ -198,7 +197,7 @@ const CandidateProfilePage = ({}) => {
             </span>
           </div>
 
-          {/* Admin End */}
+        
           <div className="status-box admin-status">
             <p className="status-label">🏛️ Admin Approval</p>
             <span
@@ -219,6 +218,7 @@ const CandidateProfilePage = ({}) => {
           </div>
         </div>
       </div>
+
       {candidateData?.profilecompleted ? (
         <div className="profile-complete-container">
           <div className="profile-complete-card">

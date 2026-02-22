@@ -77,8 +77,8 @@
 }
 
 .status-label {
-  font-size: medium;
-  color: #0d0d0e;
+  font-size: large;
+  color: #0f0f10;
   margin-bottom: 8px;
 }
 
@@ -356,5 +356,87 @@
 
   .form-grid {
     grid-template-columns: 1fr;
+  }
+}
+/* ================= HEADER FIX ================= */
+
+.header-actions {
+  display: flex;
+  align-items: center;
+}
+
+/* ================= PROFILE COMPLETE FIX ================= */
+
+.profile-complete-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px 0 20px;
+  padding: 0 20px;
+}
+
+.profile-complete-card {
+  width: 100%;
+  max-width: 520px;
+}
+
+/* ================= RESPONSIVE FIXES ================= */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .candidate-profile-container {
+    padding: 24px;
+  }
+
+  .heading h1 {
+    font-size: 2rem;
+  }
+
+  .status-section {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .header-actions {
+    width: 100%;
+  }
+
+  .del-btnss {
+    width: 100%;
+  }
+
+  .profile-complete-card {
+    padding: 30px 24px;
+  }
+
+  .profile-complete-card h2 {
+    font-size: 1.6rem;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .candidate-profile-container {
+    padding: 18px;
+  }
+
+  .heading h1 {
+    font-size: 1.8rem;
+  }
+
+  .subtext {
+    font-size: 0.9rem;
+  }
+
+  .view-profile-btn {
+    width: 100%;
   }
 }

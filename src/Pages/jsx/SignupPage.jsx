@@ -53,7 +53,7 @@ const SignupPage = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    // Auto-fill position based on gender
+ 
     if (name === "gender") {
       let autoPosition = "";
 
@@ -147,7 +147,6 @@ const SignupPage = () => {
             />
           </div>
 
-          {/* Admin fields */}
           {roleType === "Admin" && (
             <>
               <div className="form-group">
@@ -177,8 +176,6 @@ const SignupPage = () => {
               </div>
             </>
           )}
-
-          {/* Voter/Candidate shared fields */}
           {roleType !== "Admin" && (
             <>
               <div className="form-group">
@@ -220,8 +217,6 @@ const SignupPage = () => {
               </div>
             </>
           )}
-
-          {/* Candidate-only fields */}
           {roleType === "Candidate" && (
             <>
               <div className="form-group">
@@ -246,7 +241,7 @@ const SignupPage = () => {
                 className="form-control"
                   name="position"
                   value={formData.position}
-                  disabled={!!formData.gender} // 🔒 locked after gender selection
+                  disabled={!!formData.gender} 
                   required
                 >
                   <option value="">Select Position</option>
@@ -273,7 +268,7 @@ const SignupPage = () => {
                 className="password-toggle-icon"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                {showPassword ? <FaEye />  :  <FaEyeSlash />}
               </span>
             </div>
           </div>

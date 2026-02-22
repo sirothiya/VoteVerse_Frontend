@@ -1,15 +1,15 @@
 
-
-// export default Login;
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import "../CssPages/loginPage.css"; // ✅ using same theme
+import "../CssPages/loginPage.css"; 
 import { useNavigate } from "react-router-dom";
+import Loader from "../../components/Loader";
 
 const LoginPage = () => {
   const [roleType, setRoleType] = useState("Voter");
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({ rollNumber: "", password: "" ,email:""});
+  const [loading , setLoading]=useState(false);
   const navigate = useNavigate();
 
   const handleToggle = (type) => {
@@ -32,6 +32,7 @@ const LoginPage = () => {
     else endpoint = "https://voteverse-backend-new.onrender.com/admin/adminLogin";
 
     try {
+        setLoading(true);
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -42,35 +43,48 @@ const LoginPage = () => {
       if (res.ok) {
         alert(`${roleType} login successful!`);
         localStorage.setItem("token", data.token);
-        if (roleType === "Admin"){
-          localStorage.setItem("role","admin")
-          console.log("AdminData: ",data.Admin)
-          navigate("/admin");
-        } 
-        else if (roleType === "Candidate") {
-          console.log("CandidateData: ",data.candidate)
-           localStorage.setItem("role","candidate")
-           localStorage.setItem("candidate", JSON.stringify(data.candidate))
-          navigate(`/candidateProfile/${data.candidate.rollNumber}`);
+        console.log("Login Response Data:", data); 
+
+        const roleConfig={
+          Admin:{
+            role:"admin",
+            navigateTo:"/admin",
+            log:()=>console.log("AdminData: ",data.Admin)
+          },
+          Candidate :{
+            role:"candidate",
+            extra :()=>localStorage.setItem("candidate", JSON.stringify(data.candidate)),
+            log:()=>console.log("CandidateData: ",data.candidate),
+            navigateTo:`/candidateProfile/${data.candidate?.rollNumber}`,
+          },
+          Voter :{
+            role:"voter",
+            log:()=>console.log("UserData: ",data.User),
+            navigateTo:`/profile/${data.User?.rollNumber}`,
+          }
         }
-        else {
-          console.log("UserData: ",data.User)
-           localStorage.setItem("role","voter")
-          navigate(`/profile/${data.User.rollNumber}`)
-        };
+        const config=roleConfig[roleType]
+        if(config){
+          localStorage.setItem("role", config.role);
+          config.log();
+          config.extra?.();
+          navigate(config.navigateTo);
+        }
+
       } else {
         alert(data.error || "Invalid credentials");
       }
     } catch (error) {
       console.error(error);
       alert("Login failed. Please try again!");
+    }finally{
+     setLoading(false)
     }
   };
 
   return (
     <div className="signup-wrapper">
       <div className="signup-card">
-        {/* Toggle Buttons */}
         <div className="toggle-section">
           {["Voter", "Candidate", "Admin"].map((role) => (
             <button
@@ -84,6 +98,7 @@ const LoginPage = () => {
         </div>
 
         <h2 className="form-title">{roleType} Login</h2>
+        {loading && <Loader  content="Logging in..."/>}
 
         <form onSubmit={handleSubmit} className="form-body">
           {roleType === "Admin" ? (
@@ -127,7 +142,7 @@ const LoginPage = () => {
                 className="password-toggle-icon"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
+                {showPassword ?<FaEye />  :  <FaEyeSlash />}
               </span>
             </div>
           </div>

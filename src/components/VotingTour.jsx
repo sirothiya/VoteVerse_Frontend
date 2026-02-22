@@ -6,7 +6,7 @@ const steps = [
   "Choose a category: Head Boy or Head Girl.",
   "Click on a candidate to view full details.",
   "Vote button activates only during election time.",
-  "Results appear after election ends.Do refresh and Please wait.",
+  "Results appear after election ends. Do refresh and Please wait.",
   "View past elections using 'Show Results'.",
 ];
 

@@ -4,7 +4,7 @@ import "./CandidatesByCategory.css";
 import CandidateCard from "./CandidateCard";
 
 const CandidatesByCategory = ({ candidates }) => {
-  // Group candidates by position
+  
   const grouped = candidates.reduce((acc, candidate) => {
     const key = candidate.position;
     if (!acc[key]) acc[key] = [];
@@ -21,7 +21,7 @@ const CandidatesByCategory = ({ candidates }) => {
             <span className="category-count">{list.length}</span>
           </div>
 
-          {/* ✅ SCROLL PER CATEGORY */}
+          
           <div className="category-scroll">
             {list.map((candidate) => (
               <CandidateCard key={candidate._id} candidate={candidate} />

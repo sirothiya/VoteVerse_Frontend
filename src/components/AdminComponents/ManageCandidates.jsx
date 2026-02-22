@@ -16,7 +16,6 @@ function ManageCandidates({ candidates, setCandidates }) {
   const [editId, setEditId] = useState(null);
   const storedToken = localStorage.getItem("token");
 
-  // 🔹 Generate Image from Gemini API with retry handling
   const imageGeneration = async (prompt, retries = 3) => {
     try {
       const res = await fetch(
@@ -222,7 +221,7 @@ const handleEditSubmit=async(e)=>{
         {!editId && (
           <div className="passwordcontainer">
             <input
-              type={showPassword ? "text" : "password"} // toggles type
+              type={showPassword ? "text" : "password"} 
               name="password"
               placeholder="Password"
               value={form.password}

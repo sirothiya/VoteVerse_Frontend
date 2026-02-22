@@ -1,73 +1,37 @@
-/* =========================
-   OUTER CONTAINER
-   ========================= */
-/* .category-container {
-  max-width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;       
-  gap: 40px;
-  overflow-x: auto;  
-  margin-top: 20px;
-  margin: 50px 90px ;             
-} */
 
 .category-container {
-  max-width: 100%;
+  width: 80%;
   display: flex;
   flex-direction: column;
   gap: 40px;
   margin: 50px 90px;
-  overflow-x: hidden;   /* ✅ IMPORTANT */
+  padding: 40px 40px;
+  overflow-x: hidden;
 }
 
-
-/* =========================
-   CATEGORY SECTION
-   ========================= */
-/* .category-section {
-  background: #9aaee6;
-  border-radius: 22px;
-  padding: 20px 18px 24px;
-  min-width: 90%;
-  flex: 0 0 auto;                 
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-  position: relative;
-} */
 
 .category-section {
   background: #9aaee6;
   border-radius: 22px;
   padding: 20px 18px 24px;
-  width: 100%;          /* ✅ instead of min-width: 90% */
+  width: 100%;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
 }
 
 
-/* =========================
-   HEADER (Title + Count)
-   ========================= */
 .category-header {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* title left, count right */
+  justify-content: space-between;
   margin-bottom: 16px;
-
-}
-
-.horizontal {
-  display: flex;
-  flex-direction: column;
 }
 
 .category-title {
   font-size: 1.5rem;
   font-weight: 700;
   color: #0e1a35;
-  margin-left: 5%;
 }
 
-/* Count badge (top-right look) */
 .category-count {
   background: #2563eb;
   color: #fff;
@@ -81,36 +45,48 @@
   box-shadow: 0 6px 16px rgba(37, 99, 235, 0.5);
 }
 
-.candidates-row {
-  display: flex;
-  justify-content: center;   /* ⬅️ centers cards */
-  align-items: stretch;
-  gap: 32px;                 /* ⬅️ equal gap between cards */
-  flex-wrap: wrap;           /* ⬅️ responsive */
-  width: 100%;
-  margin: 0 20px;
-}
-
 
 .category-scroll {
   display: flex;
-  flex-wrap: nowrap;
-  gap: 32px;
+  gap: 32px;              
   overflow-x: auto;
   overflow-y: hidden;
-  padding-bottom: 12px;
+  padding-bottom: 16px;
+
+  align-items: stretch;  
 }
 
 
-/* Optional scrollbar polish */
+
 .category-scroll::-webkit-scrollbar {
   height: 8px;
 }
+
 .category-scroll::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.4);
   border-radius: 4px;
 }
+
 .category-scroll::-webkit-scrollbar-track {
   background: rgba(0, 0, 0, 0.1);
   border-radius: 4px;
+}
+
+
+@media (max-width: 1024px) {
+  .category-container {
+    margin: 40px 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .category-container {
+    margin: 24px 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-title {
+    font-size: 1.25rem;
+  }
 }

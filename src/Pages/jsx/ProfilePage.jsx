@@ -6,9 +6,7 @@ import CountDown from "../../components/CountDown";
 import AllResultsModal from "../../components/AllResultsModal";
 import Loader from "../../components/Loader";
 
-// ----------------------------------------
-// POPUPS
-// ----------------------------------------
+
 const VotePopup = ({ name, onClose }) => (
   <div className="popup-overlay">
     <div className="popup-content">
@@ -58,7 +56,7 @@ const ProfilePage = () => {
 
   const [selectedCategory, setSelectedCategory] = useState("Head Girl");
 
-  // ----- Helper flags -----
+  
   const now = currentTime;
 
   const isRegOpen =
@@ -140,7 +138,6 @@ const ProfilePage = () => {
       interval = setInterval(async () => {
         await refreshData();
 
-        // stop polling ONLY when results are ready
         if (
           electionActive?.status === "COMPLETED" &&
           electionActive?.resultsCalculated
@@ -179,7 +176,7 @@ const ProfilePage = () => {
 
   const hasVoted =
     user?.isVoted || localStorage.getItem("userVoted") === "true";
-  // console.log("User voting status:", user?.isVoted);
+  
 
   const handleVote = async (id, name) => {
     try {
@@ -227,7 +224,7 @@ const ProfilePage = () => {
     return acc;
   }, {});
 
-  if (loading) return <Loader />;
+  if (loading) return <Loader  content="Loading Profile..." />;
 
   return (
     <div className="profile-container">
@@ -340,7 +337,6 @@ const ProfilePage = () => {
 
           <p className="candidate-name">{c.name}</p>
 
-          {/* Vote Button */}
           {isElectionOpen &&
             !user?.votesCast[
               selectedCategory === "Head Girl" ? "headGirl" : "headBoy"
@@ -366,7 +362,7 @@ const ProfilePage = () => {
         </section>
       )}
 
-      {/* POPUPS */}
+  
       {showPopup && (
         <VotePopup name={votedTo} onClose={() => setShowPopup(false)} />
       )}
@@ -374,7 +370,7 @@ const ProfilePage = () => {
         <ElectionEndedPopup
           onClose={() => {
             setShowElectionEndedPopup(false);
-            setElectionActive(false); // stop any refresh tied to live election
+            setElectionActive(false); 
           }}
         />
       )}

@@ -197,9 +197,8 @@ const CandidateDetails = () => {
 
   return (
     <div className="candidate-details-container">
-      {/* ================= HERO ================= */}
-      <section className="candidate-hero">
-        {/* LEFT SIDE */}
+     <section className="candidate-hero">
+        
         <div className="hero-column1">
           <div className="hero-tempo">
             <div className="hero-avatar-column">
@@ -223,7 +222,7 @@ const CandidateDetails = () => {
               </div>
 
               <div className="candidate-status-section">
-                {/* Candidate Status */}
+                
                 <div className="candidate-status-box">
                   <p className="candidate-status-label">
                     🧾 Candidate Status :{" "}
@@ -239,7 +238,6 @@ const CandidateDetails = () => {
                   </p>
                 </div>
 
-                {/* Admin Status */}
                 <div className="candidate-status-box">
                   <p className="candidate-status-label">
                     🏛️ Admin Approval :{" "}
@@ -265,7 +263,6 @@ const CandidateDetails = () => {
           </div>
         </div>
 
-        {/* RIGHT SIDE */}
         {candidate.partysymbol && (
           <div className="hero-column">
             <img
@@ -304,7 +301,6 @@ const CandidateDetails = () => {
         )}
       </section>
 
-      {/* ================= ACHIEVEMENTS & INITIATIVES ================= */}
       <section className="split">
         {candidate.achievements?.length > 0 && (
           <div className="card1">
@@ -337,7 +333,7 @@ const CandidateDetails = () => {
         )}
       </section>
 
-      {/* ================= VIDEO ================= */}
+   
       {candidate.campaignVideo && (
         <section className="split">
           <div className="card1">
@@ -384,8 +380,6 @@ const CandidateDetails = () => {
           </div>
         </section>
       )}
-
-      {/* ================= GRID ================= */}
       <section className="split">
         <div className="card1">
           <h3>Manifesto</h3>
@@ -461,7 +455,7 @@ const CandidateDetails = () => {
                 <Tooltip />
               </PieChart>
 
-              {/* ✅ LEGEND OUTSIDE Pie */}
+            
               <div className="sentiment-legend">
                 {overallSentimentData.map((s) => (
                   <p key={s.name}>
@@ -482,7 +476,7 @@ const CandidateDetails = () => {
         </div>
       </section>
 
-      {/* ================= VIDEO MODAL ================= */}
+      
       {showVideo && (
         <div
           className="video-modal-backdrop"

@@ -1,4 +1,4 @@
-/* ===== Overlay ===== */
+
 .popup-overlay1 {
   position: fixed;
   top: 0;
@@ -13,7 +13,7 @@
   z-index: 999;
 }
 
-/* ===== Modal Container ===== */
+
 .popup-content1.large {
    background: linear-gradient(135deg, #ab83d5, #6f9be7);
   width: 90%;
@@ -34,7 +34,7 @@
   font-size: 1.8rem;
 }
 
-/* ===== Result Card ===== */
+
 .result-card1 {
   background: #f8fafc;
   border-left: 6px solid #2563eb;
@@ -49,7 +49,7 @@
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
 }
 
-/* ===== Election Title ===== */
+
 .result-card1 h3 {
   margin-bottom: 8px;
   color: #0f172a;

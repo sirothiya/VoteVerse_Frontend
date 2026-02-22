@@ -1,33 +1,49 @@
+/* ================= ADMIN PANEL WRAPPER ================= */
+
 .admin {
-   background: linear-gradient(135deg, #004e92, #000428);
+  background: linear-gradient(135deg, #004e92, #000428);
   border-radius: 15px;
   padding: 30px;
   color: #f0f0f0;
-  min-width: 1500px;
   min-height: 90vh;
-  margin: auto;
+  width: 100%;
+  max-width: 1600px;
+  margin: 20px auto;
   font-family: 'Poppins', sans-serif;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
 }
+
+/* ================= MAIN CONTENT ================= */
 
 .content {
   padding: 20px;
+  width: 100%;
+  box-sizing: border-box;
 }
+
+/* ================= TITLES ================= */
 
 .page-title {
   margin-bottom: 20px;
-  font-size: 24px;
+  font-size: 24px; /* unchanged */
   font-weight: bold;
 }
 
+/* ================= GRID SECTIONS ================= */
+
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 20px;
+  width: 100%;
 }
+
+/* ================= FORMS ================= */
 
 .candidate-form {
   display: flex;
+  flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 20px;
 }
@@ -36,6 +52,8 @@
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 6px;
+  flex: 1;
+  min-width: 200px;
 }
 
 .candidate-form button {
@@ -45,4 +63,54 @@
   padding: 8px 14px;
   border-radius: 6px;
   cursor: pointer;
+  white-space: nowrap;
+}
+
+/* ================= RESPONSIVE BREAKPOINTS ================= */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .admin {
+    padding: 24px;
+  }
+
+  .content {
+    padding: 16px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .admin {
+    padding: 18px;
+    border-radius: 12px;
+  }
+
+  .content {
+    padding: 14px;
+  }
+
+  .page-title {
+    font-size: 22px; /* slightly smaller but same hierarchy */
+  }
+
+  .candidate-form {
+    flex-direction: column;
+  }
+
+  .candidate-form input,
+  .candidate-form button {
+    width: 100%;
+  }
+}
+
+/* Small Mobile */
+@media (max-width: 480px) {
+  .admin {
+    padding: 14px;
+  }
+
+  .page-title {
+    font-size: 20px;
+  }
 }

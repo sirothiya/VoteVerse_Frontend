@@ -1,16 +1,18 @@
-
+/* ================= ADMIN NAVBAR ================= */
 
 .navbar_admin {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1rem 2rem;
-  background: rgba(255, 255, 255, 0.05); /* translucent bar */
+  background: rgba(255, 255, 255, 0.05); 
   backdrop-filter: blur(8px);
   border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-  /* z-index: 1000; */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  box-sizing: border-box;
 }
+
 
 .logo_admin {
   font-weight: 700;
@@ -22,16 +24,40 @@
   list-style: none;
   display: flex;
   gap: 25px;
-  /* z-index: 1001; */
+  align-items: center;
 }
+
 
 .nav-links li {
   cursor: pointer;
-  transition: 0.3s;
-  font-size: 15px;
+  transition: 0.3s ease;
+  font-size: 15px; 
 }
 
 .nav-links li:hover {
   color: #ffd700;
   transform: translateY(-2px);
+}
+
+
+@media (max-width: 768px) {
+  .navbar_admin {
+    padding: 0.8rem 1.2rem;
+  }
+
+  .nav-links {
+    gap: 16px;
+  }
+}
+
+
+@media (max-width: 480px) {
+  .navbar_admin {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .nav-links {
+    gap: 12px;
+  }
 }

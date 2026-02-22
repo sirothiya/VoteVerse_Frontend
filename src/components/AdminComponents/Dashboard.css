@@ -1,5 +1,12 @@
+
+
+.dashboard {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
 .page-title {
- 
   font-size: 2rem;
   font-weight: bold;
   color: #f0f0f0;
@@ -8,62 +15,95 @@
   text-shadow: 0 3px 6px rgba(0,0,0,0.3);
 }
 
-.card-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 25px;
+
+.btn-group {
+  display: flex;
+  justify-content: center;
+  gap: 35px;
   margin-top: 20px;
-  width: 100%;
+  flex-wrap: wrap; 
 }
 
-.popup-content {
-  background: #fff;
-  padding: 30px;
-  border-radius: 12px;
-  text-align: center;
-  width: 300px;
-  color:green;
-  animation: fadeIn 0.4s ease;
-}
-.popup-content h2 {
-  margin-bottom: 10px;
-}
-.popup-content p {
-  font-size: 1.3rem;
-  font-weight: bold;
-  color: #333;
-}
 
-/* Close button */
-.close-btn {
-  margin-top: 15px;
-  padding: 8px 14px;
-  background-color: #4b0082;
-  color: #fff;
+.start-election {
+  background-color: rgb(12, 147, 214);
+  color: var(--secondary-bg-color);
   border: none;
-  border-radius: 6px;
+  padding: 12px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
   cursor: pointer;
+  box-shadow: 0 6px 14px rgba(211, 47, 47, 0.35);
+  transition: all 0.25s ease;
 }
+
+
+.danger-btn {
+  background: linear-gradient(135deg, #d32f2f, #b71c1c);
+  color: #ffffff;
+  border: none;
+  padding: 12px 18px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 6px 14px rgba(211, 47, 47, 0.35);
+  transition: all 0.25s ease;
+}
+
+.danger-btn:hover {
+  background: linear-gradient(135deg, #c62828, #8e0000);
+  box-shadow: 0 8px 18px rgba(198, 40, 40, 0.5);
+  transform: translateY(-1px);
+}
+
+.danger-btn:active {
+  transform: scale(0.97);
+}
+
+.danger-btn:disabled {
+  background: #bdbdbd;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.danger-btn:hover {
+  animation: shake 0.2s ease-in-out 2;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-2px); }
+  50% { transform: translateX(2px); }
+  75% { transform: translateX(-2px); }
+  100% { transform: translateX(0); }
+}
+
+
+
 .popup-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100vw;
   height: 100vh;
-   background: linear-gradient(135deg, #004e92, #000428);
+  background: linear-gradient(135deg, #004e92, #000428);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  padding: 16px; /* 🔥 prevents edge clipping on mobile */
+  box-sizing: border-box;
 }
 
 .popup-content {
-   background: linear-gradient(135deg, #004e92, #000428);
+  background: linear-gradient(135deg, #004e92, #000428);
   border-radius: 16px;
   padding: 30px;
-  width: 90%;
+  width: 100%;
   max-width: 500px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.4s ease;
 }
 
 .popup-content.large {
@@ -89,12 +129,15 @@
   margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 8px;
+  box-sizing: border-box;
 }
 
 .popup-actions {
   margin-top: 20px;
   display: flex;
   justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .popup-actions button {
@@ -112,82 +155,61 @@
 }
 
 
-.btn-group {
-  display: flex;
-  justify-content: center;
-  gap: 35px;
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 25px;
   margin-top: 20px;
-}
-
-.start-election {
-  background-color: rgb(12, 147, 214);
-  color: var(--secondary-bg-color);
-  border: none;
-  padding: 12px 18px;
-  font-size: 15px;
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
-  display: block;
-  align-items: center; 
-  box-shadow: 0 6px 14px rgba(211, 47, 47, 0.35);
-  transition: all 0.25s ease;
-  /* margin: 0 auto 20px auto; */
-}
-
-/* 🔴 Danger Button – Reset / Drop Election */
-.danger-btn {
-  background: linear-gradient(135deg, #d32f2f, #b71c1c);
-  color: #ffffff;
-  border: none;
-  padding: 12px 18px;
-  font-size: 15px;
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
-  display: block;
-  box-shadow: 0 6px 14px rgba(211, 47, 47, 0.35);
-  transition: all 0.25s ease;
-}
-
-/* Hover – stronger warning */
-.danger-btn:hover {
-  background: linear-gradient(135deg, #c62828, #8e0000);
-  box-shadow: 0 8px 18px rgba(198, 40, 40, 0.5);
-  transform: translateY(-1px);
-}
-
-/* Active – pressed state */
-.danger-btn:active {
-  transform: scale(0.97);
-  box-shadow: 0 4px 10px rgba(183, 28, 28, 0.6);
-}
-
-/* Focus – keyboard accessibility */
-.danger-btn:focus {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.5);
-}
-
-/* Disabled state */
-.danger-btn:disabled {
-  background: #bdbdbd;
-  cursor: not-allowed;
-  box-shadow: none;
-  transform: none;
-}
-.danger-btn.full-width {
   width: 100%;
-  justify-content: center;
-}
-.danger-btn:hover {
-  animation: shake 0.2s ease-in-out 2;
 }
 
-@keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-2px); }
-  50% { transform: translateX(2px); }
-  75% { transform: translateX(-2px); }
-  100% { transform: translateX(0); }
+
+
+@media (max-width: 768px) {
+  .btn-group {
+    gap: 20px;
+  }
+
+  .popup-content {
+    padding: 22px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+  .page-title {
+    margin-top: 20px;
+  }
+
+  .btn-group {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .start-election,
+  .danger-btn {
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .popup-actions {
+    flex-direction: column;
+  }
+
+  .popup-actions button {
+    width: 100%;
+  }
+}
+
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
