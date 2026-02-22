@@ -1,7 +1,7 @@
 
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import "../CssPages/loginPage.css"; 
+import "../CssPages/LoginPage.css"; 
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
 
