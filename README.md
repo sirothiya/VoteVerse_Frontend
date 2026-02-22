@@ -1,3 +1,20 @@
+#VoteVerse — Full-Stack Voting Platform with Explainable AI Insights
+
+Built a production-grade, role-based voting platform supporting Admin, Candidate, and Voter workflows, with secure authentication and real-time data handling.
+
+Designed and implemented an explainable AI pipeline to analyze candidate content, combining machine-learning–based sentiment analysis with confidence estimation and rule-based trust scoring.
+
+Engineered the system end-to-end: data ingestion, feature processing, AI inference, persistence, and visualization—ensuring AI outputs are transparent, interpretable, and actionable for users rather than opaque predictions.
+
+Focused on real-world AI concerns such as uncertainty, bias signals, and reliability, bridging traditional software engineering with applied machine learning.
+
+## Tech Highlights
+- Secure JWT-based authentication with role enforcement
+- Election lifecycle handled via cron jobs
+- AI-powered manifesto & campaign analysis
+- Backend-enforced voting integrity
+
+
 # React + Vite
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
