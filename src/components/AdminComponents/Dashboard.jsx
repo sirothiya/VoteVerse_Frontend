@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import CandidateCard from "./CandidateCard";
 import "./Dashboard.css";
 import CandidatesByCategory from "./CandidatesByCategory";
+import AlertModal from "../AlertModal.jsx";
 
 const formatISO8601 = (date) => {
   const pad = (num) => String(num).padStart(2, "0");
@@ -88,7 +89,7 @@ function Dashboard() {
   const [showPopup, setShowPopup] = useState(false);
   const [status, setStatus] = useState(false);
   const [showAnnouncementPopup, setShowAnnouncementPopup] = useState(false);
-
+  const [errorMsg, setErrorMsg] = useState("");
   const safeCandidates = Array.isArray(candidates) ? candidates : [];
 
   useEffect(() => {
@@ -134,7 +135,7 @@ function Dashboard() {
 
   const handleSubmit = async (formData) => {
     try {
-      console.log("Submitting election setup:", formData);
+      
 
       const response = await fetch(
         "https://voteverse-backend-new.onrender.com/admin/electionsetup",
@@ -168,18 +169,15 @@ function Dashboard() {
         throw new Error(data.message || "Failed to save setup");
       }
 
-      console.log("Election setup response:", data); // ✔ Now valid
-      console.log("Election Setup:", data.electionSetup);
-      console.log("Message:", data.message);
-
       localStorage.setItem("announcementSetupDone", "true");
-      alert("Election setup saved successfully!");
+      setErrorMsg("Election setup saved successfully!");
       setShowPopup(false);
       setShowAnnouncementPopup(false);
       setStatus(true);
     } catch (error) {
       console.error("Error saving setup:", error);
-      alert("Failed to save setup. Please try again.");
+      
+      setErrorMsg("Failed to save setup. Please try again.");
     }
   };
 
@@ -199,8 +197,11 @@ function Dashboard() {
 
     const data = await res.json();
     console.log("Reset Election Response:", data);
-    alert(data.message);
-    window.location.reload();
+    setErrorMsg(data.message);
+    setTimeout(()=>{
+     window.location.reload();
+    },3000)
+    
   };
 
   return (
@@ -208,6 +209,7 @@ function Dashboard() {
       <h2 className="page-title">
         {safeCandidates.length === 0 ? "No Candidates" : "Candidates"}
       </h2>
+      <AlertModal message={errorMsg} onClose={() => setErrorMsg("")} duration={3000} />
       <div className="btn-group">
         <button className="start-election" onClick={() => setShowPopup(true)}>
           Make Announcement

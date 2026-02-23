@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "../CssPages/SignupPage.css";
 import { useNavigate } from "react-router-dom";
+import AlertModal from "../../components/AlertModal";
 
 const SignupPage = () => {
   const [roleType, setRoleType] = useState("Voter");
   const [showPassword, setShowPassword] = useState(false);
-
+  const [errorMsg, setErrorMsg] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     rollNumber: "",
@@ -93,7 +94,7 @@ const SignupPage = () => {
       const data = await res.json();
 
       if (res.ok) {
-        alert(data.message || `${roleType} signup successful!`);
+        setErrorMsg(data.message || `${roleType} signup successful!`);
         setFormData({
           name: "",
           rollNumber: "",
@@ -105,14 +106,15 @@ const SignupPage = () => {
           schoolName: "",
           password: "",
         });
-        navigate(`/login`);
+        setTimeout(() => {
+          navigate(`/login`);
+        }, 2000);
       } else {
-        alert(data.error || "Signup failed!");
-        console.log("Error:", data.error);
+        setErrorMsg(data.error || "Signup failed!");
       }
     } catch (error) {
-      console.error("Error in signup:", error);
-      alert("Something went wrong!");
+      
+      setErrorMsg("Something went wrong!");
     }
   };
 
@@ -130,7 +132,7 @@ const SignupPage = () => {
             </button>
           ))}
         </div>
-
+        <AlertModal message={errorMsg} onClose={() => setErrorMsg("")} duration={3000} /> 
         <h2 className="form-title">{roleType} Registration</h2>
 
         <form onSubmit={handleSubmit} className="form-body">

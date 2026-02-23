@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import "../CssPages/CandidateProfile.css";
 import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
+import AlertModal from "../../components/AlertModal";
 
 const CandidateProfilePage = ({}) => {
   const [candidateData, setCandidateData] = useState();
   const [loading, setLoading] = useState(false);
   const [token, setToken] = useState();
+  const [errorMsg, setErrorMsg] = useState("");
   const [candidateStatus, setCandidateStatus] = useState();
   const [formData, setFormData] = useState({
     achievements: [""],
@@ -39,14 +41,12 @@ const CandidateProfilePage = ({}) => {
               "Cache-Control": "no-cache",
             },
           },
-        );
-        console.log("check1");
+        )
         const data = await getData.json();
-        console.log("data of candidate :", data.candidate);
         setCandidateData(data.candidate);
       } catch (err) {
         console.log("error in fetching candidate data");
-        alert("error in fetching candidate data:", err);
+       setErrorMsg("Error fetching candidate data. Please try again later.");
       }
     };
 
@@ -62,12 +62,10 @@ const CandidateProfilePage = ({}) => {
             },
           },
         );
-        console.log("statusCheck1");
         const data = await response.json();
         setCandidateStatus(data);
       } catch (err) {
-        console.log("error in fetching candidate status");
-        alert("error in fetching candidate status:", err);
+        setErrorMsg("error in fetching candidate status:", err);
       }
     };
 
@@ -121,15 +119,13 @@ const CandidateProfilePage = ({}) => {
           body: data,
         },
       );
-      console.log("check11");
       const result = await res.json();
-      console.log("uploaded data :", result.updatedCandidate);
       setLoading(false);
       setCandidateData(data.updatedCandidate);
-      alert(result.message || "Profile Updated!");
+     setErrorMsg(result.message || "Profile updated successfully!");
       window.location.reload();
     } catch (err) {
-      alert("error in the uploading documents : ", err);
+      setErrorMsg("Error in uploading documents: " + err.message);
     } finally {
       setLoading(false);
     }
@@ -148,13 +144,13 @@ const CandidateProfilePage = ({}) => {
         },
       );
       const data = await res.json();
-      console.log("delete response :", data);
+        setErrorMsg(data.message || "Candidate profile deleted successfully.");
       if (data.success) {
         navigate("/");
       }
     } catch (err) {
       console.error("Error deleting candidate:", err);
-      alert("Error deleting candidate:", err.message);
+      setErrorMsg("Error deleting candidate. Please try again later.");
     }
   };
 
@@ -172,7 +168,7 @@ const CandidateProfilePage = ({}) => {
               Here’s your current profile and approval status
             </p>
           </div>
-
+            <AlertModal message={errorMsg} onClose={() => setErrorMsg("")} duration={3000} />
           <div className="header-actions">
             <button className="del-btnss" onClick={handleDelete}>
               Delete Profile

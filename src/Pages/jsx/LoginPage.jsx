@@ -1,20 +1,25 @@
-
 import React, { useState } from "react";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import "../CssPages/LoginPage.css"; 
+import "../CssPages/LoginPage.css";
 import { useNavigate } from "react-router-dom";
 import Loader from "../../components/Loader";
+import AlertModal from "../../components/AlertModal";
 
 const LoginPage = () => {
   const [roleType, setRoleType] = useState("Voter");
   const [showPassword, setShowPassword] = useState(false);
-  const [formData, setFormData] = useState({ rollNumber: "", password: "" ,email:""});
-  const [loading , setLoading]=useState(false);
+  const [formData, setFormData] = useState({
+    rollNumber: "",
+    password: "",
+    email: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const navigate = useNavigate();
 
   const handleToggle = (type) => {
     setRoleType(type);
-    setFormData({ rollNumber: "", password: "" ,email:""});
+    setFormData({ rollNumber: "", password: "", email: "" });
   };
 
   const handleChange = (e) => {
@@ -28,11 +33,13 @@ const LoginPage = () => {
     if (roleType === "Voter")
       endpoint = "https://voteverse-backend-new.onrender.com/user/userLogin";
     else if (roleType === "Candidate")
-      endpoint = "https://voteverse-backend-new.onrender.com/candidate/candidateLogin";
-    else endpoint = "https://voteverse-backend-new.onrender.com/admin/adminLogin";
+      endpoint =
+        "https://voteverse-backend-new.onrender.com/candidate/candidateLogin";
+    else
+      endpoint = "https://voteverse-backend-new.onrender.com/admin/adminLogin";
 
     try {
-        setLoading(true);
+      setLoading(true);
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -41,49 +48,51 @@ const LoginPage = () => {
 
       const data = await res.json();
       if (res.ok) {
-        alert(`${roleType} login successful!`);
+        setErrorMsg(`${roleType} login successful!`);
         localStorage.setItem("token", data.token);
-        console.log("Login Response Data:", data); 
 
-        const roleConfig={
-          Admin:{
-            role:"admin",
-            navigateTo:"/admin",
-            user:data.Admin,
-            log:()=>console.log("AdminData: ",data.Admin)
+        const roleConfig = {
+          Admin: {
+            role: "admin",
+            navigateTo: "/admin",
+            user: data.Admin,
+            log: () => console.log("AdminData: ", data.Admin),
           },
-          Candidate :{
-            role:"candidate",
-            user:data.candidate,
-            extra :()=>localStorage.setItem("candidate", JSON.stringify(data.candidate)),
-            log:()=>console.log("CandidateData: ",data.candidate),
-            navigateTo:`/candidateProfile/${data.candidate?.rollNumber}`,
+          Candidate: {
+            role: "candidate",
+            user: data.candidate,
+            extra: () =>
+              localStorage.setItem("candidate", JSON.stringify(data.candidate)),
+            log: () => console.log("CandidateData: ", data.candidate),
+            navigateTo: `/candidateProfile/${data.candidate?.rollNumber}`,
           },
-          Voter :{
-            role:"voter",
-            user:data.User,
-              extra :()=>localStorage.setItem("voter", JSON.stringify(data.User)),
-            log:()=>console.log("UserData: ",data.User),
-            navigateTo:`/profile/${data.User?.rollNumber}`,
-          }
-        }
-        const config=roleConfig[roleType]
-        if(config){
+          Voter: {
+            role: "voter",
+            user: data.User,
+            extra: () =>
+              localStorage.setItem("voter", JSON.stringify(data.User)),
+            log: () => console.log("UserData: ", data.User),
+            navigateTo: `/profile/${data.User?.rollNumber}`,
+          },
+        };
+        const config = roleConfig[roleType];
+        if (config) {
           localStorage.setItem("role", config.role);
           config.log();
           config.extra?.();
-          navigate(config.navigateTo);
+          setTimeout(() => {
+            navigate(config.navigateTo);
+          }, 3000);
           localStorage.setItem("authUser", JSON.stringify(config.user));
         }
-
       } else {
-        alert(data.error || "Invalid credentials");
+        setErrorMsg(data.error || "Invalid credentials");
       }
     } catch (error) {
       console.error(error);
-      alert("Login failed. Please try again!");
-    }finally{
-     setLoading(false)
+      setErrorMsg("Login failed. Please try again!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -101,9 +110,13 @@ const LoginPage = () => {
             </button>
           ))}
         </div>
-
+        <AlertModal
+          message={errorMsg}
+          onClose={() => setErrorMsg("")}
+          duration={3000}
+        />
         <h2 className="form-title">{roleType} Login</h2>
-        {loading && <Loader  content="Logging in..."/>}
+        {loading && <Loader content="Logging in..." />}
 
         <form onSubmit={handleSubmit} className="form-body">
           {roleType === "Admin" ? (
@@ -147,7 +160,7 @@ const LoginPage = () => {
                 className="password-toggle-icon"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ?<FaEye />  :  <FaEyeSlash />}
+                {showPassword ? <FaEye /> : <FaEyeSlash />}
               </span>
             </div>
           </div>
@@ -156,14 +169,12 @@ const LoginPage = () => {
             Login as {roleType}
           </button>
 
-
-          
-            <p className="switch-link">
-              Don’t have an account?{" "}
-              <a href="/signup" className="link">
-                Sign Up
-              </a>
-            </p>
+          <p className="switch-link">
+            Don’t have an account?{" "}
+            <a href="/signup" className="link">
+              Sign Up
+            </a>
+          </p>
         </form>
 
         <button

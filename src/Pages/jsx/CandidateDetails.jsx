@@ -31,6 +31,7 @@ const CandidateDetails = () => {
 
   const [manifestoExplanation, setManifestoExplanation] = useState("");
   const [showInfo, setShowInfo] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
   const normalizeSentiment = (raw) => {
     if (!raw) return "Neutral";
 
@@ -144,7 +145,6 @@ const CandidateDetails = () => {
         },
       );
       const data = await res.json();
-      console.log("AI Response:", data);
       setManifestoExplanation(data.summary || "No explanation available.");
     } catch (err) {
       setManifestoExplanation("Unable to explain manifesto right now.");

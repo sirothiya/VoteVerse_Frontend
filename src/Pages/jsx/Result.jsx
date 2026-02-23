@@ -3,12 +3,14 @@ import React, { useEffect, useState } from "react";
 import "../CssPages/Result.css";
 import ResultCharts from "../../components/ResultCharts";
 import { useNavigate } from "react-router-dom";
+import AlertModal from "../../components/AlertModal";
 
 const ElectionResults = () => {
   const [results, setResults] = useState({
     headBoyResults: [],
     headGirlResults: [],
   });
+  const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(true);
  const [activeCategory, setActiveCategory] = useState("Head Boy");
   useEffect(() => {
@@ -22,13 +24,12 @@ const ElectionResults = () => {
           setLoading(false);
           return;
         }
-        console.log("Results data:", data[0]);
         setResults({
           headBoyResults: data[0].finalResults.headBoyResults || [],
           headGirlResults: data[0].finalResults.headGirlResults || [],
         });
       } catch (err) {
-        console.error(err);
+       setErrorMsg("Failed to load results. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -51,6 +52,7 @@ const ElectionResults = () => {
             </button>
           ))}
         </div>
+        <AlertModal message={errorMsg} onClose={() => setErrorMsg("")} duration={3000} />
         <ResultCharts
           results={
             activeCategory === "Head Boy"

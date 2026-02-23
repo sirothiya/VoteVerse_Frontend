@@ -100,7 +100,6 @@ const ProfilePage = () => {
         "https://voteverse-backend-new.onrender.com/election/status",
       );
       const data = await res.json();
-      console.log("Election Status Data:", data);
       setElectionActive(data);
     };
 
@@ -117,7 +116,6 @@ const ProfilePage = () => {
         "https://voteverse-backend-new.onrender.com/admin/electionSetup",
       );
       const data = await res.json();
-      console.log("Election Setup Data:", data);
       setElectionSetup(data);
     };
 

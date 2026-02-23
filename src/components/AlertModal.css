@@ -1,0 +1,38 @@
+.alert-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.alert-modal {
+  background: #020617;
+  color: #e5e7eb;
+  padding: 24px;
+  border-radius: 12px;
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.alert-modal p {
+  margin-bottom: 16px;
+  font-size: 15px;
+}
+
+.alert-modal button {
+  background: #22c55e;
+  border: none;
+  color: #020617;
+  padding: 8px 18px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.alert-modal button:hover {
+  opacity: 0.9;
+}

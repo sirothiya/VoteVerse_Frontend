@@ -125,7 +125,7 @@ label {
   border: none;
   outline: none;
   background: white;
-  color: #766666;
+  color: #0f0e0e;
   font-size: 0.95rem;
   transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
 }
@@ -133,10 +133,14 @@ label {
 .form-control::placeholder {
   color: #141313;
 }
+.form-control option {
+  background-color: #020617;
+  color: white;
+}
 
 .form-control:focus {
   background: rgba(255, 255, 255, 0.3);
-  color: white;
+  color: rgb(18, 18, 18);
   transform: scale(1.015);
   box-shadow: 0 0 6px rgba(255, 255, 255, 0.35);
 }
