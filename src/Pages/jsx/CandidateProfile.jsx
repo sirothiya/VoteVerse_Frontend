@@ -4,6 +4,13 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
 import AlertModal from "../../components/AlertModal";
 
+const IMAGE_TYPES = ["image/jpeg", "image/png"];
+const DOC_TYPES = [
+  "application/pdf",
+  "application/msword",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+];
+
 const CandidateProfilePage = ({}) => {
   const [candidateData, setCandidateData] = useState();
   const [loading, setLoading] = useState(false);
@@ -386,6 +393,13 @@ const CandidateProfilePage = ({}) => {
 
   if (loading) return <Loader content="Loading ...." />;
 
+  const InfoTip = ({ text }) => (
+  <span className="info-wrapper">
+    ⓘ
+    <span className="info-tooltip">{text}</span>
+  </span>
+);
+
   return (
     <div className="candidate-profile-container">
       <div className="heading-container">
@@ -429,9 +443,19 @@ const CandidateProfilePage = ({}) => {
         <form onSubmit={handleSubmit}>
           <div className="form-grid">
             <div className="card-grid">
-              <label>Upload Manifesto (PDF)</label>
+              {/* <label>Upload Manifesto (PDF)</label>
               <input type="file" name="manifesto" onChange={handleFileChange} />
-              <span className="file-name">{files.manifesto ? files.manifesto.name : "No file chosen"}</span>
+              <span className="file-name">{files.manifesto ? files.manifesto.name : "No file chosen"}</span> */}
+              <label>
+  Upload Manifesto
+  <InfoTip text="Accepted formats: PDF, DOC, DOCX" />
+</label>
+<input
+  type="file"
+  name="manifesto"
+  accept=".pdf,.doc,.docx,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+  onChange={handleFileChange}
+/>
 
               <label>Campaign Video</label>
               <div className="video-mode-toggle">
@@ -498,17 +522,41 @@ const CandidateProfilePage = ({}) => {
                 </>
               )}
 
-              <label>Profile Photo</label>
-              <input type="file" name="profilePhoto" accept=".png,.jpg,.jpeg,image/png,image/jpeg" onChange={handleFileChange} />
-              <span className="file-name">{files.profilePhoto ? files.profilePhoto.name : "No file chosen"}</span>
+      
 
-              <label>Parental Consent Form</label>
-              <input type="file" name="parentalConsent" onChange={handleFileChange} />
-              <span className="file-name">{files.parentalConsent ? files.parentalConsent.name : "No file chosen"}</span>
+<label>
+  Profile Photo
+  <InfoTip text="Accepted formats: JPG, JPEG, PNG" />
+</label>
+<input
+  type="file"
+  name="profilePhoto"
+  accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+  onChange={handleFileChange}
+/>
+            
 
-              <label>Upload Party Symbol</label>
-              <input type="file" name="partysymbol" accept=".png,.jpg,.jpeg,image/png,image/jpeg" onChange={handleFileChange} />
-              <span className="file-name">{files.partysymbol ? files.partysymbol.name : "No file chosen"}</span>
+<label>
+  Parental Consent Form
+  <InfoTip text="Accepted formats: PDF, DOC, DOCX" />
+</label>
+<input
+  type="file"
+  name="parentalConsent"
+  accept=".pdf,.doc,.docx"
+  onChange={handleFileChange}
+/>
+              
+              <label>
+  Upload Party Symbol
+  <InfoTip text="Accepted formats: JPG, JPEG, PNG" />
+</label>
+<input
+  type="file"
+  name="partysymbol"
+  accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+  onChange={handleFileChange}
+/>
             </div>
 
             <div className="card-grid">
