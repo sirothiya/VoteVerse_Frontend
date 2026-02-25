@@ -8,11 +8,18 @@
   padding: 30px;
   color: #f5f7fa;
   min-width: 100%;
-  max-width: 1200px;
-  margin: 40px auto;
+  max-width: none;
+  margin: 0;
+  width: 100%;
   min-height: 90vh;
   font-family: 'Poppins', sans-serif;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+}
+
+.profile-inner {
+  max-width: 1200px;
+  margin: 0 auto;      /* intentional centering */
+  width: 100%;
 }
 
 /* =========================================================
@@ -108,7 +115,7 @@
   background: linear-gradient(135deg, #ab83d5, #6f9be7);
   padding: 25px;
   border-radius: 16px;
-  margin-bottom: 25px;
+  width: 100%;               /* 🔥 KEY FIX */
   transition: all 0.3s ease-in-out;
 }
 
@@ -117,10 +124,12 @@
 }
 
 .card.announcement-wrapper {
+  width: 100%;
+  margin: 40px 0;        /* full width inside the inner container */
   display: flex;
   gap: 20px;
   align-items: stretch;
-  margin: 40px 0;
+  max-width: none; /* don't restrict width */
 }
 
 .announcement-content {
@@ -280,6 +289,144 @@
 /* =========================================================
    RESPONSIVE
 ========================================================= */
+
+@media (min-width: 1200px) {
+  .card {
+    width: 100%; /* allow the card to fill the profile-inner container */
+  }
+}
+
+/* Approved candidates card specific sizing */
+.card.approved-candidates {
+  width: 100%;
+  margin: 24px 0; /* full width inside the inner container */
+  max-width: none; /* don't restrict width */
+}
+
+/* Improved styling for the approved candidates section */
+.card.approved-candidates {
+  padding: 36px 28px; /* more breathing room */
+  border-radius: 18px;
+  background: linear-gradient(135deg, #a78bfa, #7c9df0); /* subtle brighter look */
+}
+
+.card.approved-candidates > h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin: 6px 0 18px;
+  color: #fff;
+}
+
+.card.approved-candidates .candidate-toggle {
+  display: flex;
+  width: 100%;
+  max-width: 760px; /* limit overall toggle width */
+  margin: 0 auto 22px; /* center the toggle and provide spacing */
+  gap: 24px; /* space between buttons */
+}
+
+/* Make toggle buttons stretch to fill the toggle container equally */
+.card.approved-candidates .candidate-toggle button {
+  flex: 1 1 0;
+  min-width: 0; /* allow shrinking below intrinsic size */
+  padding: 14px 0; /* vertical padding, horizontal fills by flex */
+  border-radius: 12px;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 600px) {
+  .card.approved-candidates .candidate-toggle {
+    flex-direction: column;
+    gap: 12px;
+    max-width: 100%;
+    padding: 0 12px;
+  }
+
+  .card.approved-candidates .candidate-toggle button {
+    width: 100%;
+  }
+}
+
+.card.approved-candidates .candidate-category {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start; /* left-align headings and content */
+  padding: 0 18px; /* small inner padding to keep content from edges */
+}
+
+.card.approved-candidates .candidate-category-title {
+  width: 100%;
+  text-align: center;
+  font-size: 1.8rem; /* slightly larger */
+  color: #0f172a;
+  margin: 6px 0 20px;
+  font-weight: 700;
+  align-self: center; /* keep the title centered while content remains left-aligned */
+}
+
+/* Make the grid centered and keep fixed card widths for visual consistency */
+.card.approved-candidates .candidate-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 28px;
+  justify-items: center;
+  align-items: start;
+  width: 100%;
+}
+
+/* Make the approved candidates grid more horizontal and stretched
+   ensure at least two cards per row on wider screens */
+.card.approved-candidates .candidate-grid {
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 36px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+@media (min-width: 1200px) {
+  .card.approved-candidates .candidate-grid {
+    grid-template-columns: repeat(2, minmax(520px, 1fr)); /* at least 2 wide columns on large screens */
+  }
+}
+
+@media (max-width: 900px) {
+  .card.approved-candidates .candidate-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+  }
+}
+
+/* Extra-large screens: allow three columns if space permits but keep cards wide */
+@media (min-width: 1600px) {
+  .card.approved-candidates .candidate-grid {
+    grid-template-columns: repeat(3, minmax(520px, 1fr));
+    max-width: 1600px;
+    gap: 48px;
+  }
+}
+
+.card.approved-candidates .candidate-card {
+  max-width: 320px;
+  width: 100%;
+  padding: 28px 20px;
+  border-radius: 14px;
+  background: #e9e5e5;
+}
+
+/* Ensure cards are more fluid on smaller screens */
+@media (max-width: 900px) {
+  .card.announcement-wrapper,
+  .card.approved-candidates {
+    width: 100%;
+    max-width: none;
+    margin: 16px 0;
+  }
+}
 
 @media (max-width: 900px) {
   .card.announcement-wrapper {

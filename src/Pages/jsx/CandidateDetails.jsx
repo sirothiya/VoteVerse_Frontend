@@ -77,12 +77,12 @@ const CandidateDetails = () => {
     const candidateInfo = JSON.parse(localStorage.getItem("candidate"));
     if (!token) return;
     let url;
-    if (candidateInfo && candidateInfo.isELectionCompleted) {
+    if (candidateInfo && candidateInfo.isElectionCompleted) {
       url = `https://voteverse-backend-new.onrender.com/candidate/results/candidate/${rollNumber}`;
     } else
       url = `https://voteverse-backend-new.onrender.com/candidate/${rollNumber}`;
     fetch(url, {
-      headers: { Authorization: `Bearer ${token}` },
+      // headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
       .then((data) => {

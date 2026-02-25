@@ -114,7 +114,7 @@ const App = () => {
         <Route
           path="/result"
           element={
-            <ProtectedRoute allowedRoles={["admin"]}>
+            <ProtectedRoute allowedRoles={["admin", "voter", "candidate"]}>
               <ElectionResults />
             </ProtectedRoute>
           }
@@ -124,7 +124,7 @@ const App = () => {
         <Route
           path="/candidateDetails/:rollNumber"
           element={
-            <ProtectedRoute allowedRoles={["admin", "candidate"]}>
+            <ProtectedRoute allowedRoles={["admin", "candidate", "voter"]}>
               <CandidateDetails />
             </ProtectedRoute>
           }

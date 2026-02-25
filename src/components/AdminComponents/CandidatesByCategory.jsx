@@ -22,7 +22,7 @@ const CandidatesByCategory = ({ candidates }) => {
           </div>
 
           
-          <div className="category-scroll">
+          <div className={`category-scroll ${list.length === 1 ? "single" : ""}`}>
             {list.map((candidate) => (
               <CandidateCard key={candidate._id} candidate={candidate} />
             ))}

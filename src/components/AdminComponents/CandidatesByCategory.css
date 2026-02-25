@@ -54,6 +54,11 @@
   padding-bottom: 16px;
 
   align-items: stretch;  
+  justify-content: flex-start;
+}
+
+.category-scroll.single {
+  justify-content: center; /* center the lone candidate */
 }
 
 

@@ -226,6 +226,7 @@ const ProfilePage = () => {
 
   return (
     <div className="profile-container">
+      <div className="profile-inner">
       <div className="div-header">
         <h1 className="div-title">Welcome!! {user?.name}</h1>
 
@@ -295,7 +296,7 @@ const ProfilePage = () => {
       )}
 
       {showCandidates && (
-        <section className="card">
+        <section className="card approved-candidates">
           <h2>Approved Candidates</h2>
           <div className="candidate-toggle">
             <button
@@ -372,6 +373,7 @@ const ProfilePage = () => {
           }}
         />
       )}
+      </div>
     </div>
   );
 };

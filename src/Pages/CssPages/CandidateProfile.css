@@ -341,6 +341,89 @@
   background: #334155;
 }
 
+/* Recorder UI */
+.video-mode-toggle {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.recorder-block {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.recorder-preview {
+  background: #000;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.06);
+  object-fit: cover;
+}
+
+/* Ensure preview has fixed height and recorded playback doesn't overlap */
+.recorder-block { position: relative; }
+.recorder-preview { height: 300px; display: block; }
+.recording-preview video { display: block; max-width: 100%; height: auto; border-radius: 10px; box-shadow: 0 6px 18px rgba(2,6,23,0.5); }
+.recording-preview { margin-top: 8px; }
+
+.recorder-controls {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.recorder-status { display:flex; gap:12px; align-items:center; margin-right:12px; }
+.recorder-status .timer { font-weight:800; color:#e6eefc; background: rgba(0,0,0,0.25); padding:6px 10px; border-radius:8px; }
+.recorder-status .hint { color:#cbd5f5; font-size:0.95rem }
+
+.recording-actions { display:flex; gap:8px; align-items:center }
+.recording-preview { width:100% }
+
+.rec-btn {
+  background: linear-gradient(135deg, #6366f1, #4338ca);
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.rec-btn.danger {
+  background: #ef4444;
+}
+
+.rec-btn:hover { transform: translateY(-2px); }
+
+/* Confirmation modal */
+.confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2,6,23,0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+}
+
+.confirm-content {
+  background: linear-gradient(135deg, #1e293b, #312e81);
+  padding: 20px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 640px;
+  color: #e6eefc;
+}
+
+.confirm-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  margin-top: 12px;
+}
+
 
 /* ================= RESPONSIVE ================= */
 

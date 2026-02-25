@@ -11,17 +11,18 @@ const CandidateCard = ({ candidate }) => {
   const navigate = useNavigate();
   const loggedInRoll = candidate.rollNumber;
 
-  const handleMoreInfo = async () => {
-     setLoading(true);
-      setError("");
-  
-     if(candidate.profilecompleted)
-     navigate(`/candidateDetails/${candidate.rollNumber}`);
-     else setError("Candidate profile is not completed yet.")
+  const handleMoreInfo = () => {
+    setLoading(true);
+    setError("");
+
+    if (candidate.profilecompleted) {
+      navigate(`/candidateDetails/${candidate.rollNumber}`);
       setLoading(false);
-  
+    } else {
+      setError("Candidate profile is not completed yet.");
+      setLoading(false);
+    }
   };
- 
 
   return (
     <Card className="candidate-card1">
@@ -52,6 +53,7 @@ const CandidateCard = ({ candidate }) => {
         </div>
 
         <button
+          type="button"
           onClick={handleMoreInfo}
           disabled={loading}
           className="candidate-btn1"
