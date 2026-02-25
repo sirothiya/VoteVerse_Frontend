@@ -9,6 +9,7 @@ const ElectionResults = () => {
   const [results, setResults] = useState({
     headBoyResults: [],
     headGirlResults: [],
+    electionSession:null,
   });
   const [errorMsg, setErrorMsg] = useState("");
   const [loading, setLoading] = useState(true);
@@ -27,6 +28,7 @@ const ElectionResults = () => {
         setResults({
           headBoyResults: data[0].finalResults.headBoyResults || [],
           headGirlResults: data[0].finalResults.headGirlResults || [],
+          electionSession: data[0].electionSession || "Unknown Session",
         });
       } catch (err) {
        setErrorMsg("Failed to load results. Please try again later.");
@@ -51,7 +53,10 @@ const ElectionResults = () => {
               {cat}
             </button>
           ))}
+          
         </div>
+        <h1 className="sessionheading">Session: {results.electionSession}</h1>
+        
         <AlertModal message={errorMsg} onClose={() => setErrorMsg("")} duration={3000} />
         <ResultCharts
           results={
@@ -78,6 +83,7 @@ const ResultSection = ({ title, results = [] }) => {
   return (
     <section className="result-section">
       <h3>{title}</h3>
+
 
       {results.map((r, i) => (
         <div
