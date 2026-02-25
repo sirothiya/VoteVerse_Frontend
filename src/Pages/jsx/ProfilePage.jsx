@@ -203,7 +203,7 @@ const ProfilePage = () => {
       const updatedUser = await userRes.json();
       setUser(updatedUser.user);
     } catch (err) {
-      console.error("Voting error:", err);
+      set;
     }
   };
 
