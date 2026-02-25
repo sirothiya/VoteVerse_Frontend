@@ -9,6 +9,8 @@
   min-width: 92%;
   margin: 40px;
   color: #1e293b;
+  justify-content: center;
+  align-items: center;
 }
 
 .sessionheading{
