@@ -5,37 +5,37 @@
   box-sizing: border-box;
 }
 
-
 .page-title {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 5vw, 2rem);
   font-weight: bold;
   color: #f0f0f0;
-  margin: 30px 0 20px;
+  margin: clamp(20px, 4vw, 30px) 0 clamp(15px, 3vw, 20px);
   text-align: center;
   text-shadow: 0 3px 6px rgba(0,0,0,0.3);
 }
 
-
 .btn-group {
   display: flex;
   justify-content: center;
-  gap: 35px;
-  margin-top: 20px;
-  flex-wrap: wrap; 
+  gap: clamp(15px, 4vw, 35px);
+  margin-top: clamp(15px, 3vw, 20px);
+  flex-wrap: wrap;
+  padding: 0 clamp(10px, 3vw, 20px);
+  box-sizing: border-box;
 }
-
 
 .start-election {
   background-color: rgb(12, 147, 214);
   color: var(--secondary-bg-color);
   border: none;
-  padding: 12px 18px;
-  font-size: 15px;
+  padding: clamp(10px, 2vw, 12px) clamp(14px, 3vw, 18px);
+  font-size: clamp(0.85rem, 2vw, 15px);
   font-weight: 600;
   border-radius: 8px;
   cursor: pointer;
   box-shadow: 0 6px 14px rgba(211, 47, 47, 0.35);
   transition: all 0.25s ease;
+  white-space: nowrap;
 }
 
 
@@ -43,13 +43,14 @@
   background: linear-gradient(135deg, #d32f2f, #b71c1c);
   color: #ffffff;
   border: none;
-  padding: 12px 18px;
-  font-size: 15px;
+  padding: clamp(10px, 2vw, 12px) clamp(14px, 3vw, 18px);
+  font-size: clamp(0.85rem, 2vw, 15px);
   font-weight: 600;
   border-radius: 8px;
   cursor: pointer;
   box-shadow: 0 6px 14px rgba(211, 47, 47, 0.35);
   transition: all 0.25s ease;
+  white-space: nowrap;
 }
 
 .danger-btn:hover {
@@ -80,8 +81,6 @@
   100% { transform: translateX(0); }
 }
 
-
-
 .popup-overlay {
   position: fixed;
   inset: 0;
@@ -92,14 +91,14 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  padding: 16px; /* 🔥 prevents edge clipping on mobile */
+  padding: clamp(12px, 3vw, 16px);
   box-sizing: border-box;
 }
 
 .popup-content {
   background: linear-gradient(135deg, #004e92, #000428);
-  border-radius: 16px;
-  padding: 30px;
+  border-radius: clamp(12px, 3vw, 16px);
+  padding: clamp(20px, 4vw, 30px);
   width: 100%;
   max-width: 500px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
@@ -107,29 +106,32 @@
 }
 
 .popup-content.large {
-  max-width: 600px;
+  max-width: clamp(300px, 90vw, 600px);
 }
 
 .popup-content h2 {
   margin-bottom: 20px;
   text-align: center;
   color: rgb(204, 223, 235);
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
 }
 
 .popup-content label {
   display: block;
   margin-top: 10px;
   font-weight: 600;
+  font-size: clamp(0.85rem, 2vw, 1rem);
 }
 
 .popup-content input,
 .popup-content textarea {
   width: 100%;
-  padding: 10px;
+  padding: clamp(8px, 2vw, 10px);
   margin-top: 5px;
   border: 1px solid #ccc;
   border-radius: 8px;
   box-sizing: border-box;
+  font-size: clamp(0.8rem, 2vw, 1rem);
 }
 
 .popup-actions {
@@ -141,12 +143,15 @@
 }
 
 .popup-actions button {
-  padding: 10px 20px;
+  padding: clamp(8px, 2vw, 10px) clamp(12px, 3vw, 20px);
   border: none;
   border-radius: 8px;
   background: #007bff;
   color: white;
   cursor: pointer;
+  font-size: clamp(0.8rem, 1.8vw, 1rem);
+  flex: 1;
+  min-width: 120px;
 }
 
 .popup-actions .secondary {
@@ -158,39 +163,40 @@
 
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  gap: 25px;
-  margin-top: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(clamp(200px, 90vw, 230px), 1fr));
+  gap: clamp(15px, 3vw, 25px);
+  margin-top: clamp(15px, 3vw, 20px);
   width: 100%;
+  padding: 0 clamp(8px, 2vw, 10px);
+  box-sizing: border-box;
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
+/* =============== RESPONSIVE MEDIA QUERIES =============== */
 
-@media (max-width: 768px) {
-  .btn-group {
+/* Large Desktop (1400px+) */
+@media (min-width: 1400px) {
+  .card-grid {
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 25px;
+  }
+}
+
+/* Desktop (1024px - 1399px) */
+@media (max-width: 1399px) {
+  .card-grid {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 20px;
-  }
-
-  .popup-content {
-    padding: 22px;
-  }
-}
-
-/* Mobile */
-@media (max-width: 480px) {
-  .page-title {
-    margin-top: 20px;
-  }
-
-  .btn-group {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .start-election,
-  .danger-btn {
-    width: 100%;
-    max-width: 320px;
   }
 
   .popup-actions {
@@ -202,14 +208,130 @@
   }
 }
 
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
+/* Tablets (768px - 1023px) */
+@media (max-width: 1023px) {
+  .btn-group {
+    gap: 12px;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+
+  .popup-content {
+    padding: 20px;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+
+  .start-election,
+  .danger-btn {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Mobile (600px - 767px) */
+@media (max-width: 767px) {
+  .page-title {
+    margin-top: 16px;
+    font-size: 1.4rem;
+  }
+
+  .btn-group {
+    gap: 10px;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .start-election,
+  .danger-btn {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .popup-overlay {
+    padding: 12px;
+  }
+
+  .popup-content {
+    padding: 16px;
+  }
+
+  .popup-actions {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .popup-actions button {
+    width: 100%;
+    padding: 8px 10px;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+    padding: 0 8px;
+  }
+}
+
+/* Small Phones (479px and below) */
+@media (max-width: 479px) {
+  .page-title {
+    font-size: 1.2rem;
+    margin: 12px 0 10px;
+  }
+
+  .btn-group {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .start-election,
+  .danger-btn {
+    width: 100%;
+    max-width: 280px;
+    padding: 8px 10px;
+    font-size: 0.8rem;
+  }
+
+  .popup-overlay {
+    padding: 8px;
+  }
+
+  .popup-content {
+    padding: 14px;
+    border-radius: 12px;
+  }
+
+  .popup-content h2 {
+    font-size: 1.1rem;
+    margin-bottom: 14px;
+  }
+
+  .popup-content label {
+    font-size: 0.8rem;
+    margin-top: 8px;
+  }
+
+  .popup-content input,
+  .popup-content textarea {
+    padding: 6px;
+    font-size: 0.8rem;
+  }
+
+  .popup-actions {
+    gap: 6px;
+  }
+
+  .popup-actions button {
+    padding: 6px 8px;
+    font-size: 0.75rem;
+  }
+
+  .card-grid {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+    padding: 0 6px;
   }
 }

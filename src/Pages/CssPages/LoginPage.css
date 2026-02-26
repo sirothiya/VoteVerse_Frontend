@@ -9,17 +9,17 @@
 /* ===========================
    PAGE WRAPPER
 =========================== */
-/* @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"); */
 
 .signup-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 93vh;
-  padding: 2rem;
+  padding: clamp(1rem, 3vw, 2rem);
   background: linear-gradient(135deg, #004e92, #000428);
   font-family: "Poppins", sans-serif;
   width: 100%;
+  box-sizing: border-box;
 }
 
 /* ===========================
@@ -30,8 +30,8 @@
   max-width: 600px;
   background: rgba(255, 255, 255, 0.12);
   backdrop-filter: blur(18px);
-  border-radius: 20px;
-  padding: 45px 40px;
+  border-radius: clamp(16px, 4vw, 20px);
+  padding: clamp(24px, 6vw, 45px) clamp(20px, 5vw, 40px);
   box-shadow: 0 10px 35px rgba(31, 38, 135, 0.45);
   color: white;
   display: flex;
@@ -57,18 +57,21 @@
 .toggle-section {
   display: flex;
   width: 100%;
-  gap: 12px;
-  margin-bottom: 25px;
+  gap: clamp(8px, 2vw, 12px);
+  margin-bottom: clamp(18px, 4vw, 25px);
+  flex-wrap: wrap;
 }
 
 .toggle-btn {
   flex: 1;
-  padding: 12px 0;
+  min-width: 80px;
+  padding: clamp(10px, 2vw, 12px) clamp(8px, 2vw, 16px);
   border: none;
   border-radius: 10px;
   background: rgba(255, 255, 255, 0.15);
   color: white;
   font-weight: 600;
+  font-size: clamp(0.8rem, 2vw, 1rem);
   cursor: pointer;
   transition: all 0.3s ease;
 }
@@ -88,9 +91,9 @@
 =========================== */
 .form-title {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
   font-weight: 600;
-  margin-bottom: 30px;
+  margin-bottom: clamp(20px, 4vw, 30px);
   color: #fff;
 }
 
@@ -101,7 +104,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  gap: 18px;
+  gap: clamp(12px, 3vw, 18px);
 }
 
 .form-group {
@@ -110,7 +113,7 @@
 }
 
 label {
-  font-size: 0.92rem;
+  font-size: clamp(0.8rem, 2vw, 0.92rem);
   font-weight: 500;
   margin-bottom: 6px;
   color: #f6f2f2;
@@ -121,14 +124,15 @@ label {
 =========================== */
 input {
   width: 100%;
-  padding: 12px 14px;
+  padding: clamp(10px, 2vw, 12px) clamp(12px, 2vw, 14px);
   border-radius: 10px;
   border: none;
   outline: none;
   background: rgba(255, 255, 255, 0.2);
   color: #fff;
-  font-size: 0.95rem;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
   transition: background 0.3s ease, transform 0.2s ease;
+  box-sizing: border-box;
 }
 
 input::placeholder {
@@ -150,28 +154,28 @@ input:focus {
 
 .password-toggle-icon {
   position: absolute;
-  right: 12px;
+  right: clamp(10px, 2vw, 12px);
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
   color: #888;
-  font-size: 18px;
+  font-size: clamp(16px, 2vw, 18px);
 }
 
 /* ===========================
-   SUBMIT BUTTON (UNCHANGED)
+   SUBMIT BUTTON
 =========================== */
 .submit-btn {
   background: linear-gradient(135deg, #ffffff, #d9d9ff);
   color: #2575fc;
   border: none;
-  padding: 13px;
-  font-size: 1rem;
+  padding: clamp(10px, 2vw, 13px) clamp(12px, 2vw, 20px);
+  font-size: clamp(0.9rem, 2vw, 1rem);
   font-weight: 600;
   border-radius: 10px;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-top: 20px;
+  margin-top: clamp(14px, 3vw, 20px);
 }
 
 .submit-btn:hover {
@@ -184,29 +188,32 @@ input:focus {
 =========================== */
 .switch-link {
   text-align: center;
+  margin-top: clamp(12px, 2vw, 18px);
 }
 
 .link {
   color: #ded5e7;
   font-weight: 600;
   text-decoration: none;
+  font-size: clamp(0.8rem, 1.8vw, 0.95rem);
 }
 
 .link:hover {
   text-decoration: none;
+  color: #ffffff;
 }
 
 /* ===========================
-   BACK BUTTON (UNCHANGED)
+   BACK BUTTON
 =========================== */
 .back-btnss {
-  margin-top: 15px;
+  margin-top: clamp(12px, 2vw, 15px);
   background: linear-gradient(135deg, #004e92, #000428);
   border: 2px solid var(--accent-color);
   color: var(--accent-color);
-  padding: 10px 20px;
+  padding: clamp(8px, 1.5vw, 10px) clamp(16px, 3vw, 20px);
   border-radius: 50px;
-  font-size: 16px;
+  font-size: clamp(0.85rem, 2vw, 16px);
   font-weight: 500;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -218,29 +225,141 @@ input:focus {
 }
 
 /* ===========================
-   RESPONSIVE FIXES ONLY
+   RESPONSIVE MEDIA QUERIES
 =========================== */
-@media (max-width: 768px) {
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) {
+  .signup-wrapper {
+    padding: clamp(1rem, 3vw, 1.5rem);
+  }
+
   .signup-card {
-    padding: 35px 28px;
+    padding: clamp(20px, 5vw, 35px) clamp(18px, 4vw, 28px);
+  }
+
+  .toggle-section {
+    gap: clamp(8px, 2vw, 10px);
   }
 }
 
-@media (max-width: 480px) {
+/* Mobile (600px - 767px) */
+@media (max-width: 767px) {
   .signup-wrapper {
-    padding: 1rem;
+    padding: clamp(12px, 2vw, 1rem);
+    min-height: 95vh;
   }
 
   .signup-card {
-    width: 100%;
-    padding: 28px 20px;
+    padding: clamp(18px, 4vw, 28px) clamp(16px, 3vw, 22px);
+    border-radius: 14px;
+  }
+
+  .toggle-section {
+    gap: clamp(6px, 1.5vw, 8px);
+    margin-bottom: clamp(14px, 3vw, 20px);
+  }
+
+  .toggle-btn {
+    padding: clamp(8px, 1.5vw, 10px) clamp(6px, 1.5vw, 10px);
+    font-size: 0.85rem;
+    min-width: 75px;
+  }
+
+  .form-title {
+    margin-bottom: clamp(16px, 3vw, 24px);
+    font-size: 1.2rem;
+  }
+
+  .form-body {
+    gap: clamp(10px, 2vw, 14px);
+  }
+
+  label {
+    font-size: 0.8rem;
+  }
+
+  input {
+    padding: clamp(8px, 1.5vw, 10px) clamp(10px, 1.5vw, 12px);
+    font-size: 0.85rem;
+  }
+
+  .password-toggle-icon {
+    font-size: 16px;
+  }
+}
+
+/* Small Phones (479px and below) */
+@media (max-width: 479px) {
+  .signup-wrapper {
+    padding: 10px;
+    min-height: 100vh;
+  }
+
+  .signup-card {
+    padding: clamp(16px, 3vw, 20px) clamp(14px, 2vw, 18px);
+    border-radius: 12px;
   }
 
   .toggle-section {
     flex-direction: column;
+    gap: 8px;
+    margin-bottom: 14px;
   }
 
   .toggle-btn {
     width: 100%;
+    padding: clamp(8px, 1.5vw, 10px) clamp(8px, 2vw, 12px);
+    font-size: 0.8rem;
+    min-width: unset;
+  }
+
+  .form-title {
+    font-size: 1.1rem;
+    margin-bottom: 14px;
+  }
+
+  .form-body {
+    gap: clamp(10px, 2vw, 12px);
+  }
+
+  label {
+    font-size: 0.75rem;
+    margin-bottom: 4px;
+  }
+
+  input {
+    padding: clamp(8px, 1.5vw, 10px) clamp(10px, 1.5vw, 12px);
+    font-size: 0.8rem;
+    border-radius: 8px;
+  }
+
+  .password-container {
+    position: relative;
+  }
+
+  .password-toggle-icon {
+    right: 8px;
+    font-size: 16px;
+  }
+
+  .submit-btn {
+    padding: clamp(8px, 1.5vw, 10px) clamp(10px, 2vw, 14px);
+    font-size: 0.8rem;
+    margin-top: clamp(12px, 2vw, 16px);
+  }
+
+  .switch-link {
+    margin-top: clamp(10px, 2vw, 12px);
+  }
+
+  .link {
+    font-size: 0.75rem;
+  }
+
+  .back-btnss {
+    padding: clamp(6px, 1.5vw, 8px) clamp(12px, 2vw, 16px);
+    font-size: 0.75rem;
+    margin-top: clamp(10px, 2vw, 12px);
   }
 }

@@ -4,8 +4,8 @@
 
 .profile-container {
   background: linear-gradient(135deg, #004e92, #000428);
-  border-radius: 20px;
-  padding: 30px;
+  border-radius: clamp(14px, 3vw, 20px);
+  padding: clamp(16px, 4vw, 30px);
   color: #f5f7fa;
   min-width: 100%;
   max-width: none;
@@ -14,12 +14,15 @@
   min-height: 90vh;
   font-family: 'Poppins', sans-serif;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+  box-sizing: border-box;
 }
 
 .profile-inner {
   max-width: 1200px;
-  margin: 0 auto;      /* intentional centering */
+  margin: 0 auto;
   width: 100%;
+  padding: 0 clamp(8px, 2vw, 12px);
+  box-sizing: border-box;
 }
 
 /* =========================================================
@@ -30,15 +33,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 20px;
-  gap: 12px;
+  margin-bottom: clamp(14px, 3vw, 20px);
+  gap: clamp(10px, 2vw, 12px);
+  flex-wrap: wrap;
 }
 
 .div-title {
-  font-size: 2rem;
+  font-size: clamp(1.4rem, 5vw, 2rem);
   font-weight: 700;
   color: #0f172a;
   margin: 0;
+  flex: 1;
+  min-width: 150px;
 }
 
 /* Show Results Button */
@@ -46,8 +52,8 @@
   background: linear-gradient(135deg, #2563eb, #1e40af);
   color: #ffffff;
   border: none;
-  padding: 10px 18px;
-  font-size: 0.95rem;
+  padding: clamp(8px, 1.5vw, 10px) clamp(12px, 2vw, 18px);
+  font-size: clamp(0.8rem, 2vw, 0.95rem);
   font-weight: 600;
   border-radius: 10px;
   cursor: pointer;
@@ -56,6 +62,8 @@
   gap: 6px;
   box-shadow: 0 6px 14px rgba(37, 99, 235, 0.35);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .show-results-btn:hover {

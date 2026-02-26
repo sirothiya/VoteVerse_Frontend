@@ -6,29 +6,23 @@
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
   position: relative;
   overflow: hidden;
-
   display: flex;
-  /* flex: 0 0 auto; */
-  /* width: 100%; */
-  /* max-width: 620px;  */
+  width: 100%;
 }
-
 
 .candidate-card1.card {
   max-width: none;
   margin: 0;
 }
 
-
 .candidate-card-content1 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 16px; /* increased padding for larger card */
+  padding: 20px 16px;
   text-align: center;
   flex: 1;
 }
-
 
 .candidate-avatar1 {
   width: 170px;
@@ -41,16 +35,16 @@
   flex-shrink: 0;
 }
 
-
 .candidate-name1 {
-  font-size: 2rem;
+  font-size: clamp(1.5rem, 5vw, 2rem);
   font-weight: 800;
   color: #0f141a;
   margin-bottom: 14px;
+  word-wrap: break-word;
 }
 
 .candidate-info1p {
-  font-size: 0.9rem;
+  font-size: clamp(0.75rem, 2.5vw, 0.9rem);
   color: #f8fafc;
   margin-bottom: 4px;
 }
@@ -60,16 +54,15 @@
   font-weight: 600;
 }
 
-
 .candidate-btn1 {
-  margin-top: auto;        /* locks button bottom */
-  width: 68%;
+  margin-top: auto;
+  width: 85%;
   max-width: 340px;
   background: linear-gradient(135deg, #2563eb, #1e40af);
   color: #ffffff;
   border: none;
-  padding: 12px 0;
-  font-size: 1rem;
+  padding: 12px 8px;
+  font-size: clamp(0.85rem, 2vw, 1rem);
   font-weight: 600;
   border-radius: 12px;
   cursor: pointer;
@@ -109,4 +102,170 @@
   background: rgba(239, 68, 68, 0.15);
   color: #ef4444;
   border: 1px solid #ef4444;
+}
+
+/* =============== RESPONSIVE MEDIA QUERIES =============== */
+
+/* Large Desktop (1400px+) */
+@media (min-width: 1400px) {
+  .candidate-card1 {
+    min-height: 480px;
+  }
+
+  .candidate-avatar1 {
+    width: 180px;
+    height: 180px;
+  }
+}
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) {
+  .candidate-card1 {
+    min-height: 420px;
+  }
+
+  .candidate-avatar1 {
+    width: 150px;
+    height: 150px;
+    margin-bottom: 16px;
+  }
+
+  .candidate-name1 {
+    margin-bottom: 12px;
+  }
+
+  .candidate-btn1 {
+    width: 80%;
+    padding: 10px 8px;
+    margin-top: 16px;
+  }
+
+  .candidate-card-content1 {
+    padding: 16px 12px;
+  }
+}
+
+/* iPad/Medium Tablets (600px - 767px) */
+@media (max-width: 767px) {
+  .candidate-card1 {
+    min-height: auto;
+    margin: 0 auto;
+  }
+
+  .candidate-card-content1 {
+    padding: 14px 10px;
+  }
+
+  .candidate-avatar1 {
+    width: 130px;
+    height: 130px;
+    margin-bottom: 14px;
+  }
+
+  .candidate-name1 {
+    font-size: clamp(1.2rem, 4vw, 1.6rem);
+    margin-bottom: 10px;
+  }
+
+  .candidate-info1p {
+    font-size: clamp(0.7rem, 2vw, 0.85rem);
+  }
+
+  .candidate-btn1 {
+    width: 85%;
+    max-width: 280px;
+    padding: 10px 6px;
+    font-size: clamp(0.8rem, 1.8vw, 0.9rem);
+    margin-top: 12px;
+  }
+
+  .candidate-status {
+    top: 10px;
+    right: 10px;
+    padding: 4px 10px;
+    font-size: 0.65rem;
+  }
+}
+
+/* Mobile Phones (480px - 599px) */
+@media (max-width: 599px) {
+  .candidate-card1 {
+    border-radius: 14px;
+    min-height: auto;
+    margin: 0 auto;
+    max-width: 100%;
+  }
+
+  .candidate-card-content1 {
+    padding: 12px 10px;
+  }
+
+  .candidate-avatar1 {
+    width: 110px;
+    height: 110px;
+    margin-bottom: 12px;
+    border-width: 4px;
+  }
+
+  .candidate-name1 {
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+
+  .candidate-info1p {
+    font-size: 0.75rem;
+    margin-bottom: 3px;
+  }
+
+  .candidate-btn1 {
+    width: 90%;
+    max-width: 260px;
+    padding: 8px 6px;
+    font-size: 0.8rem;
+    margin-top: 10px;
+    border-radius: 10px;
+  }
+
+  .candidate-status {
+    top: 8px;
+    right: 8px;
+    padding: 3px 8px;
+    font-size: 0.6rem;
+  }
+}
+
+/* Small Phones (360px - 479px) */
+@media (max-width: 479px) {
+  .candidate-card1 {
+    border-radius: 12px;
+  }
+
+  .candidate-card-content1 {
+    padding: 10px 8px;
+  }
+
+  .candidate-avatar1 {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 10px;
+  }
+
+  .candidate-name1 {
+    font-size: 0.95rem;
+    margin-bottom: 6px;
+  }
+
+  .candidate-info1p {
+    font-size: 0.7rem;
+    margin-bottom: 2px;
+  }
+
+  .candidate-btn1 {
+    width: 92%;
+    max-width: 240px;
+    padding: 7px 5px;
+    font-size: 0.75rem;
+    margin-top: 8px;
+  }
 }

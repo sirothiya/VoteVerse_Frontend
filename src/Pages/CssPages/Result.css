@@ -4,25 +4,25 @@
 
 .modal {
   background: linear-gradient(135deg, #a78bfa, #60a5fa);
-  border-radius: 18px;
-  padding: 30px;
+  border-radius: clamp(14px, 3vw, 18px);
+  padding: clamp(20px, 4vw, 30px);
   min-width: 92%;
-  /* margin: 40px; */
   color: #1e293b;
   justify-content: center;
   align-items: center;
+  box-sizing: border-box;
 }
 
-.sessionheading{
-  font-size: 1.25rem;
+.sessionheading {
+  font-size: clamp(1rem, 3vw, 1.25rem);
   font-weight: 700;
   color: #1e293b;
   align-items: center;
   justify-content: center;
-  margin:  0 10px;
-
-
+  margin: clamp(10px, 2vw, 10px);
+  text-align: center;
 }
+
 /* ===============================
    TABS (HEAD BOY / HEAD GIRL)
 ================================ */
@@ -30,22 +30,26 @@
 .chart-tabs {
   display: flex;
   justify-content: center;
-  gap: 12px;
-  margin: 20px 0;
+  gap: clamp(8px, 2vw, 12px);
+  margin: clamp(14px, 3vw, 20px) 0;
+  flex-wrap: wrap;
 }
 
 .chart-tabs button {
-  padding: 8px 18px;
+  padding: clamp(6px, 1.5vw, 8px) clamp(14px, 2vw, 18px);
   border-radius: 999px;
   border: none;
   cursor: pointer;
   font-weight: 600;
   background: #e0e7ff;
+  font-size: clamp(0.75rem, 1.8vw, 0.9rem);
+  transition: all 0.3s ease;
 }
 
 .chart-tabs button.active {
   background: #4f46e5;
   color: #ffffff;
+  transform: scale(1.05);
 }
 
 /* ===============================
@@ -53,14 +57,14 @@
 ================================ */
 
 .result-section {
-  margin-bottom: 24px;
+  margin-bottom: clamp(16px, 3vw, 24px);
 }
 
 .result-section h3 {
-  font-size: 20px;
+  font-size: clamp(1rem, 3vw, 1.25rem);
   border-bottom: 2px solid #ffffff;
   padding-bottom: 6px;
-  margin-bottom: 12px;
+  margin-bottom: clamp(10px, 2vw, 12px);
   color: #1e293b;
 }
 
@@ -72,11 +76,13 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 14px 18px;
+  padding: clamp(10px, 2vw, 14px) clamp(12px, 2vw, 18px);
   border-radius: 12px;
   margin-bottom: 10px;
   font-weight: 600;
   background: rgba(255, 255, 255, 0.6);
+  flex-wrap: wrap;
+  gap: clamp(8px, 2vw, 12px);
 }
 
 .result-card.winner {
@@ -93,16 +99,18 @@
 ================================ */
 
 .rank {
-  font-size: 14px;
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
 }
 
 .name {
-  font-size: 16px;
+  font-size: clamp(0.9rem, 2.5vw, 1rem);
   font-weight: 600;
+  flex: 1;
+  min-width: 120px;
 }
 
 .votes {
-  font-size: 15px;
+  font-size: clamp(0.85rem, 2vw, 0.95rem);
   font-weight: 600;
   color: #1d4ed8;
 }
@@ -111,14 +119,18 @@
   background: #2563eb;
   color: #ffffff;
   border: none;
-  padding: 6px 14px;
+  padding: clamp(5px, 1vw, 6px) clamp(10px, 2vw, 14px);
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
+  font-size: clamp(0.7rem, 1.8vw, 0.85rem);
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
 .profile:hover {
   background: #1e40af;
+  transform: translateY(-1px);
 }
 
 /* ===============================
@@ -127,8 +139,8 @@
 
 .result-loading {
   text-align: center;
-  font-size: 18px;
-  margin-top: 50px;
+  font-size: clamp(1rem, 3vw, 1.1rem);
+  margin-top: clamp(30px, 5vw, 50px);
 }
 
 /* ===============================
@@ -136,7 +148,7 @@
 ================================ */
 
 .no-result-card {
-  height: 280px;
+  min-height: clamp(200px, 50vw, 280px);
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -145,18 +157,19 @@
   border: 2px dashed #c7d2fe;
   border-radius: 16px;
   text-align: center;
-  padding: 20px;
+  padding: clamp(16px, 3vw, 20px);
   animation: fadeIn 0.4s ease-in-out;
+  box-sizing: border-box;
 }
 
 .no-result-icon {
-  font-size: 48px;
-  margin-bottom: 10px;
+  font-size: clamp(32px, 8vw, 48px);
+  margin-bottom: clamp(8px, 2vw, 10px);
   opacity: 0.8;
 }
 
 .no-results {
-  font-size: 18px;
+  font-size: clamp(1rem, 3vw, 1.1rem);
   font-weight: 600;
   color: #1e293b;
 }
@@ -166,25 +179,9 @@
 }
 
 .no-results-sub {
-  font-size: 14px;
+  font-size: clamp(0.8rem, 2vw, 0.9rem);
   color: #64748b;
   margin-top: 6px;
-}
-
-/* ===============================
-   RESPONSIVE
-================================ */
-
-@media (max-width: 600px) {
-  .result-card {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 8px;
-  }
-
-  .profile {
-    align-self: flex-end;
-  }
 }
 
 /* ===============================
@@ -199,5 +196,153 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+/* ===============================
+   RESPONSIVE MEDIA QUERIES
+================================ */
+
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) {
+  .modal {
+    padding: clamp(16px, 3vw, 24px);
+  }
+
+  .chart-tabs {
+    gap: clamp(6px, 1.5vw, 10px);
+  }
+
+  .result-card {
+    padding: clamp(10px, 1.5vw, 12px) clamp(10px, 1.5vw, 14px);
+  }
+}
+
+/* Mobile (600px - 767px) */
+@media (max-width: 767px) {
+  .modal {
+    padding: clamp(14px, 2.5vw, 20px);
+    min-width: 96%;
+  }
+
+  .sessionheading {
+    font-size: 1.1rem;
+    margin: 8px;
+  }
+
+  .chart-tabs {
+    gap: clamp(6px, 1.5vw, 8px);
+    margin: 12px 0;
+  }
+
+  .chart-tabs button {
+    padding: clamp(6px, 1.2vw, 8px) clamp(10px, 2vw, 14px);
+    font-size: 0.8rem;
+  }
+
+  .result-section {
+    margin-bottom: 14px;
+  }
+
+  .result-section h3 {
+    font-size: 1rem;
+    margin-bottom: 8px;
+  }
+
+  .result-card {
+    padding: clamp(8px, 1.5vw, 10px) clamp(10px, 1.5vw, 12px);
+    gap: 6px;
+  }
+
+  .rank {
+    font-size: 0.75rem;
+  }
+
+  .name {
+    font-size: 0.85rem;
+    min-width: 100px;
+  }
+
+  .votes {
+    font-size: 0.8rem;
+  }
+
+  .profile {
+    padding: 4px 8px;
+    font-size: 0.7rem;
+  }
+}
+
+/* Small Phones (479px and below) */
+@media (max-width: 479px) {
+  .modal {
+    padding: clamp(12px, 2vw, 16px);
+    min-width: 98%;
+    border-radius: 12px;
+  }
+
+  .sessionheading {
+    font-size: 0.95rem;
+    margin: 6px;
+  }
+
+  .chart-tabs {
+    gap: 6px;
+    margin: 10px 0;
+    flex-direction: column;
+  }
+
+  .chart-tabs button {
+    width: 100%;
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+
+  .result-section {
+    margin-bottom: 12px;
+  }
+
+  .result-section h3 {
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+    padding-bottom: 4px;
+  }
+
+  .result-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 8px 10px;
+    gap: 6px;
+  }
+
+  .rank {
+    font-size: 0.7rem;
+  }
+
+  .name {
+    font-size: 0.8rem;
+    order: 1;
+    min-width: auto;
+  }
+
+  .votes {
+    font-size: 0.75rem;
+    order: 2;
+  }
+
+  .profile {
+    align-self: flex-end;
+    order: 3;
+    padding: 4px 8px;
+    font-size: 0.65rem;
+  }
+
+  .no-result-card {
+    min-height: auto;
+    padding: clamp(12px, 2vw, 16px);
+  }
+
+  .no-result-icon {
+    font-size: clamp(24px, 6vw, 32px);
   }
 }

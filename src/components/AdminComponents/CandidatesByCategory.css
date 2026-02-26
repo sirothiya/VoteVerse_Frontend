@@ -3,46 +3,52 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  /* margin: 50px 90px; */
-  padding: 40px 40px;
+  gap: clamp(20px, 5vw, 40px);
+  padding: clamp(16px, 4vw, 40px);
   overflow-x: hidden;
+  box-sizing: border-box;
 }
-
 
 .category-section {
   background: #9aaee6;
-  border-radius: 22px;
-  padding: 20px 18px 24px;
+  border-radius: clamp(14px, 3vw, 22px);
+  padding: clamp(12px, 3vw, 24px) clamp(10px, 3vw, 18px);
   width: 100%;
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  box-sizing: border-box;
 }
-
 
 .category-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: clamp(12px, 3vw, 16px);
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .category-title {
-  font-size: 1.5rem;
+  font-size: clamp(1.1rem, 4vw, 1.5rem);
   font-weight: 700;
   color: #0e1a35;
+  flex: 1;
+  min-width: 150px;
 }
 
 .category-count {
   background: #2563eb;
   color: #fff;
   font-weight: 700;
-  min-width: 36px;
+  min-width: 32px;
+  min-height: 32px;
+  width: 36px;
   height: 36px;
   border-radius: 50%;
   display: grid;
   place-items: center;
-  font-size: 1rem;
+  font-size: clamp(0.8rem, 2vw, 1rem);
   box-shadow: 0 6px 16px rgba(37, 99, 235, 0.5);
+  flex-shrink: 0;
 }
 
 
@@ -61,10 +67,8 @@
   justify-content: center; /* center the lone candidate */
 }
 
-
-
 .category-scroll::-webkit-scrollbar {
-  height: 8px;
+  height: clamp(6px, 1vw, 8px);
 }
 
 .category-scroll::-webkit-scrollbar-thumb {
@@ -77,21 +81,122 @@
   border-radius: 4px;
 }
 
+/* =============== RESPONSIVE MEDIA QUERIES =============== */
 
-@media (max-width: 1024px) {
+/* Large Desktop (1400px+) */
+@media (min-width: 1400px) {
   .category-container {
-    margin: 40px 32px;
+    gap: 40px;
+    padding: 40px;
+  }
+
+  .category-scroll {
+    gap: 32px;
   }
 }
 
-@media (max-width: 768px) {
+/* Desktop (1024px - 1399px) */
+@media (max-width: 1399px) {
   .category-container {
-    margin: 24px 16px;
+    padding: 32px;
+  }
+
+  .category-scroll {
+    gap: 28px;
   }
 }
 
-@media (max-width: 480px) {
+/* Tablet (768px - 1023px) */
+@media (max-width: 1023px) {
+  .category-container {
+    gap: 28px;
+    padding: 20px 16px;
+  }
+
+  .category-section {
+    padding: 16px 14px 18px;
+  }
+
+  .category-scroll {
+    gap: 20px;
+    padding-bottom: 12px;
+  }
+
   .category-title {
-    font-size: 1.25rem;
+    font-size: 1.2rem;
+  }
+
+  .category-count {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Mobile Phones (600px - 767px) */
+@media (max-width: 767px) {
+  .category-container {
+    gap: 20px;
+    padding: 12px 10px;
+  }
+
+  .category-section {
+    padding: 12px 10px 14px;
+    border-radius: 12px;
+  }
+
+  .category-scroll {
+    gap: 12px;
+    padding-bottom: 8px;
+  }
+
+  .category-header {
+    margin-bottom: 10px;
+    gap: 8px;
+  }
+
+  .category-title {
+    font-size: 1rem;
+  }
+
+  .category-count {
+    width: 28px;
+    height: 28px;
+    font-size: 0.8rem;
+  }
+}
+
+/* Small Phones (479px and below) */
+@media (max-width: 479px) {
+  .category-container {
+    gap: 16px;
+    padding: 10px 8px;
+  }
+
+  .category-section {
+    padding: 10px 8px 12px;
+    border-radius: 10px;
+  }
+
+  .category-scroll {
+    gap: 10px;
+    padding-bottom: 6px;
+  }
+
+  .category-header {
+    margin-bottom: 8px;
+    gap: 6px;
+  }
+
+  .category-title {
+    font-size: 0.95rem;
+  }
+
+  .category-count {
+    width: 26px;
+    height: 26px;
+    font-size: 0.75rem;
+    min-width: 26px;
+    min-height: 26px;
   }
 }
