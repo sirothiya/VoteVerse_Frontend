@@ -76,19 +76,43 @@ const CandidateDetails = () => {
     const token = localStorage.getItem("token");
     const candidateInfo = JSON.parse(localStorage.getItem("candidate"));
     if (!token) return;
-    let url;
-    if (candidateInfo && candidateInfo.isElectionCompleted) {
-      url = `https://voteverse-backend-new.onrender.com/candidate/results/candidate/${rollNumber}`;
-    } else
-      url = `https://voteverse-backend-new.onrender.com/candidate/${rollNumber}`;
-    fetch(url, {
-      // headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        setCandidate(data.candidate);
-        setProfileStatus(data.candidate?.status || "Pending");
-      });
+
+    // 🔥 FIX: Try to fetch from results endpoint first, fallback to regular endpoint
+    const fetchCandidateData = async () => {
+      try {
+        // First, try to fetch from completed election results
+        let response = await fetch(
+          `https://voteverse-backend-new.onrender.com/candidate/results/candidate/${rollNumber}`
+        );
+
+        if (response.ok) {
+          // Found in completed election results
+          const data = await response.json();
+          setCandidate(data.candidate);
+          setProfileStatus(data.candidate?.status || "Pending");
+          return;
+        }
+
+        // If not found in results, try the regular endpoint
+        response = await fetch(
+          `https://voteverse-backend-new.onrender.com/candidate/${rollNumber}`
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setCandidate(data.candidate);
+          setProfileStatus(data.candidate?.status || "Pending");
+        } else {
+          console.error("Failed to load candidate data:", response.status);
+          setErrorMsg("Candidate not found");
+        }
+      } catch (error) {
+        console.error("Error fetching candidate:", error);
+        setErrorMsg("Failed to load candidate data");
+      }
+    };
+
+    fetchCandidateData();
   }, [rollNumber]);
 
   useEffect(() => {
@@ -118,6 +142,37 @@ const CandidateDetails = () => {
     }));
   };
 
+  if (errorMsg) {
+    return (
+      <div style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #004e92, #000428)",
+        color: "white",
+        flexDirection: "column",
+        gap: "20px"
+      }}>
+        <h2>❌ {errorMsg}</h2>
+        <button 
+          onClick={() => navigate(-1)}
+          style={{
+            padding: "10px 20px",
+            background: "#0083e0",
+            color: "white",
+            border: "none",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontSize: "16px"
+          }}
+        >
+          ← Go Back
+        </button>
+      </div>
+    );
+  }
+
   if (!candidate) return <Loader content="Loading ...." />;
 
   const explainManifesto = async () => {
@@ -125,6 +180,8 @@ const CandidateDetails = () => {
     if (!token) return;
 
     console.log("Explaining manifesto...");
+    
+    // 🔥 FIX: Check for manifesto summary in snapshot data (from completed elections)
     if (candidate?.manifesto?.summary) {
       setManifestoExplanation(candidate.manifesto.summary);
       return;
@@ -162,6 +219,24 @@ const CandidateDetails = () => {
     setExplainingVideo(true);
 
     try {
+      // 🔥 FIX: Check for cached video summary and sentiment in snapshot data first
+      if (candidate?.campaignVideoSummary && candidate?.campaignVideoSentiment) {
+        console.log("Using cached video data from snapshot");
+        setVideoExplanation({
+          summary: candidate.campaignVideoSummary,
+          sentiment: [
+            {
+              name: candidate.campaignVideoSentiment,
+              value: 100,
+            },
+          ],
+        });
+        setExplainingVideo(false);
+        setLoadingVideo(false);
+        return;
+      }
+
+      // Otherwise fetch fresh data
       const res = await fetch(
         `https://voteverse-backend-new.onrender.com/candidate/extract/video-summary/${candidate.rollNumber}`,
         {
